@@ -1,0 +1,46 @@
+{
+  "name": "favioli",
+  "version": "1.0.0",
+  "author": "Ben Pevsner",
+  "license": "MIT",
+  "description": "Emoji Favicons for the web",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "npm run watch",
+    "build": "npm-run-all -p build:*",
+    "build:markup": "pug ./source --out ./build",
+    "build:scripts": "rollup -c ./rollup.config.js",
+    "build:styles": "stylus ./source -o ./build",
+    "prebuild": "mkdir -p ./build",
+    "watch": "npm-run-all -p watch:*",
+    "watch:markup": "npm run build:markup -- --watch",
+    "watch:scripts": "npm run build:scripts -- --watch",
+    "watch:styles": "npm run build:styles -- --watch",
+    "prewatch": "mkdir -p ./build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.40",
+    "babel-jest": "^22.4.1",
+    "babel-preset-env": "^1.6.1",
+    "husky": "^0.14.3",
+    "jest": "^22.4.2",
+    "npm-run-all": "^4.1.2",
+    "pug": "^2.0.1",
+    "pug-cli": "^1.0.0-alpha6",
+    "rollup": "^0.56.5",
+    "rollup-plugin-commonjs": "^9.0.0",
+    "rollup-plugin-node-resolve": "^3.2.0",
+    "stylus": "^0.54.5"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build"
+    }
+  },
+  "dependencies": {}
+}
