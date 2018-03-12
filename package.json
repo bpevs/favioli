@@ -1,6 +1,6 @@
 {
   "name": "favioli",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "author": "Ben Pevsner",
   "license": "MIT",
   "description": "Emoji Favicons for the web",
@@ -13,7 +13,7 @@
     "build:styles": "stylus ./source -o ./build",
     "prebuild": "mkdir -p ./build",
     "watch": "npm-run-all -p watch:*",
-    "watch:markup": "npm run build:markup -- --watch",
+    "watch:markup": "npm run build:markup -- -w",
     "watch:scripts": "npm run build:scripts -- --watch",
     "watch:styles": "npm run build:styles -- --watch",
     "prewatch": "mkdir -p ./build"

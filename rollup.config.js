@@ -1,13 +1,13 @@
 import commonjs from "rollup-plugin-commonjs";
 import resolveNode from "rollup-plugin-node-resolve";
 
-function createConfig(path) {
+function createConfig(name) {
   return {
-    input: `./source${path}`,
+    input: `./source/${name}.js`,
     output: {
-      file: `./build${path}`,
+      file: `./build/${name}.js`,
       format: "iife",
-      name: path,
+      name: name,
     },
     plugins: [
       commonjs(),
@@ -17,5 +17,6 @@ function createConfig(path) {
 }
 
 export default [
-  createConfig("/background.js"),
+  createConfig("contentScript"),
+  createConfig("options"),
 ];
