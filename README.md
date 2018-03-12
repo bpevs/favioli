@@ -8,3 +8,5 @@ Features
 =======
 - Automatically use an emoji as a favicon for websites that are lacking one.
 - Option to override all favicons with emojis so you can be lost and sad.
+
+![Overriding all the things](./screenshots/screenshot-1.png)
