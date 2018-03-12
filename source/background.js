@@ -7,5 +7,3 @@ addEventListener("load", () => {
   setFavicon(DEFAULT_SET.siteDefault);
   onTyping();
 });
-
- 

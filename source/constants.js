@@ -1,4 +1,5 @@
 import { EmojiSet } from "./utilities/EmojiSet";
+import { defaultEmojis } from "./defaultEmojis";
 const isWindows = /^Win\d+$/.test(navigator.platform);
 
 
@@ -11,8 +12,4 @@ const EMOTICONS = [ 128513, 128591 ];
 const DINGBATS = [ 9986, 10160 ];
 const TRANSPORT_AND_MAP = [ 128640, 128704 ];
 
-export const DEFAULT_SET = new EmojiSet(
-  EMOTICONS,
-  TRANSPORT_AND_MAP,
-  HACKER_CAT
-);
+export const DEFAULT_SET = new EmojiSet(defaultEmojis, HACKER_CAT);
