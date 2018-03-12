@@ -2,6 +2,11 @@ import { EmojiSet } from "./utilities/EmojiSet";
 import { defaultEmojis } from "./defaultEmojis";
 const isWindows = /^Win\d+$/.test(navigator.platform);
 
+export const SETTINGS = new Promise((resolve) => {
+  return chrome.storage.sync.get({
+    replaceAll: false
+  }, resolve);
+});
 
 export const EMOJI_SIZE = 256; // Anything larger will causes problems in Google Chrome
 export const MIME_IMAGE = "image/png";
@@ -12,4 +17,4 @@ const EMOTICONS = [ 128513, 128591 ];
 const DINGBATS = [ 9986, 10160 ];
 const TRANSPORT_AND_MAP = [ 128640, 128704 ];
 
-export const DEFAULT_SET = new EmojiSet(defaultEmojis, HACKER_CAT);
+export const DEFAULT_SET = new EmojiSet(defaultEmojis);

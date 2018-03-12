@@ -13,7 +13,7 @@
     "build:styles": "stylus ./source -o ./build",
     "prebuild": "mkdir -p ./build",
     "watch": "npm-run-all -p watch:*",
-    "watch:markup": "npm run build:markup -- --watch",
+    "watch:markup": "npm run build:markup -- -w",
     "watch:scripts": "npm run build:scripts -- --watch",
     "watch:styles": "npm run build:styles -- --watch",
     "prewatch": "mkdir -p ./build"

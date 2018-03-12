@@ -1,4 +1,4 @@
-// Create a set of Emojis.
+// EmojiSet
 // Accepts an array of arguments that can be any of:
 //  - string emoji
 //  - char code
@@ -9,7 +9,7 @@
 export class EmojiSet {
   constructor(...args) {
     this.flattenEmojis = this.flattenEmojis.bind(this);
-    this.emojis = this.flattenEmojis(args);
+    this.emojis = this.flattenEmojis(args).filter(emoji => emoji.trim());
   }
 
   flattenEmojis(args) {
@@ -17,10 +17,7 @@ export class EmojiSet {
     if (typeof args === "number") return [ String.fromCodePoint(args) ];
     if (isRange(args)) return rangeToCharArray.apply(null, args);
     if (Array.isArray(args)) {
-      return Array.prototype.concat(...args
-        .filter(emoji => emoji)
-        .map(this.flattenEmojis)
-      );
+      return Array.prototype.concat(...args.map(this.flattenEmojis));
     }
   }
 
