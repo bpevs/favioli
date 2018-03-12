@@ -1,11 +1,7 @@
 import { setFavicon } from "../utilities/setFavicon";
+import { getLastTextIconLink } from "../utilities/validateFavicon";
 
-
-// Scan document for statically-defined favicons
-const allLinks = Array.prototype.slice.call(document.getElementsByTagName("link"), 0);
-const lastTextIconLink = allLinks.filter(isTextIconLink).pop();
-const mime_text_regex = /^\s*(?:text\/plain)\s*(?:$|;)/i;
-
+const lastTextIconLink = getLastTextIconLink();
 
 if (lastTextIconLink) {
   const request = new XMLHttpRequest;
@@ -24,9 +20,4 @@ if (lastTextIconLink) {
   });
 
   request.send();
-}
-
-
-function isTextIconLink(link) {
-  return link.rel.toLowerCase() === "icon" && mime_text_regex.test(link.type);
 }
