@@ -1,4 +1,4 @@
-import { EmojiSet } from "./utilities/EmojiSet";
+import { EmojiSet } from "../utilities/EmojiSet";
 import { defaultEmojis } from "./defaultEmojis";
 const isWindows = /^Win\d+$/.test(navigator.platform);
 

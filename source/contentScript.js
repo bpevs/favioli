@@ -1,4 +1,4 @@
-import { DEFAULT_SET, SETTINGS } from "./constants";
+import { DEFAULT_SET, SETTINGS } from "./constants/constants";
 import { onTyping } from "./plugins";
 import { setFavicon } from "./utilities/setFavicon";
 

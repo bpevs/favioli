@@ -34,7 +34,7 @@ function updateInputFavicon({ target }) {
   const currentInputValue = value || textContent;
   const isWriting = String(currentInputValue).trim() !== String(defaultInputValue).trim();
 
-  modifiedInputs[isWriting ? "add" : "delete"](target);
+  isWriting ? modifiedInputs.add(target) : modifiedInputs.delete(target);
   const nextFavicon = modifiedInputs.size ? TYPING_EMOJI : initialFavicon;
 
   if (currentFavicon !== nextFavicon) {

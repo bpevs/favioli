@@ -10,3 +10,10 @@ Features
 - Option to override all favicons with emojis so you can be lost and sad.
 
 ![Overriding all the things](./screenshots/screenshot-1.png)
+
+
+How it Works
+============
+ - contentScript handles favicon replacement
+ - background script handles favicon selection, pulling settings from options page
+ - https://stackoverflow.com/questions/32777310/messaging-between-content-script-and-background-page-in-a-chrome-extension-is-no
