@@ -3,7 +3,8 @@ import { setFavicon } from "../../utilities/setFavicon";
 
 
 const TYPING_EMOJI = "💬";
-const modified_inputs = new Set;
+const DEFAULT_VALUE = "defaultValue";
+const modifiedInputs = new Set;
 let currentFavicon;
 let initialFavicon;
 
@@ -16,24 +17,25 @@ export function onTyping(favicon) {
 }
 
 
-function ensureDefaultValueAccess({ target }) {
-  if (!target) return;
-  const { dataset, defaultValue, textContent, value } = target;
-  if (!defaultValue || !dataset.defaultValue) {
-    dataset.defaultValue = String(value || textContent).trim();
+function ensureDefaultValueAccess(evt) {
+  if (!evt.target) return;
+  const { dataset, textContent, value } = evt.target;
+  
+  if (!(DEFAULT_VALUE in evt.target || DEFAULT_VALUE in dataset)) {
+    evt.target.dataset.defaultValue = value || textContent;
   }
 }
 
 function updateInputFavicon({ target }) {
   if (!target) return;
-  const { defaultValue, dataset, textContent, value } = target;
+  const { dataset, textContent, value } = target;
 
-  const defaultInputValue = defaultValue ? defaultValue.trim() : dataset.defaultValue;
-  const currentInputValue = String(value || textContent).trim();
-  const isWriting = defaultInputValue !== currentInputValue;
+  const defaultInputValue = (DEFAULT_VALUE in target) ? target.defaultValue : dataset.defaultValue;
+  const currentInputValue = value || textContent;
+  const isWriting = String(currentInputValue).trim() !== String(defaultInputValue).trim();
 
-  modified_inputs[isWriting ? "add" : "delete"](target);
-  const nextFavicon = !modified_inputs.size ? initialFavicon : TYPING_EMOJI;
+  modifiedInputs[isWriting ? "add" : "delete"](target);
+  const nextFavicon = modifiedInputs.size ? TYPING_EMOJI : initialFavicon;
 
   if (currentFavicon !== nextFavicon) {
     currentFavicon = nextFavicon;
