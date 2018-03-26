@@ -1,4 +1,4 @@
-import { EMOJI_SIZE, MIME_IMAGE } from "../constants";
+import { EMOJI_SIZE, MIME_IMAGE } from "../constants/constants";
 
 
 const PIXEL_GRID = 16;
