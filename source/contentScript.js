@@ -8,5 +8,5 @@ Promise.all([
   new Promise((resolve) => addEventListener("load", resolve)),
 ]).then(function ([settings]) {
   setFavicon(DEFAULT_SET.siteDefault, settings);
-  onTyping();
+  onTyping(DEFAULT_SET.siteDefault);
 });
