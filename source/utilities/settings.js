@@ -1,5 +1,6 @@
 const defaultSettings = {
-  replaceAll: false
+  replaceAll: false,
+  onTyping: true,
 };
 
 export function getSettings(settings) {

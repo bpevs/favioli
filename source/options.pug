@@ -5,10 +5,15 @@ html(lang="en")
     link(rel="stylesheet" href="https://unpkg.com/wingcss")
 
   body
-    label Replace all favicons
-      input#replace-all(type="checkbox")
     div
-    button#save save
-    div#status
+      label Replace all favicons
+        input#replace-all(type="checkbox")
+
+    div
+      label Replace favicon on typing
+        input#on-typing(type="checkbox")
+    div
+      button#save save
+      div#status
 
   script(src="options.js")

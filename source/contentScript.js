@@ -1,12 +1,18 @@
-import { DEFAULT_SET, SETTINGS } from "./constants/constants";
+import { DEFAULT_SET } from "./constants/constants";
 import { onTyping } from "./plugins";
 import { setFavicon } from "./utilities/setFavicon";
+import { getSettings } from "./utilities/settings";
 
 
-Promise.all([
-  SETTINGS,
-  new Promise((resolve) => addEventListener("load", resolve)),
-]).then(function ([settings]) {
+init();
+
+
+async function init() {
+  const [ settings ] = await Promise.all([
+    getSettings(),
+    new Promise(res => addEventListener("load", res)),
+  ]);
+
   setFavicon(DEFAULT_SET.siteDefault, settings);
-  onTyping(DEFAULT_SET.siteDefault);
-});
+  if (settings.onTyping) onTyping(DEFAULT_SET.siteDefault);
+}
