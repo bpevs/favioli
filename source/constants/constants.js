@@ -2,11 +2,6 @@ import { EmojiSet } from "../utilities/EmojiSet";
 import { defaultEmojis } from "./defaultEmojis";
 const isWindows = /^Win\d+$/.test(navigator.platform);
 
-export const SETTINGS = new Promise((resolve) => {
-  return chrome.storage.sync.get({
-    replaceAll: false
-  }, resolve);
-});
 
 export const EMOJI_SIZE = 256; // Anything larger will causes problems in Google Chrome
 export const MIME_IMAGE = "image/png";

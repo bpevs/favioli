@@ -1,11 +1,15 @@
 import { getSettings, setSettings } from "./utilities/settings";
-const replaceAll = document.getElementById("replace-all");
+const el = {
+  onTyping: document.getElementById("on-typing"),
+  replaceAll: document.getElementById("replace-all"),
+};
 const status = document.getElementById("status");
 
 
 async function save_options() {
   const success = await setSettings({
-    replaceAll: replaceAll.checked
+    onTyping: el.onTyping.checked,
+    replaceAll: el.replaceAll.checked,
   });
 
   // Update status to let user know options were saved.
@@ -17,7 +21,8 @@ async function save_options() {
 // stored in chrome.storage.
 async function restore_options() {
   const settings = await getSettings();
-  replaceAll.checked = settings.replaceAll;
+  el.onTyping.checked = settings.onTyping;
+  el.replaceAll.checked = settings.replaceAll;
 }
 
 
