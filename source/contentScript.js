@@ -4,6 +4,9 @@ import { setFavicon } from "./utilities/setFavicon";
 import { getSettings } from "./utilities/settings";
 
 
+init();
+
+
 async function init() {
   const [ settings ] = await Promise.all([
     getSettings(),
@@ -13,5 +16,3 @@ async function init() {
   setFavicon(DEFAULT_SET.siteDefault, settings);
   if (settings.onTyping) onTyping(DEFAULT_SET.siteDefault);
 }
-
-init();
