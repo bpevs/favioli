@@ -12,8 +12,10 @@ Features
 ![Overriding all the things](./screenshots/screenshot-1.png)
 
 
-How it Works
+How it Works (in the near future)
 ============
  - contentScript handles favicon replacement
  - background script handles favicon selection, pulling settings from options page
+ - options page handles settings and emoji selection
+ - popup page handles quick-select of custom page favicon (by host or by url)
  - https://stackoverflow.com/questions/32777310/messaging-between-content-script-and-background-page-in-a-chrome-extension-is-no
