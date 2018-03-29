@@ -2,7 +2,7 @@
   "name": "favioli",
   "version": "0.0.1",
   "author": "Ben Pevsner",
-  "license": "MIT",
+  "license": "UNLICENSE",
   "description": "Emoji Favicons for the web",
   "main": "build/index.js",
   "scripts": {

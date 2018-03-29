@@ -1,4 +1,5 @@
 // Use 💬 when user is typing
+/*! @source https://gist.github.com/eligrey/4df9453c3bc20acd38728ccba7bb7160 */
 import { setFavicon } from "../../utilities/setFavicon";
 
 
