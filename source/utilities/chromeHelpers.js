@@ -1,3 +1,5 @@
+const { get, set } = chrome.storage.sync;
+
 const defaultSettings = {
   replaceAll: false,
   onTyping: true,
@@ -5,12 +7,12 @@ const defaultSettings = {
 
 export function getSettings(settings) {
   return new Promise(resolve => {
-    chrome.storage.sync.get(Object.assign({}, defaultSettings, settings), resolve);
+    get(Object.assign({}, defaultSettings, settings), resolve);
   });
 }
 
 export function setSettings(settings) {
   return new Promise(resolve => {
-    chrome.storage.sync.set(settings, resolve);
+    set(settings, resolve);
   });
 }
