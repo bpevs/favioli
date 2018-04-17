@@ -1,4 +1,4 @@
-import { getSettings, setSettings } from "./utilities/settings";
+import { getSettings, setSettings } from "./utilities/chromeHelpers";
 const el = {
   onTyping: document.getElementById("on-typing"),
   replaceAll: document.getElementById("replace-all"),

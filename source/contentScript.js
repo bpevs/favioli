@@ -1,7 +1,7 @@
 import { DEFAULT_SET } from "./constants/constants";
 import { onTyping } from "./plugins";
 import { setFavicon } from "./utilities/setFavicon";
-import { getSettings } from "./utilities/settings";
+import { getSettings } from "./utilities/chromeHelpers";
 
 
 init();
