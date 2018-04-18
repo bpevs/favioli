@@ -4,9 +4,6 @@ const isWindows = /^Win\d+$/.test(navigator.platform);
 
 
 export const EMOJI_SIZE = 256; // Anything larger will causes problems in Google Chrome
-export const MIME_IMAGE = "image/png";
-
-
 export const HACKER_CAT = isWindows && "🐱‍💻"; // Only Windows has hacker cat
 const EMOTICONS = [ 128513, 128591 ];
 const DINGBATS = [ 9986, 10160 ];

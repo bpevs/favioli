@@ -1,6 +1,5 @@
-// Use 💬 when user is typing
 /*! @source https://gist.github.com/eligrey/4df9453c3bc20acd38728ccba7bb7160 */
-import { setFavicon } from "../../utilities/setFavicon";
+import { appendFaviconLink } from "../../utilities/faviconHelpers";
 
 
 const TYPING_EMOJI = "💬";
@@ -9,14 +8,16 @@ const modifiedInputs = new Set;
 let currentFavicon;
 let initialFavicon;
 
-
+/**
+ * Use 💬 when user is typing
+ * @param {string} favicon - Default favicon to toggle between
+ */
 export function onTyping(favicon) {
   currentFavicon = favicon;
   initialFavicon = favicon;
   addEventListener("beforeinput", ensureDefaultValueAccess);
   addEventListener("input", updateInputFavicon);
 }
-
 
 function ensureDefaultValueAccess(evt) {
   if (!evt.target) return;
@@ -40,6 +41,6 @@ function updateInputFavicon({ target }) {
 
   if (currentFavicon !== nextFavicon) {
     currentFavicon = nextFavicon;
-    setFavicon(nextFavicon);
+    appendFaviconLink(nextFavicon);
   }
 }

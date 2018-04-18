@@ -5,6 +5,10 @@
   "description": "Emoji Favicons for the web",
   "version": "0.0.1",
 
+  "background": {
+    "scripts": [ "build/background.js" ]
+  },
+
   "content_scripts": [
     {
       "matches": [ "<all_urls>" ],
@@ -17,6 +21,8 @@
 
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "tabs",
+    "webNavigation"
   ]
 }
