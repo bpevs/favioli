@@ -1,6 +1,7 @@
 import { EMOJI_SIZE } from "../constants/constants";
 import debounce from "lodash.debounce";
 
+
 // Append new favicon links to the document head
 const documentHead = document.getElementsByTagName("head")[0];
 const PIXEL_GRID = 16;
@@ -20,32 +21,31 @@ context.textBaseline = "middle";
  * @param {string} name
  */
 export function appendFaviconLink(name) {
-  const href = createFavicon(name);
+  const href = createEmojiUrl(name);
   const link = createLink(href, EMOJI_SIZE);
   documentHead.appendChild(link);
-  return href;
 }
 
 /**
- * Given a url, create a favicon link
- * @param {string} href
- * @param {number} size
+ * Removes all icon link tags
  */
-export function createLink(href, size) {
-  const link = document.createElement("link");
-  link.rel = "icon";
-  link.type = "image/png";
-  link.href = href;
-  link.setAttribute("sizes", `${size}x${size}`);
-  return link;
+export function removeAllFaviconLinks() {
+  const allIcons = Array.prototype
+    .slice.call(document.getElementsByTagName("link"), 0)
+    .filter(isIconLink)
+    .forEach(link => link.remove());
 }
 
+
+// PRIVATE
+// –––––––
+
 /**
- * 
+ * Creates Emoji Data Url for Favicon
  * @param {string} emoji
- * @returns string
+ * @returns {string}
  */
-export function createFavicon(emoji) {
+function createEmojiUrl(emoji) {
   if (!emoji) return;
 
   // Calculate sizing
@@ -65,15 +65,26 @@ export function createFavicon(emoji) {
   return canvas.toDataURL("image/png");
 }
 
-export function removeAllFaviconLinks() {
-  const allIcons = Array.prototype
-    .slice.call(document.getElementsByTagName("link"), 0)
-    .filter(isIconLink)
-    .forEach(link => link.remove());
+/**
+ * Given a url, create a favicon link
+ * @param {string} href
+ * @param {number} size
+ * @returns {HTMLLinkElement}
+ */
+export function createLink(href, size) {
+  const link = document.createElement("link");
+  link.rel = "icon";
+  link.type = "image/png";
+  link.href = href;
+  link.setAttribute("sizes", `${size}x${size}`);
+  return link;
 }
 
-// PRIVATE
-// –––––––
+/**
+ * Checks whether a link is an icon rel
+ * @param {HTMLLinkElement} link
+ * @returns {boolean}
+ */
 function isIconLink(link) {
   return link.rel.toLowerCase().indexOf("icon") !== -1;
 }

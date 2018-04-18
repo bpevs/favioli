@@ -18,6 +18,7 @@
   ],
 
   "options_page": "build/options.html",
+
   "permissions": [
     "activeTab",
     "storage",

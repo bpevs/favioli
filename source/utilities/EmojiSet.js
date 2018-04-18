@@ -6,9 +6,6 @@
 //  - character array
 // [[ 100. 500 ], "🐱‍💻"]
 
-/**
- * @class EmojiSet
- */
 export class EmojiSet {
   constructor(...args) {
     this.flattenEmojis = this.flattenEmojis.bind(this);
