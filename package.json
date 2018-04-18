@@ -43,5 +43,7 @@
       "pre-commit": "npm run build"
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "lodash.debounce": "^4.0.8"
+  }
 }

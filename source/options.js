@@ -1,9 +1,11 @@
 import { getSettings, setSettings } from "./utilities/chromeHelpers";
+
+
+const status = document.getElementById("status");
 const el = {
   onTyping: document.getElementById("on-typing"),
   replaceAll: document.getElementById("replace-all"),
 };
-const status = document.getElementById("status");
 
 
 async function save_options() {

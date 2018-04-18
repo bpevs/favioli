@@ -6,6 +6,9 @@
 //  - character array
 // [[ 100. 500 ], "🐱‍💻"]
 
+/**
+ * @class EmojiSet
+ */
 export class EmojiSet {
   constructor(...args) {
     this.flattenEmojis = this.flattenEmojis.bind(this);
@@ -25,8 +28,13 @@ export class EmojiSet {
     return this.emojis.slice();
   }
 
-  get siteDefault() {
+  getEmoji() {
     const emojiIndex = Math.abs(sdbm(location.host)) % this.emojis.length;
+    return this.emojis[emojiIndex];
+  }
+
+  getEmojiFromHost(host) {
+    const emojiIndex = Math.abs(sdbm(host)) % this.emojis.length;
     return this.emojis[emojiIndex];
   }
 }
@@ -38,6 +46,7 @@ function isRange(item) {
     && typeof item[0] === "number"
     && typeof item[1] === "number";
 }
+
 
 // Get all the emojis in a codePoint range
 function rangeToCharArray(first, last) {

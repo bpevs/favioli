@@ -17,6 +17,7 @@ function createConfig(name) {
 }
 
 export default [
+  createConfig("background"),
   createConfig("contentScript"),
   createConfig("options"),
 ];

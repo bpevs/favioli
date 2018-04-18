@@ -1,18 +1,24 @@
-import { DEFAULT_SET } from "./constants/constants";
 import { onTyping } from "./plugins";
-import { setFavicon } from "./utilities/setFavicon";
 import { getSettings } from "./utilities/chromeHelpers";
-
+import { appendFaviconLink, createFavicon, removeAllFaviconLinks } from "./utilities/faviconHelpers";
 
 init();
-
 
 async function init() {
   const [ settings ] = await Promise.all([
     getSettings(),
     new Promise(res => addEventListener("load", res)),
   ]);
+  
+  let typingInitialized = false;
+  chrome.runtime.onConnect.addListener(({ name }) => {
+    if (settings.replaceAll) removeAllFaviconLinks();
 
-  setFavicon(DEFAULT_SET.siteDefault, settings);
-  if (settings.onTyping) onTyping(DEFAULT_SET.siteDefault);
+    appendFaviconLink(name);
+
+    if (!typingInitialized && settings.onTyping) {
+      onTyping(name);
+      typingInitialized = true;
+    };
+  });
 }
