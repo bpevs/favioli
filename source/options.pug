@@ -1,18 +1,25 @@
 doctype html
 html(lang="en")
   head
-    title Settings
-    link(rel="stylesheet" href="https://unpkg.com/wingcss")
+    title Favioli
+    link(rel="stylesheet" href="options.css")
+    link(rel="icon" type="image/png" sizes="256x256" href="")
 
   body
-    div
-      label Replace all favicons
-        input#replace-all(type="checkbox")
+    h1 Settings
 
-    div
-      label Replace favicon on typing
-        input#on-typing(type="checkbox")
-    div
+    div.settings
+      div
+        label.checkbox Replace all favicons
+          input#replace-all(type="checkbox")
+          span.checkmark
+
+      div
+        label.checkbox Replace current favicon while typing
+          input#on-typing(type="checkbox")
+          span.checkmark
+
+    div.submit
       button#save save
       div#status
 

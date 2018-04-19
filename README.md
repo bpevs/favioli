@@ -1,21 +1,21 @@
 Favioli
 =======
-Making the world a better place or something
+Making the world a better place or something.
 
-This is a Chrome extension implementation of [Emoji-Favicon-Toolkit](https://github.com/eligrey/emoji-favicon-toolkit) that replaces favicons with emojis.
+Heavily inspired by [Emoji-Favicon-Toolkit](https://github.com/eligrey/emoji-favicon-toolkit)
+
 
 Features
 =======
-- Automatically use an emoji as a favicon for websites that are lacking one.
+- Automatically use an emoji as a favicon for every website that lacks one.
 - Option to override all favicons with emojis so you can be lost and sad.
 
 ![Overriding all the things](./screenshots/screenshot-1.png)
 
 
-How it Works (in the near future)
+How it Works (in progress)
 ============
- - contentScript handles favicon replacement
- - background script handles favicon selection, pulling settings from options page
- - options page handles settings and emoji selection
- - popup page handles quick-select of custom page favicon (by host or by url)
- - https://stackoverflow.com/questions/32777310/messaging-between-content-script-and-background-page-in-a-chrome-extension-is-no
+ - Content Scripts handle favicon replacement
+ - Background script handles favicon selection, pulling settings from options page
+ - Options page handles settings and emoji selection, pulling settings from options page for plugins
+ - Popup page handles quick-select overrides of custom page favicon (by host or by url)

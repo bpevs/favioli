@@ -1,9 +1,10 @@
 {
   "name": "favioli",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Ben Pevsner",
-  "license": "UNLICENSE",
+  "license": "Unlicense",
   "description": "Emoji Favicons for the web",
+  "repository": "https://github.com/ivebencrazy/favioli",
   "main": "build/index.js",
   "scripts": {
     "start": "npm run watch",
