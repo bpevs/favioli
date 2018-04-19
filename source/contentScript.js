@@ -1,17 +1,20 @@
 import { onTyping } from "./plugins";
 import { getSettings } from "./utilities/chromeHelpers";
-import { appendFaviconLink, createFavicon, removeAllFaviconLinks } from "./utilities/faviconHelpers";
+import { appendFaviconLink, removeAllFaviconLinks } from "./utilities/faviconHelpers";
 
+
+const pageLoaded = new Promise(res => addEventListener("load", res));
 init();
 
+
 async function init() {
-  const [ settings ] = await Promise.all([
-    getSettings(),
-    new Promise(res => addEventListener("load", res)),
-  ]);
-  
+  const [ settings ] = await Promise.all([ getSettings() ]);
+
   let typingInitialized = false;
-  chrome.runtime.onConnect.addListener(({ name }) => {
+  chrome.runtime.onMessage.addListener(updateFavicon);
+  chrome.runtime.sendMessage(null, "updated:tab");
+
+  function updateFavicon({ name }) {
     if (settings.replaceAll) removeAllFaviconLinks();
 
     appendFaviconLink(name);
@@ -20,5 +23,5 @@ async function init() {
       onTyping(name);
       typingInitialized = true;
     };
-  });
+  }
 }
