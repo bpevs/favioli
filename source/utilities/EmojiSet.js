@@ -12,9 +12,12 @@ export class EmojiSet {
    * char | char[] | char code | [start char code, end char code]
    * e.g. [[ 100. 500 ], "🐱‍💻"]
    *
+   * We bind flattenEmojis for recursive map use.
+   * It just gets called less if we do it here.
    * @param {...*} args
    */
   constructor(...args) {
+    this.flattenEmojis = this.flattenEmojis.bind(this);
     this.emojis = this.flattenEmojis(args).filter(emoji => emoji.trim());
   }
 
@@ -22,7 +25,7 @@ export class EmojiSet {
    * Creates one giant array of emojis from all the constructor params.
    * .@param {any[]} args
    */
-  flattenEmojis = args => {
+  flattenEmojis(args) {
     if (typeof args === "string") return args.split(" ");
     if (typeof args === "number") return [ String.fromCodePoint(args) ];
     if (isRange(args)) return rangeToCharArray.apply(null, args);
