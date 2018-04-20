@@ -1,18 +1,28 @@
-// EmojiSet
-// Accepts an array of arguments that can be any of:
-//  - string emoji
-//  - char code
-//  - char code range
-//  - character array
-// [[ 100. 500 ], "🐱‍💻"]
+/**
+ * @class
+ * An Emoji Set is a collection of emojis we select from.
+ *
+ */
 
 export class EmojiSet {
+
+  /**
+   * @constructor
+   * Accepts an array of arguments that can be any of:
+   * char | char[] | char code | [start char code, end char code]
+   * e.g. [[ 100. 500 ], "🐱‍💻"]
+   *
+   * @param {...*} args
+   */
   constructor(...args) {
-    this.flattenEmojis = this.flattenEmojis.bind(this);
     this.emojis = this.flattenEmojis(args).filter(emoji => emoji.trim());
   }
 
-  flattenEmojis(args) {
+  /**
+   * Creates one giant array of emojis from all the constructor params.
+   * .@param {any[]} args
+   */
+  flattenEmojis = args => {
     if (typeof args === "string") return args.split(" ");
     if (typeof args === "number") return [ String.fromCodePoint(args) ];
     if (isRange(args)) return rangeToCharArray.apply(null, args);
@@ -21,15 +31,28 @@ export class EmojiSet {
     }
   }
 
+  /**
+   * Returns a copy of our emoji data
+   * .@return {string[]} Emoji Array
+   */
   get() {
     return this.emojis.slice();
   }
 
+  /**
+   * Gets a single emoji dependent on our location
+   * .@return {string} emoji
+   */
   getEmoji() {
-    const emojiIndex = Math.abs(sdbm(location.host)) % this.emojis.length;
-    return this.emojis[emojiIndex];
+    return this.getEmojiFromHost(location.host);
   }
 
+
+  /**
+   * Gets a single emoji from a host string
+   *  @param {string} host
+   * .@return {string} emoji
+   */
   getEmojiFromHost(host) {
     const emojiIndex = Math.abs(sdbm(host)) % this.emojis.length;
     return this.emojis[emojiIndex];
@@ -37,6 +60,11 @@ export class EmojiSet {
 }
 
 
+/**
+ *  Determines whether we have a number tuple
+ *  @param {any} item
+ * .@return {boolean}
+ */
 function isRange(item) {
   return Array.isArray(item)
     && item.length === 2
@@ -45,7 +73,12 @@ function isRange(item) {
 }
 
 
-// Get all the emojis in a codePoint range
+/**
+ *  Gets an array of emojis from a codePoint tuple
+ *  @param {number} first
+ *  @param {number} last
+ * .@return {string[]} emoji array
+ */
 function rangeToCharArray(first, last) {
   return Array(last - first)
     .fill(null)
@@ -53,9 +86,14 @@ function rangeToCharArray(first, last) {
 }
 
 
-// Non-cryptographic hashing to get the same emoji index for different keys
-// http://www.cse.yorku.ca/~oz/hash.html
-// https://github.com/sindresorhus/sdbm
+/**
+ *  Non-cryptographic hashing to get the same emoji index for different keys
+ *  @source http://www.cse.yorku.ca/~oz/hash.html
+ *  @source https://github.com/sindresorhus/sdbm
+
+ *  @param {any} key
+ * .@return {number} index
+ */
 function sdbm(key){
   return String(key).split("").reduce((hash, char, i) => {
     const charCode = key.charCodeAt(i);

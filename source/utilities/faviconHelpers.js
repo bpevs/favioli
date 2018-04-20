@@ -30,15 +30,11 @@ export function appendFaviconLink(name) {
  * Removes all icon link tags
  */
 export function removeAllFaviconLinks() {
-  const allIcons = Array.prototype
-    .slice.call(document.getElementsByTagName("link"), 0)
+  Array.prototype
+    .slice.call(document.getElementsByTagName("link"))
     .filter(isIconLink)
     .forEach(link => link.remove());
 }
-
-
-// PRIVATE
-// –––––––
 
 /**
  * Creates Emoji Data Url for Favicon
@@ -71,7 +67,7 @@ function createEmojiUrl(emoji) {
  * @param {number} size
  * @returns {HTMLLinkElement}
  */
-export function createLink(href, size) {
+function createLink(href, size) {
   const link = document.createElement("link");
   link.rel = "icon";
   link.type = "image/png";
