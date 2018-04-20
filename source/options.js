@@ -1,3 +1,4 @@
+import "./utilities/emojiSelector";
 import { getSettings, setSettings } from "./utilities/chromeHelpers";
 
 
@@ -6,6 +7,12 @@ const el = {
   onTyping: document.getElementById("on-typing"),
   replaceAll: document.getElementById("replace-all"),
 };
+
+const emojiEl = document.getElementsByTagName("emoji-selector")[0];
+console.log(emojiEl);
+emojiEl.addEventListener("emoji-selected", function (e) {
+  console.log(e);
+});
 
 
 async function save_options() {
