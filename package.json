@@ -45,6 +45,7 @@
     }
   },
   "dependencies": {
+    "fun-tabs": "^1.0.3",
     "lodash.debounce": "^4.0.8"
   }
 }
