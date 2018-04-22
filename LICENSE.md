@@ -46,7 +46,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 💃 🕺 💃 🕺 💃 🕺 💃 🕺 💃 🕺 💃 🕺 💃 🕺 💃 🕺 💃 🕺
 
-[EMOJI-SELECTOR](https://github.com/Kiricon/emoji-selector)
+[EMOJI-SELECTOR](https://github.com/Kiricon/emoji-selector), [FUN-TABS](https://github.com/Kiricon/fun-tabs)
 
 
 The MIT License
