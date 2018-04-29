@@ -1,7 +1,6 @@
 const { storage, tabs } = chrome;
 
 const defaultSettings = {
-  onTyping: true,
   overrides: [],
   overrideAll: false,
 };

@@ -6,8 +6,6 @@ import { isRegexString } from "./utilities/isRegexString";
 
 const el = {
   emojiSelectors: [],
-  onTyping: document.getElementById("on-typing"),
-  overrideAll: document.getElementById("replace-all"),
   overrides: document.getElementsByClassName("overrides")[0],
   status: document.getElementById("status"),
 };
@@ -22,8 +20,6 @@ document.getElementById("save").addEventListener("click", save_options);
 
 async function save_options() {
   const success = await setSettings({
-    onTyping: el.onTyping.checked,
-    overrideAll: el.overrideAll.checked,
     overrides: overrides.slice(0, overrides.length - 1),
   });
 
@@ -38,8 +34,7 @@ async function save_options() {
 // stored in chrome.storage.
 async function restore_options() {
   const settings = await getSettings();
-  el.onTyping.checked = settings.onTyping;
-  el.overrideAll.checked = settings.overrideAll;
+
   overrides = settings.overrides.concat([ {
     emoji: DEFAULT_EMOJI,
     filter: DEFAULT_FILTER,
