@@ -331,13 +331,6 @@ export const emojis = [
     "category": "people"
   },
   {
-    "name": "frowning_face",
-    "keywords": ["face", "sad", "upset", "frown"],
-    "char": "☹",
-    "fitzpatrick_scale": false,
-    "category": "people"
-  },
-  {
     "name": "persevere",
     "keywords": ["face", "sick", "no", "upset", "oops"],
     "char": "😣",
@@ -3064,13 +3057,6 @@ export const emojis = [
     "name": "snowman",
     "keywords": ["winter", "season", "cold", "weather", "christmas", "xmas", "frozen", "without_snow"],
     "char": "⛄",
-    "fitzpatrick_scale": false,
-    "category": "animals_and_nature"
-  },
-  {
-    "name": "snowman_with_snow",
-    "keywords": ["winter", "season", "cold", "weather", "christmas", "xmas", "frozen"],
-    "char": "☃",
     "fitzpatrick_scale": false,
     "category": "animals_and_nature"
   },

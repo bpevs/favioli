@@ -1,8 +1,9 @@
 const { storage, tabs } = chrome;
 
 const defaultSettings = {
-  replaceAll: false,
   onTyping: true,
+  overrides: [],
+  overrideAll: false,
 };
 
 export function getTab(tabId) {

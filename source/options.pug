@@ -7,8 +7,10 @@ html(lang="en")
     link(rel="icon" type="image/png" sizes="256x256" href="")
 
   body
-    h1 Settings
+    h1 Custom Replacements
+    div.overrides
 
+    h1 Options
     div.settings
       div
         label.checkbox Replace all favicons
@@ -20,8 +22,8 @@ html(lang="en")
           input#on-typing(type="checkbox")
           span.checkmark
 
+
     div.submit
       button#save save
       div#status
-
   script(src="options.js")
