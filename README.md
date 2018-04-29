@@ -13,14 +13,6 @@ Features
 
 Inspiration
 ==========
-- [Emoji-Favicon-Toolkit](1) by [OFTN Inc.](2) and [Eli Grey](4)
-- [eft-input-modified-indicator.js](3) by [Eli Grey](4)
-- [Emoji-Selector](5) by [Dominic Valenicana](6)
-
-
-[1]: https://github.com/eligrey/emoji-favicon-toolkit
-[2]: https://oftn.org
-[3]: https://gist.github.com/eligrey/4df9453c3bc20acd38728ccba7bb7160
-[4]: https://eligrey.com
-[5]: https://github.com/Kiricon/emoji-selector
-[6]: https://dominic.codes/
+- [Emoji-Favicon-Toolkit](https://github.com/eligrey/emoji-favicon-toolkit) by [OFTN Inc.](https://oftn.org) and [Eli Grey](https://eligrey.com)
+- [eft-input-modified-indicator.js](https://gist.github.com/eligrey/4df9453c3bc20acd38728ccba7bb7160) by [Eli Grey](https://eligrey.com)
+- [Emoji-Selector](https://github.com/Kiricon/emoji-selector) by [Dominic Valenicana](https://dominic.codes/)
