@@ -43,17 +43,18 @@ const hasFavicon = memoize(function (host, tab) {
 
 /**
  *  If the url has an override, return it. Otherwise, return ""
+ *  @param {object} overrideSet
  *  @param {URL} url of the current site
  *  @param {object} settings favioli settings
  * .@return {string} emoji string or empty string if no
  */
-function getOverride(url, settings) {
+function getOverride(overrideSet, url, settings) {
   if (!settings) return "";
 
-  for (let i = 0; i <= settings.overrides.length; i++) {
-    if (!settings.overrides[i]) return "";
+  for (let i = 0; i <= overrideSet.length; i++) {
+    if (!overrideSet[i]) return "";
 
-    const { emoji, filter } = settings.overrides[i];
+    const { emoji, filter } = overrideSet[i];
     if (!filter) return;
 
     if (!isRegexString(filter) && url.host.indexOf(filter) !== -1) {
@@ -85,11 +86,13 @@ async function tryToSetFavicon(tabId, tab) {
   const url = new URL(tab.url);
   const frameId = 0; // Don't replace iframes
 
-  const overrideEmoji = getOverride(url, settings);
+  const overrideEmoji = getOverride(settings.overrides, url, settings);
   const shouldOverride = Boolean(overrideEmoji || settings.overrideAll)
 
   if (shouldOverride || !hasFavicon(url.host, tab)) {
-    const name = overrideEmoji || emojis.getEmojiFromHost(url.host);
+    const name = overrideEmoji
+      || getOverride(DEFAULT_OVERRIDES, url, settings)
+      || emojis.getEmojiFromHost(url.host);
     chrome.tabs.sendMessage(tabId, { frameId, shouldOverride, name });
   }
 }
