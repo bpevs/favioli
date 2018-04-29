@@ -1,6 +1,6 @@
 Favioli
 =======
-Making the world a better place or something. Favioli automatically use an emoji as a favicon for every website that lacks one.
+Making the world a better place or something. Favioli automatically uses an emoji as a favicon for every website that lacks one.
 
 Features
 ========
