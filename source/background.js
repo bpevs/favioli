@@ -28,12 +28,13 @@ chrome.runtime.onMessage.addListener(function (message, details) {
 
 
 /**
- *  Determines whether tab has native favIcon
+ *  Determines whether tab has native favIcon.
+ *  Once a website is set, it should change favicons
  *  @param {object} host host of the tab
  *  @param {object} tab Chrome tab we're visiting
  * .@return {boolean} Whether a website has a native favIcon
  */
-const hasFavicon = memoize(function (host, tab) {
+const hasFavIcon = memoize(function (host, tab) {
   return Boolean(
     tab.favIconUrl &&
     tab.favIconUrl.indexOf("http") > -1
@@ -57,7 +58,7 @@ function getOverride(overrideSet, url, settings) {
     const { emoji, filter } = overrideSet[i];
     if (!filter) return;
 
-    if (!isRegexString(filter) && url.host.indexOf(filter) !== -1) {
+    if (!isRegexString(filter) && url.href.indexOf(filter) !== -1) {
       return emoji;
     }
 
@@ -82,17 +83,19 @@ async function init() {
  *  @param {number} tabId Chrome tab we're visiting
  *  @param {object} tab Chrome tab we're visiting
  */
-async function tryToSetFavicon(tabId, tab) {
+function tryToSetFavicon(tabId, tab) {
   const url = new URL(tab.url);
   const frameId = 0; // Don't replace iframes
+  const overrideFavIcon = getOverride(settings.overrides, url, settings);
 
-  const overrideEmoji = getOverride(settings.overrides, url, settings);
-  const shouldOverride = Boolean(overrideEmoji || settings.overrideAll)
+  const shouldOverride = Boolean(overrideFavIcon || settings.overrideAll);
+  const shouldSetFavIcon = shouldOverride || !hasFavIcon(url.host, tab);
 
-  if (shouldOverride || !hasFavicon(url.host, tab)) {
-    const name = overrideEmoji
-      || getOverride(DEFAULT_OVERRIDES, url, settings)
-      || emojis.getEmojiFromHost(url.host);
-    chrome.tabs.sendMessage(tabId, { frameId, shouldOverride, name });
-  }
+  if (!shouldSetFavIcon) return;
+
+  const name = overrideFavIcon
+    || getOverride(DEFAULT_OVERRIDES, url, settings)
+    || emojis.getEmojiFromHost(url.host);
+
+  chrome.tabs.sendMessage(tabId, { frameId, shouldOverride, name });
 }
