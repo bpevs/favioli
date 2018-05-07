@@ -4,10 +4,10 @@ import { appendFaviconLink, removeAllFaviconLinks } from "./utilities/faviconHel
 getSettings().then(settings => {
   chrome.runtime.onMessage.addListener(updateFavicon);
   chrome.runtime.sendMessage(null, "updated:tab");
-
-  function updateFavicon({ name, shouldOverride }) {
-    if (shouldOverride) removeAllFaviconLinks();
-
-    appendFaviconLink(name);
-  }
 });
+
+function updateFavicon({ name, shouldOverride }) {
+  if (shouldOverride) removeAllFaviconLinks();
+
+  appendFaviconLink(name);
+}

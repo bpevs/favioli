@@ -1,5 +1,6 @@
-import { EMOJI_SIZE } from "../constants/constants";
 import debounce from "lodash.debounce";
+import memoize from "lodash.memoize";
+import { EMOJI_SIZE } from "../constants/constants";
 
 
 // Append new favicon links to the document head
@@ -15,15 +16,24 @@ context.font = `normal normal normal ${EMOJI_SIZE}px/${EMOJI_SIZE}px sans-serif`
 context.textAlign = "center";
 context.textBaseline = "middle";
 
+// Emoji Blob creation can be a tad heavy
+const memoizedEmojiUrl = memoize(createEmojiUrl);
 
 /**
  * Given an emoji string, append it to the document head
  * @param {string} name
  */
+let existingFavicon = null;
+
 export function appendFaviconLink(name) {
-  const href = createEmojiUrl(name);
-  const link = createLink(href, EMOJI_SIZE);
-  documentHead.appendChild(link);
+  const href = memoizedEmojiUrl(name);
+
+  if (existingFavicon) {
+    existingFavicon.setAttribute("href", href);
+  } else {
+    const link = createLink(href, EMOJI_SIZE);
+    existingFavicon = documentHead.appendChild(link);
+  }
 }
 
 /**
