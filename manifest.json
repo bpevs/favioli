@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Favioli",
   "description": "Emoji Favicons for the web",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "background": {
     "scripts": [ "build/background.js" ]
   },
@@ -17,5 +17,12 @@
   "permissions": [
     "storage",
     "tabs"
-  ]
+  ],
+  "icons": {
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "64": "icons/64.png",
+    "128": "icons/128.png",
+    "256": "icons/256.png"
+  }
 }
