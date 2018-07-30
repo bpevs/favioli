@@ -22,19 +22,23 @@ const memoizedEmojiUrl = memoize(createEmojiUrl);
 /**
  * Given an emoji string, append it to the document head
  * @param {string} name
+ * @param {boolean} shouldOverride
  */
 let existingFavicon = null;
 
-export function appendFaviconLink(name) {
+export function appendFaviconLink(name, shouldOverride) {
   const href = memoizedEmojiUrl(name);
 
   if (existingFavicon) {
     existingFavicon.setAttribute("href", href);
   } else {
     const link = createLink(href, EMOJI_SIZE, "image/png");
-    const defaultLink = createLink("/favicon.ico");
     existingFavicon = documentHead.appendChild(link);
-    documentHead.appendChild(defaultLink);
+
+    if (!shouldOverride) {
+      const defaultLink = createLink("/favicon.ico");
+      documentHead.appendChild(defaultLink);
+    }
   }
 }
 
