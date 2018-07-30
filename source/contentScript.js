@@ -9,5 +9,5 @@ getSettings().then(settings => {
 function updateFavicon({ name, shouldOverride }) {
   if (shouldOverride) removeAllFaviconLinks();
 
-  appendFaviconLink(name);
+  appendFaviconLink(name, shouldOverride);
 }
