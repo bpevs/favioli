@@ -31,8 +31,10 @@ export function appendFaviconLink(name) {
   if (existingFavicon) {
     existingFavicon.setAttribute("href", href);
   } else {
-    const link = createLink(href, EMOJI_SIZE);
+    const link = createLink(href, EMOJI_SIZE, "image/png");
+    const defaultLink = createLink("/favicon.ico");
     existingFavicon = documentHead.appendChild(link);
+    documentHead.appendChild(defaultLink);
   }
 }
 
@@ -74,15 +76,20 @@ function createEmojiUrl(emoji) {
 /**
  * Given a url, create a favicon link
  * @param {string} href
- * @param {number} size
+ * @param {number=} size
+ * @param {string=} type
  * @returns {HTMLLinkElement}
  */
-function createLink(href, size) {
+function createLink(href, size, type) {
   const link = document.createElement("link");
   link.rel = "icon";
-  link.type = "image/png";
   link.href = href;
-  link.setAttribute("sizes", `${size}x${size}`);
+  if (type) {
+    link.type = type;
+  }
+  if (size) {
+    link.setAttribute("sizes", `${size}x${size}`);
+  }
   return link;
 }
 
