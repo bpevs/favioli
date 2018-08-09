@@ -1,0 +1,40 @@
+html,
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+body {
+  text-align: center;
+}
+.page {
+  height: 100%;
+  position: relative;
+}
+.page-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  width: 100%;
+}
+.favioli {
+  font-size: 4em;
+  padding: 0;
+  margin: 0;
+}
+.favioli-subtitle {
+  opacity: 0.6;
+}
+img.comparison {
+  width: 80%;
+}
+img.chrome {
+  display: inline-block;
+  width: 80px;
+}
+div.download {
+  padding-top: 10px;
+  color: #333;
+}
