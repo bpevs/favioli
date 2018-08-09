@@ -32,7 +32,8 @@
     "rollup": "^0.56.5",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "stylus": "^0.54.5"
+    "stylus": "^0.54.5",
+    "web-ext-types": "github:kelseasy/web-ext-types"
   },
   "babel": {
     "presets": [

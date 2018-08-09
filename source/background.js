@@ -12,12 +12,12 @@ var emojis; // Auto-replacement Emoji Set
 // After we get our settings, start listening for url updates
 init().then(() => {
   // If a tab updates, check to see whether we should set a favicon
-  chrome.tabs.onUpdated.addListener(debounce((tabId, opts, tab) => {
+  (browser || chrome).tabs.onUpdated.addListener(debounce((tabId, opts, tab) => {
     tryToSetFavicon(tabId, tab);
   }, 500));
 });
 
-chrome.runtime.onMessage.addListener(function (message, details) {
+(browser || chrome).runtime.onMessage.addListener(function (message, details) {
   const tab = details.tab;
   // If we manually say a tab has been updated, try to set favicon
   if (message === "updated:tab") tryToSetFavicon(tab.id, tab);
@@ -97,5 +97,5 @@ function tryToSetFavicon(tabId, tab) {
     || getOverride(DEFAULT_OVERRIDES, url, settings)
     || emojis.getEmojiFromHost(url.host);
 
-  chrome.tabs.sendMessage(tabId, { frameId, shouldOverride, name });
+    (browser || chrome).tabs.sendMessage(tabId, { frameId, shouldOverride, name });
 }

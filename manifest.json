@@ -8,12 +8,15 @@
   },
   "content_scripts": [
     {
-      "matches": [ "<all_urls>" ],
+      "matches": [ "*://*/*" ],
       "js": [ "build/contentScript.js" ],
       "run_at": "document_end"
     }
   ],
-  "options_page": "build/options.html",
+  "options_ui": {
+    "page": "build/options.html",
+    "browser_style": false
+  },
   "permissions": [
     "storage",
     "tabs"
@@ -24,5 +27,10 @@
     "64": "icons/64.png",
     "128": "icons/128.png",
     "256": "icons/256.png"
+  },
+  "applications": {
+    "gecko": {
+      "id": "favioli@bpev.me"
+    }
   }
 }

@@ -27,7 +27,7 @@ async function save_options() {
   el.status.textContent = "Options saved.";
   setTimeout(() => el.status.textContent = "", 750);
 
-  chrome.runtime.sendMessage("updated:settings");
+  (browser || chrome).runtime.sendMessage("updated:settings");
 }
 
 // Restores select box and checkbox state using the preferences
