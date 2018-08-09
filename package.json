@@ -1,53 +1,31 @@
 {
-  "name": "favioli",
-  "version": "0.3.4",
+  "name": "favioli-website",
+  "version": "0.0.1",
   "author": "Ben Pevsner",
   "license": "Unlicense",
+  "homepage": "https://favioli.com",
   "description": "Emoji Favicons for the web",
   "repository": "https://github.com/ivebencrazy/favioli",
   "main": "build/index.js",
   "scripts": {
-    "start": "npm run watch",
-    "build": "npm-run-all -p build:*",
-    "build:markup": "pug ./source --out ./build",
-    "build:scripts": "rollup -c ./rollup.config.js",
-    "build:styles": "stylus ./source -o ./build",
+    "deploy": "CI=true npm run build",
+    "start": "npm-run-all build watch",
+    "postbuild": "cp ./build/index.html ./build/404.html",
     "prebuild": "mkdir -p ./build",
-    "watch": "npm-run-all -p watch:*",
-    "watch:markup": "npm run build:markup -- -w",
-    "watch:scripts": "npm run build:scripts -- --watch",
-    "watch:styles": "npm run build:styles -- --watch",
-    "prewatch": "mkdir -p ./build"
+    "build": "npm-run-all -p build:*",
+    "build:assets": "cp -r ./assets ./build/assets",
+    "build:markup": "pug ./source --out ./build",
+    "build:styles": "stylus ./source -o ./build",
+    "serve": "static -p 3000 ./build",
+    "watch": "npm-run-all -p watch:* serve",
+    "watch:markup": "npm run build:markup -- --watch",
+    "watch:styles": "npm run build:styles -- --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.46",
-    "@types/chrome": "0.0.63",
-    "babel-jest": "^22.4.3",
-    "babel-preset-env": "^1.6.1",
-    "husky": "^0.14.3",
-    "jest": "^22.4.3",
-    "npm-run-all": "^4.1.2",
+    "node-static": "^0.7.10",
+    "npm-run-all": "^4.1.3",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
-    "rollup": "^0.56.5",
-    "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
-    "stylus": "^0.54.5",
-    "web-ext-types": "github:kelseasy/web-ext-types"
-  },
-  "babel": {
-    "presets": [
-      "env"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run build"
-    }
-  },
-  "dependencies": {
-    "fun-tabs": "^1.0.3",
-    "lodash.debounce": "^4.0.8",
-    "lodash.memoize": "^4.1.2"
+    "stylus": "^0.54.5"
   }
 }
