@@ -9,7 +9,7 @@ import { random } from "../utilities/index.js";
  * @property {Number} rotationSpeed The speed of rotation of a bunny in degrees/frame.
  */
 export function Bunny() {
-  return Object.assign(PIXI.Sprite.fromImage("assets/icons/32.png"), {
+  return Object.assign(new PIXI.Text("🤯"), {
     anchor: { x: null, y: null },
     mass: 0,
     rotation: null,
@@ -23,7 +23,7 @@ export function Bunny() {
      * @return {Object} The newly created bunny.
      */
     initialize() {
-      this.scale.x = this.scale.y = random(0.8, 1);
+      this.scale.x = this.scale.y = random(0.9, 1.1);
       this.rotationSpeed = random(-0.05, 0.05);
       this.rotation = random(0, 360);
       this.mass = random(0.1, 0.3);
