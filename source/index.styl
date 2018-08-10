@@ -7,9 +7,18 @@ html, body
 body
   text-align center
 
+canvas
+  top: 0
+  left: 0
+  position absolute
+  height 300%
+  width 100%
+  z-index -1
+
 .page
   height 100%
   position relative
+  background-color rgba(256, 256, 256, 0.6)
 
 .page-content
   position absolute
@@ -19,20 +28,23 @@ body
   width 100%
 
 .favioli
-  font-size 4em
+  font-size 8em
   padding 0
   margin 0
 
 .favioli-subtitle
-  opacity: 0.6
+  font-size 2em
+  opacity: 0.7
 
 img.comparison
   width 80%
+  border 3px solid black
 
 img.chrome
   display inline-block
-  width 80px
+  width 140px
 
 div.download
+  font-size 3em
   padding-top 10px
   color #333

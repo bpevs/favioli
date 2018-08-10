@@ -1,9 +1,10 @@
 doctype html
-html(lang="en")
+html(lang="en" )
   head
     title Favioli
     link(rel="stylesheet" href="./index.css")
     link(rel="icon" type="image/png" href="/assets/icons/32.png")
+    meta(charset="utf-8")
 
   body
     div.page
@@ -22,3 +23,8 @@ html(lang="en")
           a(href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe")
             img.chrome(src="/assets/icons/chrome-web-store.png")
             div.download Download Now
+
+  script(src="vendor/debounce.js")
+  script(src="vendor/observable.js")
+  script(src="vendor/pixi.js")
+  script(type="module") import "./source/index.js";
