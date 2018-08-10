@@ -38,6 +38,9 @@ export const ScenesManager = {
     this.renderer.backgroundColor = 0xffffff;
     document.body.appendChild(this.renderer.view);
 
+    this.width = width;
+    this.height = height;
+
     // If the desired width/height are the size of the window, keep it that way.
     if(width === window.innerWidth && height === window.innerHeight * 3){
       window.onresize = () => this.resize(window.innerWidth, window.innerHeight * 3);
@@ -57,6 +60,8 @@ export const ScenesManager = {
   resize(newWidth, newHeight) {
     this.renderer.view.style.newWidth = `${newWidth} px`;
     this.renderer.view.style.newHeight = `${newHeight} px`;
+    this.width = newWidth;
+    this.height = newHeight;
     this.renderer.resize(newWidth, newHeight);
   },
 
@@ -82,6 +87,7 @@ export const ScenesManager = {
     const scene = Object.create(SceneType);
     scene.id = id;
     this.scenes[id] = scene;
+    scene.size(this.width, this.height);
     return scene;
   },
 
@@ -96,6 +102,7 @@ export const ScenesManager = {
     if(!this.scenes[id]) {return false};
     if(this.currentScene) {this.currentScene.pause()};
     this.currentScene = this.scenes[id];
+    this.currentScene.size(this.width, this.height);
     this.currentScene.resume();
     return true;
   }

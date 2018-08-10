@@ -81,8 +81,8 @@ export const BunnyScene = Object.assign(BaseScene, {
   makeBunny() {
     let bunny = Bunny();
     bunny.initialize();
-    bunny.position.x = random(0, window.innerWidth);
-    bunny.position.y = random(-bunny.height, window.innerHeight * 3 + bunny.height);
+    bunny.position.x = random(0, this.state.width);
+    bunny.position.y = random(-bunny.height, this.state.height + bunny.height);
     this.addChild(bunny);
     this.models.push(bunny);
     return bunny;
@@ -95,16 +95,16 @@ export const BunnyScene = Object.assign(BaseScene, {
     this.models.forEach((model) => {
       model.position.y += model.mass * this.gravity;
       model.rotation += model.rotationSpeed;
-      if(model.position.y > (window.innerHeight * 3 + model.height)) {
+      if(model.position.y > (this.state.height + model.height)) {
         model.position.y = -model.height;
         if(model.scale.y < 2) {
-          model.position.x = random(0, window.innerWidth);
+          model.position.x = random(0, this.state.width);
         }
       }
       if( this.mousePosition && this.mouseMoving &&
         distance(this.mousePosition, model.position) < Math.sqrt(model.height * model.width)/2) {
-        model.scale.x += 0.1;
-        model.scale.y += 0.1;
+        model.scale.x += 0.08;
+        model.scale.y += 0.08;
       }
     });
   }

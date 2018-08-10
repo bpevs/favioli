@@ -12,7 +12,10 @@ const identity = item => item;
  */
 export const BaseScene = Object.assign(new PIXI.Container(), {
   paused: false,
-  state: {},
+  state: {
+    width: 0,
+    height: 0,
+  },
   updateCB: identity,
 
   /**
@@ -44,6 +47,11 @@ export const BaseScene = Object.assign(new PIXI.Container(), {
    */
   resume() {
     this.paused = false;
+  },
+
+  size(width, height) {
+    this.state.width = width;
+    this.state.height = height;
   },
 
   /**
