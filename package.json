@@ -10,13 +10,12 @@
   "scripts": {
     "deploy": "CI=true npm run build",
     "start": "npm-run-all build watch",
-    "postbuild": "cp ./build/index.html ./build/404.html",
-    "prebuild": "mkdir -p ./build",
+    "postbuild": "cp ./index.html ./404.html",
+    "prebuild": "mkdir -p ./",
     "build": "npm-run-all -p build:*",
-    "build:assets": "cp -r ./assets ./build/assets",
-    "build:markup": "pug ./source --out ./build",
-    "build:styles": "stylus ./source -o ./build",
-    "serve": "static -p 3000 ./build",
+    "build:markup": "pug ./source --out ./",
+    "build:styles": "stylus ./source -o ./",
+    "serve": "static -p 3000 ./",
     "watch": "npm-run-all -p watch:* serve",
     "watch:markup": "npm run build:markup -- --watch",
     "watch:styles": "npm run build:styles -- --watch"
