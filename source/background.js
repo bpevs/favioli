@@ -1,5 +1,4 @@
 import debounce from "lodash.debounce";
-import memoize from "lodash.memoize";
 import { DEFAULT_OVERRIDES, DEFAULT_SET } from "./constants/constants";
 import { getSettings, getTab } from "./utilities/chromeHelpers";
 import { EmojiSet } from "./utilities/EmojiSet";
@@ -34,12 +33,12 @@ chrome.runtime.onMessage.addListener(function (message, details) {
  *  @param {object} tab Chrome tab we're visiting
  * .@return {boolean} Whether a website has a native favIcon
  */
-const hasFavIcon = memoize(function (host, tab) {
+const hasFavIcon = function (host, tab) {
   return Boolean(
     tab.favIconUrl &&
     tab.favIconUrl.indexOf("http") > -1
   );
-}, host => host);
+};
 
 
 /**

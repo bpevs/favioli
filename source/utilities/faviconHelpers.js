@@ -1,4 +1,3 @@
-import debounce from "lodash.debounce";
 import memoize from "lodash.memoize";
 import { EMOJI_SIZE } from "../constants/constants";
 
