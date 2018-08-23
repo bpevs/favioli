@@ -29,11 +29,10 @@ chrome.runtime.onMessage.addListener(function (message, details) {
 /**
  *  Determines whether tab has native favIcon.
  *  Once a website is set, it should change favicons
- *  @param {object} host host of the tab
  *  @param {object} tab Chrome tab we're visiting
  * .@return {boolean} Whether a website has a native favIcon
  */
-const hasFavIcon = function (host, tab) {
+const hasFavIcon = function (tab) {
   return Boolean(
     tab.favIconUrl &&
     tab.favIconUrl.indexOf("http") > -1
@@ -88,7 +87,7 @@ function tryToSetFavicon(tabId, tab) {
   const overrideFavIcon = getOverride(settings.overrides, url, settings);
 
   const shouldOverride = Boolean(overrideFavIcon || settings.overrideAll);
-  const shouldSetFavIcon = shouldOverride || !hasFavIcon(url.host, tab);
+  const shouldSetFavIcon = shouldOverride || !hasFavIcon(tab);
 
   if (!shouldSetFavIcon) return;
 
