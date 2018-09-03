@@ -1,14 +1,15 @@
 @import "stylesheets/reset.styl"
 @import "stylesheets/checkbox.styl"
 @import "stylesheets/saveButton.styl"
+@import "stylesheets/nav.styl"
 
 html
   min-width: 600px
 
 body
-  max-width: 500px
   margin: auto
   padding-top: 1em
+  min-width: 500px
 
 h1
   font-weight: 300
@@ -17,7 +18,10 @@ h1
   user-select: none
 
 .submit
-  padding-top: 2em
+  display: inline-block
+  position: relative
+  margin-top: 2em
+  padding: 0
 
 #status
   font-size: 0.7em
@@ -38,7 +42,7 @@ h1
   position: relative
   transition: ease background 0.2s
   vertical-align: middle
-  width: 70%
+  width: 75%
   z-index: 1
   &:hover, &:focus
     background: #ddd
@@ -55,3 +59,19 @@ h1
   vertical-align: middle
   &:hover
     color: rgba(0, 0, 0, 0.8)
+
+.page
+  padding-top: 2em
+  position: absolute
+  width: 100%
+  max-width: 600px
+  z-index: -1
+  top: 0
+  left: 50%
+  transform: translateX(-50%)
+
+.title
+  vertical-align: middle
+
+.active
+  opacity: 1

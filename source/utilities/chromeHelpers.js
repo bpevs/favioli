@@ -1,19 +1,20 @@
 const { storage, tabs } = chrome;
 
-const defaultSettings = {
+const defaultOptions = {
   overrides: [],
   overrideAll: false,
+  flagReplaced: false,
 };
 
 export function getTab(tabId) {
   return new Promise(resolve => tabs.get(tabId, resolve));
 }
 
-export function getSettings(settings) {
-  const toGet = Object.assign({}, defaultSettings, settings);
+export function getOptions(options) {
+  const toGet = Object.assign({}, defaultOptions, options);
   return new Promise(resolve => storage.sync.get(toGet, resolve));
 }
 
-export function setSettings(toSet) {
+export function setOptions(toSet) {
   return new Promise(resolve => storage.sync.set(toSet, resolve));
 }

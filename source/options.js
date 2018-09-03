@@ -1,45 +1,72 @@
 import debounce from "lodash.debounce";
-import { getSettings, setSettings } from "./utilities/chromeHelpers";
+import { getOptions, setOptions } from "./utilities/chromeHelpers";
 import { createEmojiSelector } from "./utilities/emojiSelector";
 import { isRegexString } from "./utilities/isRegexString";
 
 
 const el = {
   emojiSelectors: [],
-  overrides: document.getElementsByClassName("overrides")[0],
+  navLinks: Array.from(document.getElementsByClassName("navlink")),
+  overrides: document.getElementsByClassName("override-inputs")[0],
+  pages: Array.from(document.getElementsByClassName("page")),
+  settings: document.getElementsByClassName("settings")[0],
   status: document.getElementById("status"),
 };
 
 const DEFAULT_EMOJI = "😀";
 const DEFAULT_FILTER = "";
 var overrides = null;
+const settings = {};
 
+changeRoute(window.location.hash.substr(1) || "overrides");
 document.addEventListener("DOMContentLoaded", restore_options);
-document.getElementById("save").addEventListener("click", save_options);
+Array.from(document.getElementsByClassName("save")).forEach(save => {
+  save.addEventListener("click", save_options);
+});
 
+el.navLinks.forEach(navLink => {
+  const pageName = navLink.textContent.toLowerCase();
+  navLink.addEventListener("click", () => changeRoute(pageName));
+});
+
+function changeRoute(pageName) {
+  el.pages.forEach(page => {
+    const matches = page.className.indexOf(pageName) !== -1;
+    page.style.display = matches ? "block" : "none";
+  });
+
+  el.navLinks.forEach(navLink => {
+    const matches = navLink.textContent.toLowerCase().indexOf(pageName) !== -1;
+    navLink.className = matches ? "navlink active" : "navlink";
+  });
+}
 
 async function save_options() {
-  const success = await setSettings({
+  await setOptions({
     overrides: overrides.slice(0, overrides.length - 1),
+    flagReplaced: document.getElementById("flag").checked,
   });
 
   // Update status to let user know options were saved.
-  el.status.textContent = "Options saved.";
-  setTimeout(() => el.status.textContent = "", 750);
+  el.status.textContent = "Successfully saved.";
+  setTimeout(() => el.status.textContent = "", 1000);
 
-  chrome.runtime.sendMessage("updated:settings");
+  chrome.runtime.sendMessage("updated:options");
 }
 
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 async function restore_options() {
-  const settings = await getSettings();
-
-  overrides = settings.overrides.concat([ {
+  const options = await getOptions();
+  overrides = options.overrides.concat([{
     emoji: DEFAULT_EMOJI,
     filter: DEFAULT_FILTER,
-  } ]);
+  }]);
+
   overrides.forEach(addOverride);
+  if (options.flagReplaced) {
+    document.getElementById("flag").setAttribute("checked", options.flagReplaced);
+  }
 }
 
 function addOverride(override) {

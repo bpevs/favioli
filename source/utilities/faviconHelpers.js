@@ -1,5 +1,5 @@
-import memoize from "lodash.memoize";
 import { EMOJI_SIZE } from "../constants/constants";
+import { getOptions } from "../utilities/chromeHelpers";
 
 
 // Append new favicon links to the document head
@@ -15,8 +15,8 @@ context.font = `normal normal normal ${EMOJI_SIZE}px/${EMOJI_SIZE}px sans-serif`
 context.textAlign = "center";
 context.textBaseline = "middle";
 
-// Emoji Blob creation can be a tad heavy
-const memoizedEmojiUrl = memoize(createEmojiUrl);
+let settings = {};
+getOptions().then(options => settings = options);
 
 /**
  * Given an emoji string, append it to the document head
@@ -26,7 +26,7 @@ const memoizedEmojiUrl = memoize(createEmojiUrl);
 let existingFavicon = null;
 
 export function appendFaviconLink(name, shouldOverride) {
-  const href = memoizedEmojiUrl(name);
+  const href = createEmojiUrl(name);
 
   if (existingFavicon) {
     existingFavicon.setAttribute("href", href);
@@ -71,7 +71,16 @@ function createEmojiUrl(emoji) {
   context.save();
   context.scale(scale, scale);
   context.fillText(char, center_scaled, center_scaled);
-  context.restore();
+
+  if (settings.flagReplaced) {
+    // Draw Flag
+    const FLAG_SIZE = 30
+    context.beginPath();
+    context.arc(EMOJI_SIZE - FLAG_SIZE, EMOJI_SIZE - FLAG_SIZE, FLAG_SIZE, 0, 2 * Math.PI);
+    context.fillStyle = "red";
+    context.fill();
+    context.restore();
+  }
 
   return canvas.toDataURL("image/png");
 }
