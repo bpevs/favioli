@@ -16,7 +16,6 @@ const el = {
 const DEFAULT_EMOJI = "😀";
 const DEFAULT_FILTER = "";
 var overrides = null;
-const settings = {};
 
 changeRoute(window.location.hash.substr(1) || "overrides");
 document.addEventListener("DOMContentLoaded", restore_options);
