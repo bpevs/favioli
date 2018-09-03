@@ -79,9 +79,9 @@ function createEmojiUrl(emoji) {
     context.arc(EMOJI_SIZE - FLAG_SIZE, EMOJI_SIZE - FLAG_SIZE, FLAG_SIZE, 0, 2 * Math.PI);
     context.fillStyle = "red";
     context.fill();
-    context.restore();
   }
 
+  context.restore();
   return canvas.toDataURL("image/png");
 }
 
