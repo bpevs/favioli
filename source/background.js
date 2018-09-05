@@ -1,14 +1,14 @@
 import debounce from "lodash.debounce";
 import { DEFAULT_OVERRIDES, DEFAULT_SET } from "./constants/constants";
-import { getSettings, getTab } from "./utilities/chromeHelpers";
+import { getOptions, getTab } from "./utilities/chromeHelpers";
 import { EmojiSet } from "./utilities/EmojiSet";
 import { isRegexString } from "./utilities/isRegexString";
 
 
-var settings; // Favioli Settings
+var options; // Favioli Options
 var emojis; // Auto-replacement Emoji Set
 
-// After we get our settings, start listening for url updates
+// After we get our options, start listening for url updates
 init().then(() => {
   // If a tab updates, check to see whether we should set a favicon
   chrome.tabs.onUpdated.addListener(debounce((tabId, opts, tab) => {
@@ -21,8 +21,8 @@ chrome.runtime.onMessage.addListener(function (message, details) {
   // If we manually say a tab has been updated, try to set favicon
   if (message === "updated:tab") tryToSetFavicon(tab.id, tab);
 
-  // If our settings change, re-run init to get new settings
-  if (message === "updated:settings") init();
+  // If our options change, re-run init to get new options
+  if (message === "updated:options") init();
 });
 
 
@@ -44,11 +44,11 @@ const hasFavIcon = function (tab) {
  *  If the url has an override, return it. Otherwise, return ""
  *  @param {object} overrideSet
  *  @param {URL} url of the current site
- *  @param {object} settings favioli settings
+ *  @param {object} options favioli options
  * .@return {string} emoji string or empty string if no
  */
-function getOverride(overrideSet, url, settings) {
-  if (!settings) return "";
+function getOverride(overrideSet, url, options) {
+  if (!options) return "";
 
   for (let i = 0; i <= overrideSet.length; i++) {
     if (!overrideSet[i]) return "";
@@ -68,11 +68,11 @@ function getOverride(overrideSet, url, settings) {
 }
 
 /**
- *  Fetch extension settings from Chrome,
+ *  Fetch extension options from Chrome,
  *  and determine the EmojiSet to use for auto-replacement
  */
 async function init() {
-  settings = await getSettings();
+  options = await getOptions();
   emojis = new EmojiSet(DEFAULT_SET);
 }
 
@@ -84,15 +84,15 @@ async function init() {
 function tryToSetFavicon(tabId, tab) {
   const url = new URL(tab.url);
   const frameId = 0; // Don't replace iframes
-  const overrideFavIcon = getOverride(settings.overrides, url, settings);
+  const overrideFavIcon = getOverride(options.overrides, url, options);
 
-  const shouldOverride = Boolean(overrideFavIcon || settings.overrideAll);
+  const shouldOverride = Boolean(overrideFavIcon || options.overrideAll);
   const shouldSetFavIcon = shouldOverride || !hasFavIcon(tab);
 
   if (!shouldSetFavIcon) return;
 
   const name = overrideFavIcon
-    || getOverride(DEFAULT_OVERRIDES, url, settings)
+    || getOverride(DEFAULT_OVERRIDES, url, options)
     || emojis.getEmojiFromHost(url.host);
 
   chrome.tabs.sendMessage(tabId, { frameId, shouldOverride, name });

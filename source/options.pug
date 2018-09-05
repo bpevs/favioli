@@ -4,13 +4,32 @@ html(lang="en")
     title Favioli
     meta(charset="utf-16")
     link(rel="stylesheet" href="options.css")
+    include components/icon.pug
 
   body
-    h1 Custom Replacements
-    div.overrides
+    nav
+      ul
+        li.title 🤯
+        li: a.navlink(href="#overrides") Overrides
+        li: a.navlink(href="#settings") Settings
 
-    div.submit
-      button#save save
-      div#status
+    div.page.overrides
+      h1 Overrides
+      div.override-inputs
+
+      div.submit
+        button.save save
+
+    div.page.settings
+      h1 Settings
+      div.checkbox
+        label.help Flag Replaced Favicons
+        input#flag(type="checkbox" name="flag")
+        div.checkmark
+
+      div.submit
+        button.save save
+
+  div#status
   script(src="options.js")
   script(src="contentScript.js")
