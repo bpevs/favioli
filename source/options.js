@@ -1,4 +1,4 @@
-import { appendOverride, changeRoute, restoreOptions, saveOptions } from "./utilities/optionsHelpers";
+import { appendOverride, changeRoute, restoreOptions, saveOptions } from "./utilities/optionsHelpers/optionsHelpers";
 
 const INITIAL_ROUTE = "overrides"
 const CURRENT_ROUTE = window.location.hash.substr(1);

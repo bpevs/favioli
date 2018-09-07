@@ -1,7 +1,7 @@
 import debounce from "lodash.debounce";
-import { getOptions, setOptions } from "./chromeHelpers";
-import { createEmojiSelector } from "./emojiSelector";
-import { isRegexString } from "./isRegexString";
+import { getOptions, setOptions } from "../chromeHelpers/chromeHelpers";
+import { createEmojiSelector } from "../emojiSelector/emojiSelector";
+import { isRegexString } from "../isRegexString/isRegexString";
 
 
 // Defaults for when we create a new emoji selector

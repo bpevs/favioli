@@ -1,5 +1,5 @@
-import { EMOJI_SIZE } from "../constants/constants";
-import { getOptions } from "../utilities/chromeHelpers";
+import { EMOJI_SIZE } from "../../constants/constants";
+import { getOptions } from "../chromeHelpers/chromeHelpers";
 
 
 // Append new favicon links to the document head
@@ -17,6 +17,7 @@ context.textBaseline = "middle";
 
 let settings = {};
 getOptions().then(options => settings = options);
+
 
 /**
  * Given an emoji string, append it to the document head

@@ -1,7 +1,7 @@
 /*! @source Based off: https://github.com/Kiricon/emoji-selector */
 import "fun-tabs";
-import { emojis } from "../constants/emojis";
-import { styles } from "../stylesheets/emojiSelectorStyles";
+import { emojis } from "../../constants/emojis";
+import { styles } from "../../stylesheets/emojiSelectorStyles";
 
 const template = document.createElement("template");
 const contentContainers = {};
@@ -9,7 +9,7 @@ const createdTabs = {};
 let tabTemplate = ``;
 
 emojis.forEach(emoji => {
-  const { category, char, name } = emoji;
+  const { category, char } = emoji;
 
   if(createdTabs[category] === undefined) {
     createdTabs[category] = true;
