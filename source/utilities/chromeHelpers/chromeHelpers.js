@@ -1,4 +1,4 @@
-const { storage, tabs } = chrome;
+const { storage, tabs } = (typeof chrome ? chrome : browser);
 
 
 const defaultOptions = {
