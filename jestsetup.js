@@ -38,3 +38,20 @@ global.chrome = {
 global.customElements = {
   define: jest.fn(),
 };
+
+// HTML Elements
+[ "navlink", "navlink", "save", "save" ]
+  .forEach((name, index) => {
+    const node = document.createElement("div");
+    node.className = name;
+    node.appendChild(document.createTextNode(name + index))
+    document.body.appendChild(node);
+  });
+
+[ "flag" ]
+  .forEach(name => {
+    const node = document.createElement("input");
+    node.type= "checkbox";
+    node.id = name;
+    document.body.appendChild(node);
+  });

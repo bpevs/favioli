@@ -21,16 +21,23 @@
     "watch:styles": "npm run build:styles -- --watch",
     "prewatch": "mkdir -p ./build"
   },
+  "dependencies": {
+    "fun-tabs": "^1.0.3",
+    "lodash.debounce": "^4.0.8"
+  },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.46",
     "@types/chrome": "0.0.63",
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
+    "expect-puppeteer": "^3.3.0",
     "husky": "^0.14.3",
     "jest": "^23.3.0",
+    "jest-puppeteer": "^3.3.1",
     "npm-run-all": "^4.1.2",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
+    "puppeteer": "^1.8.0",
     "rollup": "^0.56.5",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-node-resolve": "^3.3.0",
@@ -46,11 +53,9 @@
       "pre-commit": "npm run build"
     }
   },
-  "dependencies": {
-    "fun-tabs": "^1.0.3",
-    "lodash.debounce": "^4.0.8"
-  },
   "jest": {
-    "setupFiles": [ "./jestsetup.js" ]
+    "setupFiles": [
+      "./jestsetup.js"
+    ]
   }
 }
