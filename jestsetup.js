@@ -1,3 +1,5 @@
+import "canvas-prebuilt"
+
 global.chrome = {
   runtime: {
     lastError: null,
@@ -37,6 +39,18 @@ global.chrome = {
 
 global.customElements = {
   define: jest.fn(),
+};
+
+global.testContext = {
+  measureText: jest.fn(() => ({ width: 100 })),
+  clearRect: jest.fn(),
+  save: jest.fn(),
+  scale: jest.fn(),
+  fillText: jest.fn(),
+  beginPath: jest.fn(),
+  arc: jest.fn(),
+  fill: jest.fn(),
+  restore: jest.fn(),
 };
 
 // HTML Elements
