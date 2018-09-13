@@ -1,5 +1,5 @@
-import { getOptions } from "./utilities/chromeHelpers";
-import { appendFaviconLink, removeAllFaviconLinks } from "./utilities/faviconHelpers";
+import { getOptions } from "./utilities/chromeHelpers/chromeHelpers";
+import { appendFaviconLink, removeAllFaviconLinks } from "./utilities/faviconHelpers/faviconHelpers";
 
 getOptions().then(() => {
   chrome.runtime.onMessage.addListener(updateFavicon);

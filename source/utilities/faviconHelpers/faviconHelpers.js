@@ -1,5 +1,5 @@
-import { EMOJI_SIZE } from "../constants/constants";
-import { getOptions } from "../utilities/chromeHelpers";
+import { EMOJI_SIZE } from "../../constants/constants";
+import { getOptions } from "../chromeHelpers/chromeHelpers";
 
 
 // Append new favicon links to the document head
@@ -10,13 +10,14 @@ const PIXEL_GRID = 16;
 const canvas = document.createElement("canvas");
 canvas.width = canvas.height = EMOJI_SIZE;
 
-const context = canvas.getContext("2d");
+const context = (typeof global !== "undefined" && global.testContext) || canvas.getContext("2d");
 context.font = `normal normal normal ${EMOJI_SIZE}px/${EMOJI_SIZE}px sans-serif`;
 context.textAlign = "center";
 context.textBaseline = "middle";
 
 let settings = {};
 getOptions().then(options => settings = options);
+
 
 /**
  * Given an emoji string, append it to the document head
@@ -49,6 +50,8 @@ export function removeAllFaviconLinks() {
     .slice.call(document.getElementsByTagName("link"))
     .filter(isIconLink)
     .forEach(link => link.remove());
+
+  existingFavicon = null;
 }
 
 /**

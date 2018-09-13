@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Favioli",
   "description": "Emoji favicons for the web",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "background": {
     "scripts": [ "build/background.js" ]
   },

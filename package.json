@@ -1,6 +1,6 @@
 {
   "name": "favioli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Ben Pevsner",
   "license": "Unlicense",
   "description": "Emoji Favicons for the web",
@@ -13,19 +13,27 @@
     "build:scripts": "rollup -c ./rollup.config.js",
     "build:styles": "stylus ./source -o ./build",
     "prebuild": "mkdir -p ./build",
+    "test": "npm-run-all -p test:*",
+    "test:unit": "jest",
     "watch": "npm-run-all -p watch:*",
     "watch:markup": "npm run build:markup -- -w",
     "watch:scripts": "npm run build:scripts -- --watch",
     "watch:styles": "npm run build:styles -- --watch",
     "prewatch": "mkdir -p ./build"
   },
+  "dependencies": {
+    "fun-tabs": "^1.0.3",
+    "lodash.debounce": "^4.0.8"
+  },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.46",
     "@types/chrome": "0.0.63",
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
+    "canvas-prebuilt": "^1.6.11",
     "husky": "^0.14.3",
-    "jest": "^22.4.3",
+    "jest": "^23.3.0",
+    "node-pre-gyp": "^0.11.0",
     "npm-run-all": "^4.1.2",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
@@ -44,8 +52,9 @@
       "pre-commit": "npm run build"
     }
   },
-  "dependencies": {
-    "fun-tabs": "^1.0.3",
-    "lodash.debounce": "^4.0.8"
+  "jest": {
+    "setupFiles": [
+      "./jestsetup.js"
+    ]
   }
 }

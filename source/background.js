@@ -1,8 +1,8 @@
 import debounce from "lodash.debounce";
 import { DEFAULT_OVERRIDES, DEFAULT_SET } from "./constants/constants";
-import { getOptions, getTab } from "./utilities/chromeHelpers";
-import { EmojiSet } from "./utilities/EmojiSet";
-import { isRegexString } from "./utilities/isRegexString";
+import { getOptions } from "./utilities/chromeHelpers/chromeHelpers";
+import { EmojiSet } from "./utilities/EmojiSet/EmojiSet";
+import { isRegexString } from "./utilities/isRegexString/isRegexString";
 
 
 var options; // Favioli Options
