@@ -1,3 +1,8 @@
+jest.mock("../chromeHelpers/chromeHelpers", () => {
+  return { getOptions: jest.fn(() => Promise.resolve({ flagReplaced: true })) }
+});
+
+import { getOptions } from "../chromeHelpers/chromeHelpers";
 import { appendFaviconLink, removeAllFaviconLinks } from "./faviconHelpers"
 
 describe("appendFaviconLink", () => {
@@ -41,16 +46,37 @@ describe("appendFaviconLink", () => {
     expect(defaultFavicon.href).toMatch(/favicon\.ico$/)
   })
 
-  test.skip("Should add flag to favicon if flagReplaced is enabled", () => {})
-  test.skip("Should be able to override existing favicon link", () => {})
+  test("Should add flag to favicon if flagReplaced is enabled", () => {
+    expect(Array.from(document.getElementsByTagName("link")).length).toBe(0)
+    appendFaviconLink("😀", false)
+    expect(global.testContext.beginPath).toBeCalled()
+    expect(global.testContext.arc).toBeCalled()
+    expect(global.testContext.fillStyle).toBe("red")
+    expect(global.testContext.fill).toBeCalled()
+  })
+
+  test("Should not attempt to catch missing favicon.ico files if overriding", () => {
+    document.head.appendChild(Object.assign(document.createElement("link"), { rel: "icon" }))
+    document.head.appendChild(Object.assign(document.createElement("link"), { rel: "icon" }))
+    expect(Array.from(document.getElementsByTagName("link")).length).toBe(2)
+    appendFaviconLink("😀", true)
+    expect(Array.from(document.getElementsByTagName("link")).length).toBe(3)
+  })
 })
 
 
 describe("removeAllFaviconLinks", () => {
-  test.skip("Should remove all icon links from document head", () => {
+  test("Should remove all icon links from document head", () => {
+    document.head.appendChild(Object.assign(document.createElement("link"), { rel: "icon" }))
+    document.head.appendChild(Object.assign(document.createElement("link"), { rel: "icon" }))
     removeAllFaviconLinks()
+    expect(Array.from(document.getElementsByTagName("link")).length).toBe(0)
+  })
 
-    const hasFaviconLink = true
-    expect(hasFaviconLink).toBe(false)
+  test("Should reset existingFavicon if removing all favicons", () => {
+    appendFaviconLink("😀", true)
+    removeAllFaviconLinks()
+    appendFaviconLink("😀", false)
+    expect(Array.from(document.getElementsByTagName("link")).length).toBe(2)
   })
 })
