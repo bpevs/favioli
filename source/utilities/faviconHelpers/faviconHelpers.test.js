@@ -2,7 +2,6 @@ jest.mock("../chromeHelpers/chromeHelpers", () => {
   return { getOptions: jest.fn(() => Promise.resolve({ flagReplaced: true })) }
 });
 
-import { getOptions } from "../chromeHelpers/chromeHelpers";
 import { appendFaviconLink, removeAllFaviconLinks } from "./faviconHelpers"
 
 describe("appendFaviconLink", () => {

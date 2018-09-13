@@ -54,11 +54,18 @@ global.testContext = {
 };
 
 // HTML Elements
-[ "navlink", "navlink", "save", "save" ]
+[ "navlink", "navlink", "save", "save", "override-inputs" ]
   .forEach((name, index) => {
     const node = document.createElement("div");
     node.className = name;
     node.appendChild(document.createTextNode(name + index))
+    document.body.appendChild(node);
+  });
+
+[ "page", "page" ]
+  .forEach((name, index) => {
+    const node = document.createElement("div");
+    node.className = "page navlink" + index;
     document.body.appendChild(node);
   });
 

@@ -94,21 +94,6 @@ export function changeRoute(pageName) {
 
 
 /**
- * Save options to Chrome storage, and inform the user that we did.
- * @param {object} options
- */
-export async function saveOptions(options) {
-  await setOptions(options);
-
-  // Update status to let user know options were saved.
-  el.status.textContent = "Successfully saved.";
-  setTimeout(() => el.status.textContent = "", 1000);
-
-  chrome.runtime.sendMessage("updated:options");
-}
-
-
-/**
  * Restore options page UI state from the preferences stored in chrome.storage
  */
 export async function restoreOptions() {
@@ -123,4 +108,19 @@ export async function restoreOptions() {
   }
 
   return options;
+}
+
+
+/**
+ * Save options to Chrome storage, and inform the user that we did.
+ * @param {object} options
+ */
+export async function saveOptions(options) {
+  await setOptions(options);
+
+  // Update status to let user know options were saved.
+  el.status.textContent = "Successfully saved.";
+  setTimeout(() => el.status.textContent = "", 1000);
+
+  chrome.runtime.sendMessage("updated:options");
 }
