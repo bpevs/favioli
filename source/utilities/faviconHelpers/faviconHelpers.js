@@ -10,7 +10,7 @@ const PIXEL_GRID = 16;
 const canvas = document.createElement("canvas");
 canvas.width = canvas.height = EMOJI_SIZE;
 
-const context = (global && global.testContext) || canvas.getContext("2d");
+const context = (typeof global !== "undefined" && global.testContext) || canvas.getContext("2d");
 context.font = `normal normal normal ${EMOJI_SIZE}px/${EMOJI_SIZE}px sans-serif`;
 context.textAlign = "center";
 context.textBaseline = "middle";
