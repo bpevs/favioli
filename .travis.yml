@@ -3,4 +3,4 @@ sudo: false
 node_js:
   - "stable"
 
-script: npm run build
+script: npm run build && npm run test
