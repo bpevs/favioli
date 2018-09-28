@@ -5,7 +5,7 @@ function createConfig(name) {
   return {
     input: `./source/${name}.js`,
     output: {
-      file: `./build/${name}.js`,
+      file: `./dist/base/${name}.js`,
       format: "iife",
       name: name,
     },

@@ -5,21 +5,21 @@
   "license": "Unlicense",
   "description": "Emoji Favicons for the web",
   "repository": "https://github.com/ivebencrazy/favioli",
-  "main": "build/index.js",
+  "main": "dist/base/index.js",
   "scripts": {
     "start": "npm run watch",
     "build": "npm-run-all -p build:*",
-    "build:markup": "pug ./source --out ./build",
+    "build:markup": "pug ./source --out ./dist/base",
     "build:scripts": "rollup -c ./rollup.config.js",
-    "build:styles": "stylus ./source -o ./build",
-    "prebuild": "mkdir -p ./build",
+    "build:styles": "stylus ./source -o ./dist/base",
+    "prebuild": "mkdir -p ./dist/base",
     "test": "npm-run-all -p test:*",
     "test:unit": "jest",
     "watch": "npm-run-all -p watch:*",
     "watch:markup": "npm run build:markup -- -w",
     "watch:scripts": "npm run build:scripts -- --watch",
     "watch:styles": "npm run build:styles -- --watch",
-    "prewatch": "mkdir -p ./build"
+    "prewatch": "mkdir -p ./dist/base"
   },
   "dependencies": {
     "fun-tabs": "^1.0.3",

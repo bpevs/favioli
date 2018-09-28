@@ -6,10 +6,10 @@ Features
 ========
 - Automatically use an emoji as a favicon for every website that lacks one.
 - We always use the same emoji, so you always know which site it is.
-![Using Favioli](./screenshots/default.png)
+![Using Favioli](./resources/screenshots/default.png)
 
 - Override custom website hosts by regex or by matching part of the url's host
-![Using Overrides](./screenshots/overrides.png)
+![Using Overrides](./resources/screenshots/overrides.png)
 
 Inspiration
 ==========
