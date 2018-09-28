@@ -1,4 +1,5 @@
 /*! @source Based off: https://github.com/Kiricon/emoji-selector */
+import "@webcomponents/webcomponentsjs/webcomponents-bundle.js";
 import "fun-tabs";
 import { emojis } from "../../constants/emojis";
 import { styles } from "../../stylesheets/emojiSelectorStyles";
