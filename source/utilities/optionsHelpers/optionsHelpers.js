@@ -2,6 +2,7 @@ import debounce from "lodash.debounce";
 import { getOptions, setOptions } from "../chromeHelpers/chromeHelpers";
 import { createEmojiSelector } from "../emojiSelector/emojiSelector";
 import { isRegexString } from "../isRegexString/isRegexString";
+const { runtime } = (typeof chrome ? chrome : browser);
 
 
 // Defaults for when we create a new emoji selector
@@ -94,7 +95,7 @@ export function changeRoute(pageName) {
 
 
 /**
- * Restore options page UI state from the preferences stored in chrome.storage
+ * Restore options page UI state from the preferences stored in browser storage
  */
 export async function restoreOptions() {
   const options = await getOptions();
@@ -122,5 +123,5 @@ export async function saveOptions(options) {
   el.status.textContent = "Successfully saved.";
   setTimeout(() => el.status.textContent = "", 1000);
 
-  chrome.runtime.sendMessage("updated:options");
+  runtime.sendMessage("updated:options");
 }

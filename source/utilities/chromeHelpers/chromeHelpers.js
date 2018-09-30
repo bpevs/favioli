@@ -1,4 +1,4 @@
-const { storage, tabs } = (typeof chrome ? chrome : browser);
+const { storage, runtime, tabs } = (typeof chrome ? chrome : browser);
 
 
 const defaultOptions = {
@@ -24,7 +24,7 @@ export function getOptions() {
   return new Promise((resolve, reject) => storage.sync.get(
     Object.keys(defaultOptions),
     items => {
-      if(chrome.runtime.lastError) reject(chrome.runtime.lastError);
+      if(runtime.lastError) reject(runtime.lastError);
       else resolve(Object.assign({}, defaultOptions, items));
     }
   ));
@@ -39,7 +39,7 @@ export function setOptions(toSet) {
   return new Promise((resolve, reject) => storage.sync.set(
     toSet,
     () => {
-      if(chrome.runtime.lastError) reject(chrome.runtime.lastError);
+      if(runtime.lastError) reject(runtime.lastError);
       else resolve();
     }
   ));

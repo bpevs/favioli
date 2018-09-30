@@ -1,3 +1,5 @@
+**This is alpha version for Firefox. Base functionality works. Options page settings/overrides does not work correctly at the moment.**
+
 Favioli
 =======
 Making the world a better place or something. Favioli automatically uses an emoji as a favicon for every website that lacks one.
@@ -10,6 +12,16 @@ Features
 
 - Override custom website hosts by regex or by matching part of the url's host
 ![Using Overrides](./resources/screenshots/overrides.png)
+
+Build Steps
+=========
+Should work with any recent node; I'm using `v10.5.0` on Mac OS High Sierra for development.
+
+```
+npm install
+npm run build
+```
+This will build our distribution code into /dist, each browser with its own directory.
 
 Inspiration
 ==========
