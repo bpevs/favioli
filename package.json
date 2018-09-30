@@ -31,7 +31,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-rc.2",
-    "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "@types/chrome": "0.0.63",

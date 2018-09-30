@@ -1,6 +1,6 @@
+import { createEmojiSelector } from "../emojiSelector/emojiSelector";
 import debounce from "lodash.debounce";
 import { getOptions, setOptions } from "../chromeHelpers/chromeHelpers";
-import { createEmojiSelector } from "../emojiSelector/emojiSelector";
 import { isRegexString } from "../isRegexString/isRegexString";
 const { runtime } = (typeof chrome ? chrome : browser);
 

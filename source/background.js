@@ -1,4 +1,3 @@
-import "@babel/polyfill";
 import debounce from "lodash.debounce";
 import { DEFAULT_OVERRIDES, DEFAULT_SET } from "./constants/constants";
 import { getOptions } from "./utilities/chromeHelpers/chromeHelpers";

@@ -1,7 +1,10 @@
 import React from "react"
+import { getOptions, setOptions } from "../utilities/chromeHelpers/chromeHelpers";
 import Checkbox from "./Checkbox"
 import NavBar from "./NavBar"
 import OverridesList from "./OverridesList";
+const { runtime } = (typeof chrome ? chrome : browser);
+
 
 export class App extends React.Component {
   constructor(props) {

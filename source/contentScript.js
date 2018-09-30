@@ -1,4 +1,3 @@
-import "@babel/polyfill";
 import { getOptions } from "./utilities/chromeHelpers/chromeHelpers";
 import { appendFaviconLink, removeAllFaviconLinks } from "./utilities/faviconHelpers/faviconHelpers";
 const { runtime } = (typeof chrome ? chrome : browser);
