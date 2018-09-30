@@ -7,29 +7,5 @@ html(lang="en")
     include components/icon.pug
 
   body
-    nav
-      ul
-        li.title 🤯
-        li: a.navlink(href="#overrides") Overrides
-        li: a.navlink(href="#settings") Settings
-
-    div.page.overrides
-      h1 Overrides
-      div.override-inputs
-
-      div.submit
-        button.save save
-
-    div.page.settings
-      h1 Settings
-      div.checkbox
-        label.help Flag Replaced Favicons
-        input#flag(type="checkbox" name="flag")
-        div.checkmark
-
-      div.submit
-        button.save save
-
-  div#status
+    div#mount
   script(src="options.js")
-  script(src="contentScript.js")

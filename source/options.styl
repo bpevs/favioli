@@ -1,12 +1,21 @@
 @import "stylesheets/reset.styl"
 @import "stylesheets/checkbox.styl"
 @import "stylesheets/saveButton.styl"
+@import "stylesheets/emojiSelector.styl"
 @import "stylesheets/nav.styl"
+@import "vendor/emoji-mart.styl"
 
 html
+  font-size: 24px
   min-width: 600px
 
 body
+  width: 100%
+  height: 100%
+  margin: 0
+  padding: 0
+
+#mount
   margin: auto
   padding-top: 1em
   min-width: 500px
@@ -16,6 +25,7 @@ h1
   font-size: 2em
   margin-bottom: 0.5em
   user-select: none
+  -moz-user-select: none
 
 .submit
   display: inline-block
@@ -51,6 +61,7 @@ h1
   margin: 0.2em
 
 .remove-button
+  background-color: transparent
   border: none
   color: rgba(0, 0, 0, 0.4)
   cursor: pointer
@@ -61,7 +72,7 @@ h1
     color: rgba(0, 0, 0, 0.8)
 
 .page
-  display: none
+  display: block
   left: 50%
   max-width: 600px
   padding-top: 2em

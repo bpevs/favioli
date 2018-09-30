@@ -1,6 +1,98 @@
 (function () {
 'use strict';
 
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+}
+
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 /**
@@ -381,35 +473,33 @@ function toNumber(value) {
 
 var lodash_debounce = debounce;
 
-const defaultEmojis = "😀 😁 😂 🤣 😃 😄 😅 😆 😉 😊 😋 😎 😍 😘 😗 😙 😚 🙂 🤗 🤩 🤔 🤨 😐 😑 😶 🙄 😏 😣 😥 😮 🤐 😯 😪 😫 😴 😌 😛 😜 😝 🤤 😒 😓 😔 😕 🙃 🤑 😲 ☹️ 🙁 😖 😞 😟 😤 😢 😦 😧 😨 😩 🤯 😬 😰 😳 🤪 😵 😡 😠 🤬 😷 🤒 🤕 🤢 🤮 🤧 😇 🤠 🤡 🤥 🤫 🤭 🧐 🤓 😈 👿 👹 👺 💀 👻 👽 🤖 💩 😺 😸 😹 😻 😼 😽 🙀 😿 😾 👶 👦 👧 👨 👩 👴 👵 🤳 💪 👈 👉 ☝️ 👆 🖕 👇 ✌️ 🤞 🖖 🤘 🖐 ✋ 👌 👍 👎 👊 🤛 🤜 🤚 👋 🤟 ✍️ 👏 👐 🙌 🤲 🙏 🤝 💅 👂 👃 👣 👀 👁 🧠 👅 👄 💋 👓 🕶 👔 👕 👖 🧣 🧤 🧥 🧦 👗 👘 👙 👚 👛 👜 👝 🎒 👞 👟 👠 👡 👢 👑 👒 🎩 🎓 🧢 ⛑ 💄 💍 🌂 💼 🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐽 🐸 🐵 🙊 🙉 🙊 🐒 🐔 🐧 🐦 🐤 🐣 🐥 🦆 🦅 🦉 🦇 🐺 🐗 🐴 🦄 🐝 🐛 🦋 🐌 🐚 🐞 🐜 🕷 🕸 🐢 🐍 🦎 🦂 🦀 🦑 🐙 🦐 🐟 🐡 🐬 🦈 🐳 🐋 🐊 🐆 🐅 🐃 🐂 🐄 🦌 🐪 🐫 🐘 🦏 🦍 🐎 🐖 🐐 🐏 🐑 🐕 🐩 🐈 🐓 🦃 🕊 🐇 🐁 🐀 🐿 🐾 🐉 🐲 🌵 🎄 🌲 🌳 🌴 🌱 🌿 ☘️ 🍀 🎍 🎋 🍃 🍂 🍁 🍄 🌾 💐 🌷 🌹 🥀 🌻 🌼 🌸 🌺 🌎 🌕 🌚 🌝 🌞 🌜 🌙 💫 ⭐️ 🌟 ✨ ⚡️ 🔥 💥 ☄️ ☀️ 🌤 ⛅️ 🌥 🌦 🌈 ☁️ ⛄️ ❄️ 🌬 💨 🌪 🌫 🌊 💧 💦 ☔ 🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🥝 🥑 🍅 🍆 🥒 🥕 🌽 🌶 🥔 🍠 🌰 🥜 🍯 🥐 🍞 🥖 🧀 🥚 🍳 🥓 🥞 🍤 🍗 🍖 🍕 🌭 🍔 🍟 🥙 🌮 🌯 🥗 🥘 🍝 🍜 🍲 🍥 🍣 🍱 🍛 🍚 🍙 🍘 🍢 🍡 🍧 🍨 🍦 🍰 🎂 🍮 🍭 🍬 🍫 🍿 🍩 🍪 🥛 🍼 ☕️ 🍵 🍶 🍺 🥂 🍷 🥃 🍸 🍹 🍾 🥄 🍴 🍽 ⚽️ 🏀 🏈 ⚾️ 🎾 🏐 🏉 🎱 🏓 🏸 🥅 🏒 🏑 🏏 ⛳️ 🏹 🎣 🥊 🥋 ⛸ 🏆 🎪 🤹‍ 🎭 🎨 🎬 🎤 🎧 🎼 🎹 🥁 🎷 🎺 🎸 🎻 🎲 🎯 🎳 🎮 🎰 🚗 🚕 🚙 🚌 🚎 🏎 🚓 🚑 🚒 🚐 🚚 🚛 🚜 🛴 🚲 🛵 🏍 🚨 🚔 🚍 🚘 🚖 🚡 🚠 🚟 🚃 🚋 🚞 🚝 🚄 🚅 🚈 🚂 🚆 🚇 🚊 🚉 🚁 🛩 ✈️ 🛫 🛬 🚀 🛰 💺 🛶 ⛵️ 🛥 🚤 🛳 ⛴ 🚢 ⚓️ 🚧 ⛽️ 🚏 🚦 🚥 🗺 🗿 🗽 ⛲️ 🗼 🏰 🏯 🏟 🎡 🎢 🎠 ⛱ 🏖 🏝 🏔 🗻 🌋 🏜 🏕 ⛺️ 🛤 🛣 🏗 🏭 🏠 🏢 🏛 ⛪️ 🕌 🕍 🕋 ⛩ ❤️ 💔 🙎 🙅 🙆 💁 🙋 🙇 🤦 🤷 💆 💇 🚶 🏃 💃 🕺 👯 🧖‍ 👩‍👧‍👧";
+var defaultEmojis = "😀 😁 😂 🤣 😃 😄 😅 😆 😉 😊 😋 😎 😍 😘 😗 😙 😚 🙂 🤗 🤩 🤔 🤨 😐 😑 😶 🙄 😏 😣 😥 😮 🤐 😯 😪 😫 😴 😌 😛 😜 😝 🤤 😒 😓 😔 😕 🙃 🤑 😲 ☹️ 🙁 😖 😞 😟 😤 😢 😦 😧 😨 😩 🤯 😬 😰 😳 🤪 😵 😡 😠 🤬 😷 🤒 🤕 🤢 🤮 🤧 😇 🤠 🤡 🤥 🤫 🤭 🧐 🤓 😈 👿 👹 👺 💀 👻 👽 🤖 💩 😺 😸 😹 😻 😼 😽 🙀 😿 😾 👶 👦 👧 👨 👩 👴 👵 🤳 💪 👈 👉 ☝️ 👆 🖕 👇 ✌️ 🤞 🖖 🤘 🖐 ✋ 👌 👍 👎 👊 🤛 🤜 🤚 👋 🤟 ✍️ 👏 👐 🙌 🤲 🙏 🤝 💅 👂 👃 👣 👀 👁 🧠 👅 👄 💋 👓 🕶 👔 👕 👖 🧣 🧤 🧥 🧦 👗 👘 👙 👚 👛 👜 👝 🎒 👞 👟 👠 👡 👢 👑 👒 🎩 🎓 🧢 ⛑ 💄 💍 🌂 💼 🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐽 🐸 🐵 🙊 🙉 🙊 🐒 🐔 🐧 🐦 🐤 🐣 🐥 🦆 🦅 🦉 🦇 🐺 🐗 🐴 🦄 🐝 🐛 🦋 🐌 🐚 🐞 🐜 🕷 🕸 🐢 🐍 🦎 🦂 🦀 🦑 🐙 🦐 🐟 🐡 🐬 🦈 🐳 🐋 🐊 🐆 🐅 🐃 🐂 🐄 🦌 🐪 🐫 🐘 🦏 🦍 🐎 🐖 🐐 🐏 🐑 🐕 🐩 🐈 🐓 🦃 🕊 🐇 🐁 🐀 🐿 🐾 🐉 🐲 🌵 🎄 🌲 🌳 🌴 🌱 🌿 ☘️ 🍀 🎍 🎋 🍃 🍂 🍁 🍄 🌾 💐 🌷 🌹 🥀 🌻 🌼 🌸 🌺 🌎 🌕 🌚 🌝 🌞 🌜 🌙 💫 ⭐️ 🌟 ✨ ⚡️ 🔥 💥 ☄️ ☀️ 🌤 ⛅️ 🌥 🌦 🌈 ☁️ ⛄️ ❄️ 🌬 💨 🌪 🌫 🌊 💧 💦 ☔ 🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🥝 🥑 🍅 🍆 🥒 🥕 🌽 🌶 🥔 🍠 🌰 🥜 🍯 🥐 🍞 🥖 🧀 🥚 🍳 🥓 🥞 🍤 🍗 🍖 🍕 🌭 🍔 🍟 🥙 🌮 🌯 🥗 🥘 🍝 🍜 🍲 🍥 🍣 🍱 🍛 🍚 🍙 🍘 🍢 🍡 🍧 🍨 🍦 🍰 🎂 🍮 🍭 🍬 🍫 🍿 🍩 🍪 🥛 🍼 ☕️ 🍵 🍶 🍺 🥂 🍷 🥃 🍸 🍹 🍾 🥄 🍴 🍽 ⚽️ 🏀 🏈 ⚾️ 🎾 🏐 🏉 🎱 🏓 🏸 🥅 🏒 🏑 🏏 ⛳️ 🏹 🎣 🥊 🥋 ⛸ 🏆 🎪 🤹‍ 🎭 🎨 🎬 🎤 🎧 🎼 🎹 🥁 🎷 🎺 🎸 🎻 🎲 🎯 🎳 🎮 🎰 🚗 🚕 🚙 🚌 🚎 🏎 🚓 🚑 🚒 🚐 🚚 🚛 🚜 🛴 🚲 🛵 🏍 🚨 🚔 🚍 🚘 🚖 🚡 🚠 🚟 🚃 🚋 🚞 🚝 🚄 🚅 🚈 🚂 🚆 🚇 🚊 🚉 🚁 🛩 ✈️ 🛫 🛬 🚀 🛰 💺 🛶 ⛵️ 🛥 🚤 🛳 ⛴ 🚢 ⚓️ 🚧 ⛽️ 🚏 🚦 🚥 🗺 🗿 🗽 ⛲️ 🗼 🏰 🏯 🏟 🎡 🎢 🎠 ⛱ 🏖 🏝 🏔 🗻 🌋 🏜 🏕 ⛺️ 🛤 🛣 🏗 🏭 🏠 🏢 🏛 ⛪️ 🕌 🕍 🕋 ⛩ ❤️ 💔 🙎 🙅 🙆 💁 🙋 🙇 🤦 🤷 💆 💇 🚶 🏃 💃 🕺 👯 🧖‍ 👩‍👧‍👧";
 
-const isWindows = /^Win\d+$/.test(navigator.platform);
-const HACKER_CAT = isWindows ? "🐱‍💻" : ""; // Only Windows has hacker cat
-const DEFAULT_SET = defaultEmojis + HACKER_CAT;
+var isWindows = /^Win\d+$/.test(navigator.platform);
+var HACKER_CAT = isWindows ? "🐱‍💻" : ""; // Only Windows has hacker cat
 
-const DEFAULT_OVERRIDES = [];
+var DEFAULT_SET = defaultEmojis + HACKER_CAT;
+var DEFAULT_OVERRIDES = [];
 
-const { storage, tabs } = (typeof chrome ? chrome : browser);
+var _ref = (typeof chrome === "undefined" ? "undefined" : _typeof(chrome)) ? chrome : browser,
+    storage = _ref.storage,
+    tabs = _ref.tabs;
 
-
-const defaultOptions = {
+var defaultOptions = {
   flagReplaced: false,
   overrideAll: false,
-  overrides: [],
+  overrides: []
 };
-
-
 /**
  * Get options.
  */
+
 function getOptions() {
-  return new Promise((resolve, reject) => storage.sync.get(
-    Object.keys(defaultOptions),
-    items => {
-      if(chrome.runtime.lastError) reject(chrome.runtime.lastError);
-      else resolve(Object.assign({}, defaultOptions, items));
-    }
-  ));
+  return new Promise(function (resolve, reject) {
+    return storage.sync.get(Object.keys(defaultOptions), function (items) {
+      if (chrome.runtime.lastError) reject(chrome.runtime.lastError);else resolve(Object.assign({}, defaultOptions, items));
+    });
+  });
 }
 
 /**
@@ -417,9 +507,9 @@ function getOptions() {
  * An Emoji Set is a collection of emojis we select from.
  *
  */
-
-class EmojiSet {
-
+var EmojiSet =
+/*#__PURE__*/
+function () {
   /**
    * @constructor
    * Accepts an array of arguments that can be any of:
@@ -430,79 +520,96 @@ class EmojiSet {
    * It just gets called less if we do it here.
    * @param {...*} args
    */
-  constructor(...args) {
-    this.flattenEmojis = this.flattenEmojis.bind(this);
-    this.emojis = this.flattenEmojis(args).filter(emoji => emoji.trim());
-  }
+  function EmojiSet() {
+    _classCallCheck(this, EmojiSet);
 
+    this.flattenEmojis = this.flattenEmojis.bind(this);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    this.emojis = this.flattenEmojis(args).filter(function (emoji) {
+      return emoji.trim();
+    });
+  }
   /**
    * Creates one giant array of emojis from all the constructor params.
    * .@param {any[]} args
    */
-  flattenEmojis(args) {
-    if (typeof args === "string") return args.split(" ");
-    if (typeof args === "number") return [ String.fromCodePoint(args) ];
-    if (isRange(args)) return rangeToCharArray.apply(null, args);
-    if (Array.isArray(args)) {
-      return Array.prototype.concat(...args.map(this.flattenEmojis));
+
+
+  _createClass(EmojiSet, [{
+    key: "flattenEmojis",
+    value: function flattenEmojis(args) {
+      if (typeof args === "string") return args.split(" ");
+      if (typeof args === "number") return [String.fromCodePoint(args)];
+      if (isRange(args)) return rangeToCharArray.apply(null, args);
+
+      if (Array.isArray(args)) {
+        var _Array$prototype;
+
+        return (_Array$prototype = Array.prototype).concat.apply(_Array$prototype, _toConsumableArray(args.map(this.flattenEmojis)));
+      }
     }
-  }
+    /**
+     * Returns a copy of our emoji data
+     * .@return {string[]} Emoji Array
+     */
 
-  /**
-   * Returns a copy of our emoji data
-   * .@return {string[]} Emoji Array
-   */
-  get() {
-    return this.emojis.slice();
-  }
+  }, {
+    key: "get",
+    value: function get() {
+      return this.emojis.slice();
+    }
+    /**
+     * Gets a single emoji dependent on our location
+     * .@return {string} emoji
+     */
 
-  /**
-   * Gets a single emoji dependent on our location
-   * .@return {string} emoji
-   */
-  getEmoji() {
-    return this.getEmojiFromHost(location.host);
-  }
+  }, {
+    key: "getEmoji",
+    value: function getEmoji() {
+      return this.getEmojiFromHost(location.host);
+    }
+    /**
+     * Gets a single emoji from a host string
+     *  @param {string} host
+     * .@return {string} emoji
+     */
 
+  }, {
+    key: "getEmojiFromHost",
+    value: function getEmojiFromHost(host) {
+      var emojiIndex = Math.abs(sdbm(host)) % this.emojis.length;
+      return this.emojis[emojiIndex];
+    }
+  }]);
 
-  /**
-   * Gets a single emoji from a host string
-   *  @param {string} host
-   * .@return {string} emoji
-   */
-  getEmojiFromHost(host) {
-    const emojiIndex = Math.abs(sdbm(host)) % this.emojis.length;
-    return this.emojis[emojiIndex];
-  }
-}
-
-
+  return EmojiSet;
+}();
 /**
  *  Determines whether we have a number tuple
  *  @param {any} item
  * .@return {boolean}
  */
+
 function isRange(item) {
-  return Array.isArray(item)
-    && item.length === 2
-    && typeof item[0] === "number"
-    && typeof item[1] === "number";
+  return Array.isArray(item) && item.length === 2 && typeof item[0] === "number" && typeof item[1] === "number";
 }
-
-
 /**
  *  Gets an array of emojis from a codePoint tuple
  *  @param {number} first
  *  @param {number} last
  * .@return {string[]} emoji array
  */
+
+
 function rangeToCharArray(first, last) {
-  return Array(last - first)
-    .fill(null)
-    .map((_, i) => String.fromCodePoint(i + first));
+  return Array(last - first).fill(null).map(function (_, i) {
+    return String.fromCodePoint(i + first);
+  });
 }
-
-
 /**
  *  Non-cryptographic hashing to get the same emoji index for different keys
  *  @source http://www.cse.yorku.ca/~oz/hash.html
@@ -511,9 +618,11 @@ function rangeToCharArray(first, last) {
  *  @param {any} key
  * .@return {number} index
  */
-function sdbm(key){
-  return String(key).split("").reduce((hash, char, i) => {
-    const charCode = key.charCodeAt(i);
+
+
+function sdbm(key) {
+  return String(key).split("").reduce(function (hash, char, i) {
+    var charCode = key.charCodeAt(i);
     return charCode + (hash << 6) + (hash << 16) - hash;
   }, 0) >>> 0;
 }
@@ -523,48 +632,38 @@ function sdbm(key){
  * @param {string} filter
  * @return {boolean}
  */
-
 function isRegexString(filter) {
-  return filter.length > 2
-    && filter.startsWith("/")
-    && filter.endsWith("/");
+  return filter.length > 2 && filter.startsWith("/") && filter.endsWith("/");
 }
 
 var options; // Favioli Options
-var emojis; // Auto-replacement Emoji Set
 
+var emojis; // Auto-replacement Emoji Set
 // After we get our options, start listening for url updates
-init().then(() => {
+
+init().then(function () {
   // If a tab updates, check to see whether we should set a favicon
-  chrome.tabs.onUpdated.addListener(lodash_debounce((tabId, opts, tab) => {
+  chrome.tabs.onUpdated.addListener(lodash_debounce(function (tabId, opts, tab) {
     tryToSetFavicon(tabId, tab);
   }, 500));
 });
-
 chrome.runtime.onMessage.addListener(function (message, details) {
-  const tab = details.tab;
-  // If we manually say a tab has been updated, try to set favicon
-  if (message === "updated:tab") tryToSetFavicon(tab.id, tab);
+  var tab = details.tab; // If we manually say a tab has been updated, try to set favicon
 
-  // If our options change, re-run init to get new options
+  if (message === "updated:tab") tryToSetFavicon(tab.id, tab); // If our options change, re-run init to get new options
+
   if (message === "updated:options") init();
 });
-
-
 /**
  *  Determines whether tab has native favIcon.
  *  Once a website is set, it should change favicons
  *  @param {object} tab Chrome tab we're visiting
  * .@return {boolean} Whether a website has a native favIcon
  */
-const hasFavIcon = function (tab) {
-  return Boolean(
-    tab.favIconUrl &&
-    tab.favIconUrl.indexOf("http") > -1
-  );
+
+var hasFavIcon = function hasFavIcon(tab) {
+  return Boolean(tab.favIconUrl && tab.favIconUrl.indexOf("http") > -1);
 };
-
-
 /**
  *  If the url has an override, return it. Otherwise, return ""
  *  @param {object} overrideSet
@@ -572,55 +671,83 @@ const hasFavIcon = function (tab) {
  *  @param {object} options favioli options
  * .@return {string} emoji string or empty string if no
  */
+
+
 function getOverride(overrideSet, url, options) {
   if (!options) return "";
 
-  for (let i = 0; i <= overrideSet.length; i++) {
+  for (var i = 0; i <= overrideSet.length; i++) {
     if (!overrideSet[i]) return "";
-
-    const { emoji, filter } = overrideSet[i];
+    var _overrideSet$i = overrideSet[i],
+        emoji = _overrideSet$i.emoji,
+        filter = _overrideSet$i.filter;
     if (!filter) return;
 
     if (!isRegexString(filter) && url.href.indexOf(filter) !== -1) {
       return emoji;
     }
 
-    const filterRegex = new RegExp(filter.slice(1, filter.length - 1));
+    var filterRegex = new RegExp(filter.slice(1, filter.length - 1));
     if (url.href.match(filterRegex)) return emoji;
   }
 
   return "";
 }
-
 /**
  *  Fetch extension options from Chrome,
  *  and determine the EmojiSet to use for auto-replacement
  */
-async function init() {
-  options = await getOptions();
-  emojis = new EmojiSet(DEFAULT_SET);
-}
 
+
+function init() {
+  return _init.apply(this, arguments);
+}
 /**
  *  If we should set a favicon, send a message to the contentScript
  *  @param {number} tabId Chrome tab we're visiting
  *  @param {object} tab Chrome tab we're visiting
  */
+
+
+function _init() {
+  _init = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee() {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return getOptions();
+
+          case 2:
+            options = _context.sent;
+            emojis = new EmojiSet(DEFAULT_SET);
+
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, this);
+  }));
+  return _init.apply(this, arguments);
+}
+
 function tryToSetFavicon(tabId, tab) {
-  const url = new URL(tab.url);
-  const frameId = 0; // Don't replace iframes
-  const overrideFavIcon = getOverride(options.overrides, url, options);
+  var url = new URL(tab.url);
+  var frameId = 0; // Don't replace iframes
 
-  const shouldOverride = Boolean(overrideFavIcon || options.overrideAll);
-  const shouldSetFavIcon = shouldOverride || !hasFavIcon(tab);
-
+  var overrideFavIcon = getOverride(options.overrides, url, options);
+  var shouldOverride = Boolean(overrideFavIcon || options.overrideAll);
+  var shouldSetFavIcon = shouldOverride || !hasFavIcon(tab);
   if (!shouldSetFavIcon) return;
-
-  const name = overrideFavIcon
-    || getOverride(DEFAULT_OVERRIDES, url, options)
-    || emojis.getEmojiFromHost(url.host);
-
-  chrome.tabs.sendMessage(tabId, { frameId, shouldOverride, name });
+  var name = overrideFavIcon || getOverride(DEFAULT_OVERRIDES, url, options) || emojis.getEmojiFromHost(url.host);
+  chrome.tabs.sendMessage(tabId, {
+    frameId: frameId,
+    shouldOverride: shouldOverride,
+    name: name
+  });
 }
 
 }());

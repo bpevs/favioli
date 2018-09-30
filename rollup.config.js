@@ -1,5 +1,8 @@
+import babel from "rollup-plugin-babel";
 import commonjs from "rollup-plugin-commonjs";
+import json from "rollup-plugin-json";
 import resolveNode from "rollup-plugin-node-resolve";
+import replace from "rollup-plugin-replace";
 
 function createConfig(name) {
   return {
@@ -10,6 +13,11 @@ function createConfig(name) {
       name: name,
     },
     plugins: [
+      json(),
+      replace({
+        "process.env.NODE_ENV": JSON.stringify("development")
+      }),
+      babel({ exclude: "node_modules/**" }),
       commonjs(),
       resolveNode(),
     ],

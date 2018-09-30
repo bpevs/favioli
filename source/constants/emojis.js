@@ -102,7 +102,7 @@ export const emojis = [
   {
     "name": "relaxed",
     "keywords": ["face", "blush", "massage", "happiness"],
-    "char": "☺️",
+    "char": " ☺️",
     "fitzpatrick_scale": false,
     "category": "people"
   },
