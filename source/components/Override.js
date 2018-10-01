@@ -1,5 +1,4 @@
 import React from "react"
-import debounce from "lodash.debounce";
 import { Picker } from "emoji-mart"
 import { isRegexString } from "../utilities/isRegexString/isRegexString";
 
@@ -21,18 +20,32 @@ export default class OverrideInput extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      emoji: props.emoji,
-      filter: props.filter,
       pickerIsOpen: false,
     }
   }
 
   _changeFilter(evt) {
-    this.setState({ filter: evt.target.value })
+    this.props.onChange({
+      filter: evt.target.value,
+      index: this.props.index
+    })
+  }
+
+  _delete() {
+    this.props.onChange({
+      toDelete: true,
+      index: this.props.index,
+    })
   }
 
   _selectEmoji(emoji) {
-    this.setState({ emoji, pickerIsOpen: false })
+    this.setState(
+      { pickerIsOpen: false },
+      this.props.onChange({
+        emoji,
+        index: this.props.index,
+      })
+    )
   }
 
   _togglePicker() {
@@ -41,11 +54,13 @@ export default class OverrideInput extends React.Component {
   }
 
   render() {
-    const { emoji, filter, pickerIsOpen } = this.state
+    const { pickerIsOpen } = this.state
+    const { emoji, filter } = this.props
     const filterColor = isRegexString(filter) ? "green" : "black";
 
     return <div className="override">
       <input
+        autoFocus={this.props.autoFocus}
         className="filter"
         style={{ color: filterColor }}
         value={filter}
@@ -60,7 +75,7 @@ export default class OverrideInput extends React.Component {
 
       {
         this.props.canDelete
-         ? <button className="remove">X</button>
+         ? <button className="remove" onClick={this._delete.bind(this)}>X</button>
          : ""
       }
 
@@ -88,4 +103,5 @@ OverrideInput.defaultProps = {
   canDelete: true,
   emoji: DEFAULT_EMOJI,
   filter: DEFAULT_FILTER,
+  onChange: () => {},
 }

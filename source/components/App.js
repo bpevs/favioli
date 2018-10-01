@@ -4,7 +4,11 @@ import Checkbox from "./Checkbox"
 import NavBar from "./NavBar"
 import OverridesList from "./OverridesList";
 const { runtime } = (typeof chrome ? chrome : browser);
+import { emojiIndex } from "emoji-mart"
+import getEmojiFromLegacyString from "../constants/emoji2Name"
 
+window.allEmojis = {};
+window.emojis = {}
 
 export class App extends React.Component {
   constructor(props) {
@@ -24,13 +28,16 @@ export class App extends React.Component {
     this.setState({ route })
   }
 
-  _saveOptions() {
-
+  _saveOptions(overrides) {
+    console.log(overrides)
+    if (overrides && overrides[0] && overrides[0].emoji) {
+      console.log(getEmojiFromLegacyString(overrides[0].emoji.native))
+    }
   }
 
   render() {
     const pages = {
-      overrides: <OverridesList />,
+      overrides: <OverridesList onChange={this._saveOptions} />,
       settings: (<div>
         <Checkbox />
       </div>),
