@@ -1,7 +1,7 @@
 import React from "react"
-import Override from "./Override"
+import { OverrideInput } from "../components"
 
-export default class OverridesList extends React.Component {
+export class OverridesList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -9,7 +9,13 @@ export default class OverridesList extends React.Component {
     }
   }
 
-  onChange(override) {
+  componentDidUpdate() {
+    if (this.state.overrides !== this.props.overrides) {
+      this.setState({ overrides: this.props.overrides })
+    }
+  }
+
+  async onChange(override) {
     const { emoji, filter, index, toDelete } = override
     const overrides = this.state.overrides
 
@@ -21,16 +27,14 @@ export default class OverridesList extends React.Component {
       if (filter != null) overrides[index].filter = filter
     }
 
-    this.setState(
-      { overrides },
-      () => this.props.onChange(overrides)
-    )
+    await this.setState({ overrides })
+    this.props.onChange({ overrides })
   }
 
   render() {
     return <div className="override-inputs">{
       this.state.overrides
-        .map((override, index) => <Override
+        .map((override, index) => <OverrideInput
           key={index}
           index={index}
           autoFocus={index === this.state.overrides.length - 1}
@@ -38,7 +42,7 @@ export default class OverridesList extends React.Component {
           emoji={override.emoji}
           filter={override.filter}
         />)
-        .concat(<Override
+        .concat(<OverrideInput
           key="new"
           canDelete={false}
           index={this.state.overrides.length}

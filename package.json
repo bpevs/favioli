@@ -24,6 +24,7 @@
     "prewatch": "mkdir -p ./dist/base"
   },
   "dependencies": {
+    "@babel/runtime": "^7.1.2",
     "emoji-mart": "^2.8.1",
     "lodash.debounce": "^4.0.8",
     "react": "^16.5.2",
@@ -35,6 +36,7 @@
     "@babel/preset-react": "^7.0.0",
     "@types/chrome": "0.0.63",
     "babel-jest": "^22.4.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "canvas-prebuilt": "^1.6.11",
     "husky": "^0.14.3",
     "jest": "^23.3.0",
@@ -52,13 +54,19 @@
     "watch": "^1.0.2"
   },
   "babel": {
-    "presets": [
+    "plugins": [
       [
-        "@babel/preset-env",
+        "@babel/plugin-transform-runtime",
         {
-          "modules": false
+          "corejs": false,
+          "helpers": true,
+          "regenerator": true,
+          "useESModules": false
         }
-      ],
+      ]
+    ],
+    "presets": [
+      "@babel/preset-env",
       "@babel/preset-react"
     ]
   },

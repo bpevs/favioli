@@ -1,6 +1,6 @@
 import React from "react"
 import { Picker } from "emoji-mart"
-import { isRegexString } from "../utilities/isRegexString/isRegexString";
+import { isRegexString } from "../../utilities/isRegexString/isRegexString";
 
 
 const DEFAULT_EMOJI = {
@@ -16,7 +16,7 @@ const DEFAULT_EMOJI = {
 const DEFAULT_FILTER = "";
 
 
-export default class OverrideInput extends React.Component {
+export class OverrideInput extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -41,7 +41,7 @@ export default class OverrideInput extends React.Component {
   _selectEmoji(emoji) {
     this.setState(
       { pickerIsOpen: false },
-      this.props.onChange({
+      () => this.props.onChange({
         emoji,
         index: this.props.index,
       })

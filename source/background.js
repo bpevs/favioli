@@ -58,11 +58,11 @@ function getOverride(overrideSet, url, options) {
     if (!filter) return;
 
     if (!isRegexString(filter) && url.href.indexOf(filter) !== -1) {
-      return emoji;
+      return emoji.native;
     }
 
     const filterRegex = new RegExp(filter.slice(1, filter.length - 1));
-    if (url.href.match(filterRegex)) return emoji;
+    if (url.href.match(filterRegex)) return emoji.native;
   }
 
   return "";

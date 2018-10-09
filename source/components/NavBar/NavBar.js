@@ -1,16 +1,18 @@
 import React from "react";
 
 
-export default ({ onSelect }) => <nav><ul>
+export const NavBar = ({
+  route, onSelect
+}) => <nav><ul>
   <li className="title">🤯</li>
   <li><a
-    className="navlink"
+    className={"navlink " + (route === "OVERRIDES" ? "active" : "")}
     children="Overrides"
     onClick={onSelect}
     href="#overrides" />
   </li>
   <li><a
-    className="navlink"
+    className={"navlink " + (route === "SETTINGS" ? "active" : "")}
     children="Settings"
     onClick={onSelect}
     href="#settings" />

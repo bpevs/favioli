@@ -17,7 +17,10 @@ function createConfig(name) {
       replace({
         "process.env.NODE_ENV": JSON.stringify("development")
       }),
-      babel({ exclude: "node_modules/**" }),
+      babel({
+        exclude: "node_modules/**",
+        runtimeHelpers: true
+      }),
       commonjs(),
       resolveNode(),
     ],
