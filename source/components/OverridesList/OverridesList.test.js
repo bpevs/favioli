@@ -22,7 +22,7 @@ test("Should Render OverridesList", () => {
   />)
 
   expect(wrapper).toMatchSnapshot()
-});
+})
 
 test("Should Render OverridesList with existing overrides", () => {
   const wrapper = shallow(<OverridesList
@@ -31,7 +31,7 @@ test("Should Render OverridesList with existing overrides", () => {
   />)
 
   expect(wrapper).toMatchSnapshot()
-});
+})
 
 
 test("Should edit filter", () => {
@@ -49,7 +49,7 @@ test("Should edit filter", () => {
   expect(onChange).toBeCalled()
   expect(wrapper.state("overrides").length).toBe(1)
   expect(wrapper.find(".override-inputs").children().length).toBe(2)
-});
+})
 
 
 test("Should add override on editing last in list", () => {
@@ -67,7 +67,7 @@ test("Should add override on editing last in list", () => {
   expect(onChange).toBeCalled()
   expect(wrapper.state("overrides").length).toBe(2)
   expect(wrapper.find(".override-inputs").children().length).toBe(3)
-});
+})
 
 
 test("Should delete override", () => {
@@ -86,7 +86,7 @@ test("Should delete override", () => {
   expect(onChange).toBeCalled()
   expect(wrapper.state("overrides").length).toBe(0)
   expect(wrapper.find(".override-inputs").children().length).toBe(1)
-});
+})
 
 
 test("Should open emojimart on clicking emoji button", () => {
@@ -100,7 +100,7 @@ test("Should open emojimart on clicking emoji button", () => {
   expect(onChange).toHaveBeenCalledTimes(0)
 
   expect(wrapper.find(Picker).first().exists()).toBe(true)
-});
+})
 
 test("Should run onChange and close emojimart on selecting emoji", () => {
   const onChange = jest.fn()
@@ -116,4 +116,4 @@ test("Should run onChange and close emojimart on selecting emoji", () => {
 
   expect(onChange).toHaveBeenCalledTimes(1)
   expect(wrapper.find(Picker).first().exists()).toBe(false)
-});
+})

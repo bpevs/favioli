@@ -1,6 +1,6 @@
 import React from "react"
 import { Picker } from "emoji-mart"
-import { isRegexString } from "../../utilities/isRegexString/isRegexString";
+import { isRegexString } from "../../utilities/isRegexString/isRegexString"
 
 
 const DEFAULT_EMOJI = {
@@ -11,9 +11,9 @@ const DEFAULT_EMOJI = {
   "unified": "1f600",
   "skin": null,
   "native": "😀"
-};
+}
 
-const DEFAULT_FILTER = "";
+const DEFAULT_FILTER = ""
 
 
 export class OverrideInput extends React.Component {
@@ -56,7 +56,7 @@ export class OverrideInput extends React.Component {
   render() {
     const { pickerIsOpen } = this.state
     const { emoji, filter } = this.props
-    const filterColor = isRegexString(filter) ? "green" : "black";
+    const filterColor = isRegexString(filter) ? "green" : "black"
 
     return <div className="override">
       <input

@@ -50,7 +50,7 @@ export class OverridesList extends React.Component {
           onChange={this.onChange.bind(this)}
         />)
     }
-  </div>;
+  </div>
   }
 }
 

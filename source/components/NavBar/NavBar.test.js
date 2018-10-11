@@ -17,7 +17,7 @@ test("Should Render NavBar", () => {
   />)
 
   expect(wrapper2).toMatchSnapshot()
-});
+})
 
 test("Should run onSelect on click", () => {
   const onSelect = jest.fn()
@@ -28,4 +28,4 @@ test("Should run onSelect on click", () => {
 
   wrapper.find("a").first().simulate("click")
   expect(onSelect).toBeCalled()
-});
+})
