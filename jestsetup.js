@@ -2,14 +2,14 @@ import "canvas-prebuilt"
 import "raf/polyfill" // raf polyfill only for testing in dom
 import Enzyme from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
-import { JSDOM } from "jsdom";
+import { JSDOM } from "jsdom"
 
 
 // React 16 Enzyme adapter
-Enzyme.configure({ adapter: new Adapter() });
+Enzyme.configure({ adapter: new Adapter() })
 
-const jsdom = new JSDOM("<!doctype html><body><div id='mount'></div></body></html>");
-const { window } = jsdom;
+const jsdom = new JSDOM("<!doctype html><body><div id='mount'></div></body></html>")
+const { window } = jsdom
 
 function copyProps(src, target) {
   const props = Object.getOwnPropertyNames(src)
@@ -17,16 +17,16 @@ function copyProps(src, target) {
     .reduce((result, prop) => ({
       ...result,
       [prop]: Object.getOwnPropertyDescriptor(src, prop),
-    }), {});
-  Object.defineProperties(target, props);
+    }), {})
+  Object.defineProperties(target, props)
 }
 
-global.window = window;
-global.document = window.document;
+global.window = window
+global.document = window.document
 global.navigator = {
   userAgent: "node.js",
-};
-copyProps(window, global);
+}
+copyProps(window, global)
 
 
 global.chrome = {

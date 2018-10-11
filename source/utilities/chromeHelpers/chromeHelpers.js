@@ -1,4 +1,4 @@
-const { storage, runtime, tabs } = (typeof chrome ? chrome : browser);
+const { storage, runtime, tabs } = (typeof chrome ? chrome : browser)
 import getEmojiFromLegacyString from "../../constants/emoji2Name"
 
 
@@ -6,7 +6,7 @@ const defaultOptions = {
   flagReplaced: false,
   overrideAll: false,
   overrides: [],
-};
+}
 
 
 /**
@@ -14,7 +14,7 @@ const defaultOptions = {
  * @param {number} tabId
  */
 export function getTab(tabId) {
-  return new Promise(resolve => tabs.get(tabId, resolve));
+  return new Promise(resolve => tabs.get(tabId, resolve))
 }
 
 
@@ -38,7 +38,7 @@ export function getOptions() {
 
       resolve(Object.assign({}, defaultOptions, options, { overrides }))
     }
-  ));
+  ))
 }
 
 /**
@@ -46,7 +46,7 @@ export function getOptions() {
  * @param {object} toSet
  */
 export function setOptions(toSet) {
-  if (!toSet) return;
+  if (!toSet) return
 
   const options = {
     flagReplaced: Boolean(toSet.flagReplaced),

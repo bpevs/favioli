@@ -1,9 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { getOptions, setOptions } from "./utilities/chromeHelpers/chromeHelpers";
+import React from "react"
+import ReactDOM from "react-dom"
+import { getOptions, setOptions } from "./utilities/chromeHelpers/chromeHelpers"
 import { Checkbox, NavBar, OverridesList } from "./components/components"
 
-window.allEmojis = {};
+window.allEmojis = {}
 window.emojis = {}
 
 export class App extends React.Component {
@@ -34,7 +34,7 @@ export class App extends React.Component {
 
     // Update status to let user know options were saved.
     this.setState({ status: "Successfully saved." }, () => {
-      setTimeout(() => this.setState({ status: "" }), 1000);
+      setTimeout(() => this.setState({ status: "" }), 1000)
     })
   }
 
@@ -43,7 +43,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const { flagReplaced, overrides, status } = this.state;
+    const { flagReplaced, overrides, status } = this.state
     const route = this.state.route.toUpperCase()
 
     const pages = {
@@ -83,4 +83,4 @@ export class App extends React.Component {
 ReactDOM.render(
   <App />,
   document.querySelector("#mount")
-);
+)
