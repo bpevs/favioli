@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should Render OverridesList 1`] = `
+<div
+  className="override-inputs"
+>
+  <OverrideInput
+    canDelete={false}
+    emoji={
+      Object {
+        "colons": ":grinning:",
+        "emoticons": Array [],
+        "id": "grinning",
+        "name": "Grinning Face",
+        "native": "😀",
+        "skin": null,
+        "unified": "1f600",
+      }
+    }
+    filter=""
+    index={0}
+    key="new"
+    onChange={[Function]}
+  />
+</div>
+`;
+
+exports[`Should Render OverridesList with existing overrides 1`] = `
+<div
+  className="override-inputs"
+>
+  <OverrideInput
+    autoFocus={true}
+    canDelete={true}
+    emoji={
+      Object {
+        "colons": ":grinning:",
+        "emoticons": Array [],
+        "id": "grinning",
+        "name": "Grinning Face",
+        "native": "😀",
+        "skin": null,
+        "unified": "1f600",
+      }
+    }
+    filter="bookface"
+    index={0}
+    key="0"
+    onChange={[Function]}
+  />
+  <OverrideInput
+    canDelete={false}
+    emoji={
+      Object {
+        "colons": ":grinning:",
+        "emoticons": Array [],
+        "id": "grinning",
+        "name": "Grinning Face",
+        "native": "😀",
+        "skin": null,
+        "unified": "1f600",
+      }
+    }
+    filter=""
+    index={1}
+    key="new"
+    onChange={[Function]}
+  />
+</div>
+`;

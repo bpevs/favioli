@@ -1,5 +1,5 @@
 import React from "react"
-import { OverrideInput } from "../components"
+import { OverrideInput } from "./OverrideInput"
 
 export class OverridesList extends React.Component {
   constructor(props) {
@@ -27,8 +27,9 @@ export class OverridesList extends React.Component {
       if (filter != null) overrides[index].filter = filter
     }
 
-    await this.setState({ overrides })
-    this.props.onChange({ overrides })
+    this.setState({ overrides }, () => {
+      this.props.onChange({ overrides })
+    })
   }
 
   render() {
@@ -54,5 +55,6 @@ export class OverridesList extends React.Component {
 }
 
 OverridesList.defaultProps = {
+  onChange: () => console.log("No onChange method supplied"),
   overrides: [],
 }
