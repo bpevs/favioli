@@ -31,19 +31,23 @@
     "react-dom": "^16.5.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-rc.2",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "@types/chrome": "0.0.63",
-    "babel-jest": "^22.4.3",
-    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-core": "^7.0.0-bridge.0",
     "canvas-prebuilt": "^1.6.11",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
     "husky": "^0.14.3",
-    "jest": "^23.3.0",
+    "jest": "^23.6.0",
     "node-pre-gyp": "^0.11.0",
     "npm-run-all": "^4.1.2",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
+    "raf": "^3.4.0",
     "rollup": "^0.56.5",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.1.0",
@@ -76,8 +80,29 @@
     }
   },
   "jest": {
+    "collectCoverageFrom": [
+      "source/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "constants",
+      "vendor",
+      ".test.js",
+      ".d.ts$"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
     "setupFiles": [
-      "./jestsetup.js"
+      "<rootDir>/jestsetup.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "**/*.test.(js|jsx)"
     ]
   }
 }

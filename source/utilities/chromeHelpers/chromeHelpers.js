@@ -29,7 +29,7 @@ export function getOptions() {
 
       // Legacy Favioli used straight emoji strings. Using the format of
       // EmojiMart allows us great flexibility for future expansion
-      const overrides = (options.overrides || [])
+      const overrides = (options && options.overrides || [])
         .map(override => Object.assign({}, override, {
           emoji: typeof override.emoji === "string"
             ? getEmojiFromLegacyString(options.overrides[0].emoji)

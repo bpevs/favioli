@@ -1,4 +1,33 @@
 import "canvas-prebuilt"
+import "raf/polyfill" // raf polyfill only for testing in dom
+import Enzyme from "enzyme"
+import Adapter from "enzyme-adapter-react-16"
+import { JSDOM } from "jsdom";
+
+
+// React 16 Enzyme adapter
+Enzyme.configure({ adapter: new Adapter() });
+
+const jsdom = new JSDOM("<!doctype html><body><div id='mount'></div></body></html>");
+const { window } = jsdom;
+
+function copyProps(src, target) {
+  const props = Object.getOwnPropertyNames(src)
+    .filter(prop => typeof target[prop] === 'undefined')
+    .reduce((result, prop) => ({
+      ...result,
+      [prop]: Object.getOwnPropertyDescriptor(src, prop),
+    }), {});
+  Object.defineProperties(target, props);
+}
+
+global.window = window;
+global.document = window.document;
+global.navigator = {
+  userAgent: "node.js",
+};
+copyProps(window, global);
+
 
 global.chrome = {
   runtime: {
@@ -12,7 +41,11 @@ global.chrome = {
   storage: {
     sync: {
       get: jest.fn((value, callback) => {
-        if (typeof callback === "function") callback()
+        if (typeof callback === "function") callback({
+          flagReplaced: false,
+          overrideAll: true,
+          overrides: [ { emoji: "😀", filter: "bookface" } ],
+        })
       }),
       set: jest.fn((value, callback) => {
         if (typeof callback === "function") callback()
