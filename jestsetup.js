@@ -42,8 +42,8 @@ global.chrome = {
     sync: {
       get: jest.fn((value, callback) => {
         if (typeof callback === "function") callback({
-          flagReplaced: false,
-          overrideAll: true,
+          flagReplaced: true,
+          overrideAll: false,
           overrides: [ { emoji: "😀", filter: "bookface" } ],
         })
       }),
