@@ -14,6 +14,7 @@ test("Did Init", () => {
 test("Sets Favicon on runtime message", () => {
   jest.useFakeTimers()
 
+  // Normal website without favicon should send with override false
   runtime.onMessage.addListener.mock.calls[0][0]("updated:tab", {
     tab: {
       id: 5,
@@ -21,6 +22,7 @@ test("Sets Favicon on runtime message", () => {
     }
   })
 
+  // Normal website with favicon should not message contentScript
   runtime.onMessage.addListener.mock.calls[0][0]("updated:tab", {
     tab: {
       favIconUrl: "https://www.favioli.com/favicon",
@@ -29,6 +31,7 @@ test("Sets Favicon on runtime message", () => {
     }
   })
 
+  // Overridden website should send with override: true
   runtime.onMessage.addListener.mock.calls[0][0]("updated:tab", {
     tab: {
       favIconUrl: "https://www.bookface.com/favicon",
