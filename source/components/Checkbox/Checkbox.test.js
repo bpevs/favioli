@@ -16,7 +16,7 @@ test("Should Render Checkbox", () => {
 test("Should Render Checkbox unchecked", () => {
   const wrapper = shallow(<Checkbox
     checked={false}
-    name="my-checkbox"
+    name="my-checkbox1"
     onChange={jest.fn()}
   />)
 
@@ -26,8 +26,7 @@ test("Should Render Checkbox unchecked", () => {
 test("Should run onChange on change", () => {
   const onChanged = jest.fn()
   const wrapper = mount(<Checkbox
-    checked={true}
-    name="my-checkbox"
+    name="my-checkbox3"
     onChange={onChanged}
   />)
 

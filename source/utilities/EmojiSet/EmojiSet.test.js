@@ -11,6 +11,15 @@ test("Should return emojis as an array", () => {
   expect(emojis.get().length).toBe(10);
 });
 
+test("Should build from string codes", () => {
+  const emojis = new EmojiSet(55382, [ 55363, 55364, 55365, "😆"], [ 55357, 55367 ], {})
+  expect(emojis.get().length).toBe(15)
+
+  emojis.get().forEach(emoji => {
+    expect(typeof emoji === "string").toBe(true)
+  })
+})
+
 test("Should return emoji from string", () => {
   expect(emojis.getEmojiFromHost("www.facebook.com")).toBe("😉");
   expect(emojis.getEmojiFromHost("www.google.com")).toBe("😆");

@@ -26,6 +26,10 @@ describe("appendFaviconLink", () => {
     expect(defaultFavicon.href).toMatch(/favicon\.ico$/)
   })
 
+  test("Shouldn't append favicon if none is passed", () => {
+    appendFaviconLink()
+  })
+
   test("Should replace existing favioli-generated link", () => {
     expect(Array.from(document.getElementsByTagName("link")).length).toBe(0)
     appendFaviconLink("😀", false)

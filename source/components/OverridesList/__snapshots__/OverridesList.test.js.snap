@@ -68,3 +68,245 @@ exports[`Should Render OverridesList with existing overrides 1`] = `
   />
 </div>
 `;
+
+exports[`Should update with new overrides 1`] = `
+<OverridesList
+  onChange={[MockFunction]}
+  overrides={
+    Array [
+      Object {
+        "emoji": Object {
+          "colons": ":grinning:",
+          "emoticons": Array [],
+          "id": "grinning",
+          "name": "Grinning Face",
+          "native": "😀",
+          "skin": null,
+          "unified": "1f600",
+        },
+        "filter": "bookface",
+      },
+    ]
+  }
+>
+  <div
+    className="override-inputs"
+  >
+    <OverrideInput
+      autoFocus={true}
+      canDelete={true}
+      emoji={
+        Object {
+          "colons": ":grinning:",
+          "emoticons": Array [],
+          "id": "grinning",
+          "name": "Grinning Face",
+          "native": "😀",
+          "skin": null,
+          "unified": "1f600",
+        }
+      }
+      filter="bookface"
+      index={0}
+      key="0"
+      onChange={[Function]}
+    >
+      <div
+        className="override"
+      >
+        <input
+          autoFocus={true}
+          className="filter"
+          onChange={[Function]}
+          placeholder="favioli.com"
+          style={
+            Object {
+              "color": "black",
+            }
+          }
+          value="bookface"
+        />
+        <button
+          className="emoji"
+          onClick={[Function]}
+        >
+          😀
+        </button>
+        <button
+          className="remove"
+          onClick={[Function]}
+        >
+          X
+        </button>
+      </div>
+    </OverrideInput>
+    <OverrideInput
+      canDelete={false}
+      emoji={
+        Object {
+          "colons": ":grinning:",
+          "emoticons": Array [],
+          "id": "grinning",
+          "name": "Grinning Face",
+          "native": "😀",
+          "skin": null,
+          "unified": "1f600",
+        }
+      }
+      filter=""
+      index={1}
+      key="new"
+      onChange={[Function]}
+    >
+      <div
+        className="override"
+      >
+        <input
+          className="filter"
+          onChange={[Function]}
+          placeholder="favioli.com"
+          style={
+            Object {
+              "color": "black",
+            }
+          }
+          value=""
+        />
+        <button
+          className="emoji"
+          onClick={[Function]}
+        >
+          😀
+        </button>
+      </div>
+    </OverrideInput>
+  </div>
+</OverridesList>
+`;
+
+exports[`Should update with new overrides 2`] = `
+<OverridesList
+  onChange={[MockFunction]}
+  overrides={
+    Array [
+      Object {
+        "emoji": Object {
+          "colons": ":grinning:",
+          "emoticons": Array [],
+          "id": "grinning",
+          "name": "Grinning Face",
+          "native": "😀",
+          "skin": null,
+          "unified": "1f600",
+        },
+        "filter": "bookface",
+      },
+      Object {
+        "emoji": Object {
+          "colons": ":grinning:",
+          "emoticons": Array [],
+          "id": "grinning",
+          "name": "Grinning Face",
+          "native": "😀",
+          "skin": null,
+          "unified": "1f600",
+        },
+        "filter": "/bookface/",
+      },
+    ]
+  }
+>
+  <div
+    className="override-inputs"
+  >
+    <OverrideInput
+      autoFocus={true}
+      canDelete={true}
+      emoji={
+        Object {
+          "colons": ":grinning:",
+          "emoticons": Array [],
+          "id": "grinning",
+          "name": "Grinning Face",
+          "native": "😀",
+          "skin": null,
+          "unified": "1f600",
+        }
+      }
+      filter="bookface"
+      index={0}
+      key="0"
+      onChange={[Function]}
+    >
+      <div
+        className="override"
+      >
+        <input
+          autoFocus={true}
+          className="filter"
+          onChange={[Function]}
+          placeholder="favioli.com"
+          style={
+            Object {
+              "color": "black",
+            }
+          }
+          value="bookface"
+        />
+        <button
+          className="emoji"
+          onClick={[Function]}
+        >
+          😀
+        </button>
+        <button
+          className="remove"
+          onClick={[Function]}
+        >
+          X
+        </button>
+      </div>
+    </OverrideInput>
+    <OverrideInput
+      canDelete={false}
+      emoji={
+        Object {
+          "colons": ":grinning:",
+          "emoticons": Array [],
+          "id": "grinning",
+          "name": "Grinning Face",
+          "native": "😀",
+          "skin": null,
+          "unified": "1f600",
+        }
+      }
+      filter=""
+      index={1}
+      key="new"
+      onChange={[Function]}
+    >
+      <div
+        className="override"
+      >
+        <input
+          className="filter"
+          onChange={[Function]}
+          placeholder="favioli.com"
+          style={
+            Object {
+              "color": "black",
+            }
+          }
+          value=""
+        />
+        <button
+          className="emoji"
+          onClick={[Function]}
+        >
+          😀
+        </button>
+      </div>
+    </OverrideInput>
+  </div>
+</OverridesList>
+`;

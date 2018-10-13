@@ -33,6 +33,20 @@ test("Should Render OverridesList with existing overrides", () => {
   expect(wrapper).toMatchSnapshot()
 })
 
+test("Should update with new overrides", () => {
+  const wrapper = mount(<OverridesList
+    overrides={[ mockOverride ]}
+    onChange={jest.fn()}
+  />)
+
+  expect(wrapper).toMatchSnapshot()
+
+  const mockOverride1 = Object.assign({}, mockOverride, { filter: "/bookface/" })
+  wrapper.setProps({ "overrides": [ mockOverride, mockOverride1 ] })
+
+  expect(wrapper).toMatchSnapshot()
+})
+
 
 test("Should edit filter", () => {
   const onChange = jest.fn()

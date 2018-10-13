@@ -7,6 +7,8 @@ export class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      flagReplaced: false,
+      overrides: [],
       route: window.location.hash.substr(1) || "overrides",
       status: "",
     }

@@ -56,6 +56,5 @@ export class OverridesList extends React.Component {
 }
 
 OverridesList.defaultProps = {
-  onChange: () => console.log("No onChange method supplied"),
   overrides: [],
 }

@@ -34,7 +34,7 @@ exports[`Should Render Checkbox unchecked 1`] = `
   <input
     checked={false}
     id="flag"
-    name="my-checkbox"
+    name="my-checkbox1"
     onChange={[Function]}
     type="checkbox"
   />
@@ -46,14 +46,13 @@ exports[`Should Render Checkbox unchecked 1`] = `
 
 exports[`Should run onChange on change 1`] = `
 <Checkbox
-  checked={true}
-  name="my-checkbox"
+  name="my-checkbox3"
   onChange={
     [MockFunction] {
       "calls": Array [
         Array [
           Object {
-            "my-checkbox": true,
+            "my-checkbox3": false,
           },
         ],
       ],
@@ -75,9 +74,9 @@ exports[`Should run onChange on change 1`] = `
       Flag Replaced Favicons
     </label>
     <input
-      checked={true}
+      checked={false}
       id="flag"
-      name="my-checkbox"
+      name="my-checkbox3"
       onChange={[Function]}
       type="checkbox"
     />
