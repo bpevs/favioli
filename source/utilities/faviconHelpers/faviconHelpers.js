@@ -6,6 +6,10 @@ import { getOptions } from "../chromeHelpers/chromeHelpers";
 const documentHead = document.getElementsByTagName("head")[0];
 const PIXEL_GRID = 16;
 
+// TODO: Not entirely sure why ff is vertically off-centered atm.
+// This is temporary workaround
+const vertical_offset = (typeof chrome ? 0 : 40)
+
 // Initialize canvas and context to render emojis
 const canvas = document.createElement("canvas");
 canvas.width = canvas.height = EMOJI_SIZE;
@@ -73,7 +77,7 @@ function createEmojiUrl(emoji) {
   context.clearRect(0, 0, EMOJI_SIZE, EMOJI_SIZE);
   context.save();
   context.scale(scale, scale);
-  context.fillText(char, center_scaled, center_scaled);
+  context.fillText(char, center_scaled, center_scaled + vertical_offset);
 
   if (settings.flagReplaced) {
     // Draw Flag
