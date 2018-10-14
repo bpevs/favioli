@@ -1,33 +1,55 @@
 Favioli 🤯
-<a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
-  <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for-the-badge" />
-</a>
-<a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
-  <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg?style=for-the-badge" />
-</a>
 =======
 
-<a href="https://david-dm.org/ivebencrazy/favioli">
-  <img alt="dependencies status" src="https://david-dm.org/ivebencrazy/favioli/status.svg?style=flat-square" />
-</a>
-<a href="https://david-dm.org/ivebencrazy/favioli?type=dev">
-  <img alt="devDependencies status" src="https://david-dm.org/ivebencrazy/favioli/dev-status.svg?style=flat-square" />
-</a>
-<a href="https://travis-ci.org/ivebencrazy/favioli">
-  <img alt="build status" src="https://img.shields.io/travis/ivebencrazy/favioli/master.svg?style=flat-square" />
-</a>
+<p align="center">
+  <a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
+    <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for-the-badge" />
+  </a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
+    <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg?style=for-the-badge" />
+  </a>
+</p>
 
 Making the world a better place or something. This README is for Favioli contribution information. Read [the blog post](https://bpev.me/favioli) for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
 
-Build Steps
-=========
-Should work with any recent node; I'm using `v10.5.0` on Mac OS High Sierra for development.
 
+Development
+===========
+<p>
+  <a href="https://david-dm.org/ivebencrazy/favioli">
+    <img alt="dependencies status" src="https://david-dm.org/ivebencrazy/favioli/status.svg?style=flat-square" />
+  </a>
+  <a href="https://david-dm.org/ivebencrazy/favioli?type=dev">
+    <img alt="devDependencies status" src="https://david-dm.org/ivebencrazy/favioli/dev-status.svg?style=flat-square" />
+  </a>
+  <a href="https://travis-ci.org/ivebencrazy/favioli">
+    <img alt="build status" src="https://img.shields.io/travis/ivebencrazy/favioli/master.svg?style=flat-square" />
+  </a>
+</p>
+
+Favioli should work with any recent node.js version; I'm using `v10.5.0` on Mac OS High Sierra for development.
+
+To start making code changes, run Favioli with:
 ```sh
 npm install
-npm run build
+npm run start
 ```
-This will build our distribution code into /dist, each browser with its own directory.
+
+This will build our distribution code into /dist, each browser with its own directory. To load Favioli, point to each browser's respective directory.
+
+![Load in Chrome](./resources/screenshots/load-chrome-favioli)
+![Load in Firefox](./resources/screenshots/load-ff-favioli)
+
+We run tests in Favioli with Jest.  Run Jest tests with our test script.
+```sh
+npm test
+
+// Or run them separately
+npm run test:lint
+npm run test:unit
+```
+
+We will also auto-run linting when you commit, and run both linting and unit tests for PR's.
 
 Inspiration
 ==========
