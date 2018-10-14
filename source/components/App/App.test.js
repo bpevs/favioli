@@ -1,8 +1,10 @@
+jest.mock("../../utilities/browserHelpers/browserHelpers")
+
+
 import { shallow } from "enzyme"
 import * as React from "react"
 import { App } from "./App"
-import { isBrowser } from "../../utilities/chromeHelpers/chromeHelpers"
-const { storage } = (isBrowser("CHROME") ? chrome : browser)
+import { getOptions, setOptions } from "../../utilities/browserHelpers/browserHelpers"
 
 
 beforeEach(() => {
@@ -20,8 +22,7 @@ test("Should Render App", async () => {
 
 test("Should get options on mount", async () => {
   await shallow(<App />)
-  const getOptions = storage.sync.get.mock
-  expect(getOptions.calls.length).toBe(1)
+  expect(getOptions).toBeCalledTimes(1)
 })
 
 test("Should Change Route", async () => {
@@ -31,10 +32,9 @@ test("Should Change Route", async () => {
 })
 
 test("Should save options", async () => {
-  const setOptions = storage.sync.get.mock
   const wrapper = await shallow(<App />)
   wrapper.find("button.save").simulate("click")
-  expect(setOptions.calls.length).toBe(1)
+  expect(setOptions).toBeCalledTimes(1)
 })
 
 test("Should notify user on save for a short time", async () => {

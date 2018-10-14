@@ -1,4 +1,4 @@
-jest.mock("../chromeHelpers/chromeHelpers", () => {
+jest.mock("../browserHelpers/browserHelpers", () => {
   return {
     getOptions: jest.fn(() => Promise.resolve({ flagReplaced: true })),
     isBrowser: jest.fn(() => false),

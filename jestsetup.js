@@ -1,8 +1,8 @@
 import "canvas-prebuilt"
-import "raf/polyfill"
 import Enzyme from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
 import { JSDOM } from "jsdom"
+import "raf/polyfill"
 
 
 // React 16 Enzyme adapter
@@ -47,7 +47,7 @@ global.browser = global.chrome = {
       set: jest.fn((value, callback) => {
         if (typeof callback === "function") callback()
       }),
-    }
+    },
   },
 
   tabs: {
@@ -56,31 +56,36 @@ global.browser = global.chrome = {
     }),
 
     getCurrent: jest.fn(callback => {
-      if (typeof callback === "function") callback();
+      if (typeof callback === "function") callback()
     }),
 
     sendMessage: jest.fn(),
 
     onUpdated: {
       addListener: jest.fn(),
-    }
+    },
   },
-};
+}
 
 // Mock for Canvas
 global.testContext = {
-  measureText: jest.fn(() => ({ width: 100 })),
+  arc: jest.fn(),
+  beginPath: jest.fn(),
   clearRect: jest.fn(),
+  fill: jest.fn(),
+  fillText: jest.fn(),
+  measureText: jest.fn(() => ({ width: 100 })),
+  restore: jest.fn(),
   save: jest.fn(),
   scale: jest.fn(),
-  fillText: jest.fn(),
-  beginPath: jest.fn(),
-  arc: jest.fn(),
-  fill: jest.fn(),
-  restore: jest.fn(),
-};
+}
 
 
+/**
+ * Copy properties from source to target
+ * @param {any} src
+ * @param {any} target
+ */
 function copyProps(src, target) {
   const props = Object.getOwnPropertyNames(src)
     .filter(prop => typeof target[prop] === "undefined")

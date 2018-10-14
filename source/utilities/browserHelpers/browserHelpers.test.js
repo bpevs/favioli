@@ -1,5 +1,5 @@
-import { getTab, getOptions, isBrowser, setOptions } from "./chromeHelpers"
-const { storage, tabs } = (isBrowser("CHROME") ? chrome : browser)
+import { getTab, getOptions, isBrowser, setOptions } from "./browserHelpers"
+const { storage, tabs } = isBrowser("CHROME") ? window["chrome"] : window["browser"]
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -11,7 +11,7 @@ test("Should get tab", async function () {
   const callback = jest.fn()
 
   await getTab(tabId).then(callback)
-  expect(tabs.get.mock.calls[0][0]).toBe(tabId)
+  expect(tabs.get["mock"].calls[0][0]).toBe(tabId)
   expect(callback).toBeCalled()
 })
 
@@ -23,7 +23,7 @@ test("Should get options from storage", async function () {
 
   expect(callback).toBeCalled()
 
-  const toFetch = storage.sync.get.mock.calls[0][0]
+  const toFetch = storage.sync.get["mock"].calls[0][0]
   expect(toFetch.indexOf("flagReplaced")).toBeGreaterThan(-1)
   expect(toFetch.indexOf("overrideAll")).toBeGreaterThan(-1)
   expect(toFetch.indexOf("overrides")).toBeGreaterThan(-1)
@@ -54,7 +54,7 @@ test("Should set options to storage", async function () {
 
   await setOptions(myOptions).then(callback)
 
-  const fetchedOptions = storage.sync.set.mock.calls[0][0]
+  const fetchedOptions = storage.sync.set["mock"].calls[0][0]
   expect(callback).toBeCalled()
 
   delete myOptions.moo // Trim unsupported options

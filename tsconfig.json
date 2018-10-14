@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "checkJs": true,
+    "jsx": "react",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es6",
+      "scripthost"
+    ],
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "paths": {
+      "*": [
+        "node_modules/*",
+        "/node_modules/*"
+      ]
+    },
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "es5"
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+    "**/node_modules/*",
+    "source/constants",
+    "**/*.test.js",
+    "**/*.test.jsx",
+  ],
+  "include": [
+    "./globals.d.ts",
+    "jestsetup.js",
+    "./source/**/*"
+  ]
+}

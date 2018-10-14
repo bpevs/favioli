@@ -1,16 +1,16 @@
-import React from "react"
 import { Picker } from "emoji-mart"
+import React from "react"
 import { isRegexString } from "../../utilities/isRegexString/isRegexString"
 
 
 const DEFAULT_EMOJI = {
-  "id": "grinning",
-  "name": "Grinning Face",
-  "colons": ":grinning:",
-  "emoticons": [],
-  "unified": "1f600",
-  "skin": null,
-  "native": "😀"
+  colons: ":grinning:",
+  emoticons: [],
+  id: "grinning",
+  name: "Grinning Face",
+  native: "😀",
+  skin: null,
+  unified: "1f600",
 }
 
 const DEFAULT_FILTER = ""
@@ -27,17 +27,17 @@ export class OverrideInput extends React.Component {
   _changeFilter(evt) {
     this.props.onChange({
       filter: evt.target.value,
-      index: this.props.index
+      index: this.props.index,
     })
     this.setState({
-      pickerIsOpen: false
+      pickerIsOpen: false,
     })
   }
 
   _delete() {
     this.props.onChange({
-      toDelete: true,
       index: this.props.index,
+      toDelete: true,
     })
   }
 
@@ -47,7 +47,7 @@ export class OverrideInput extends React.Component {
       () => this.props.onChange({
         emoji,
         index: this.props.index,
-      })
+      }),
     )
   }
 
@@ -106,5 +106,5 @@ OverrideInput.defaultProps = {
   canDelete: true,
   emoji: DEFAULT_EMOJI,
   filter: DEFAULT_FILTER,
-  onChange: () => {},
+  onChange: () => { return },
 }
