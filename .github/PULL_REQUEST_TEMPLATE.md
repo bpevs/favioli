@@ -1,13 +1,10 @@
-Summary
-=====
-/* insert description of what is happening.*/
+**Description**
+Insert description of your change. Be sure to tag the issue if this is solving something from our [Issues page](https://github.com/ivebencrazy/favioli/issues)
 
-Changes
-=======
+**Changes**
 - [x] Change1
 - [x] Change2
 - [x] Change3
 
-Screenshots
-===========
-/* insert screenshot of change */
+**Screenshots**
+Insert a screenshot of the change
