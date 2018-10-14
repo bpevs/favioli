@@ -1,9 +1,9 @@
 import debounce from "lodash.debounce";
 import { DEFAULT_OVERRIDES, DEFAULT_SET } from "./constants/constants";
-import { getOptions } from "./utilities/chromeHelpers/chromeHelpers";
+import { getOptions, isBrowser } from "./utilities/chromeHelpers/chromeHelpers";
 import { EmojiSet } from "./utilities/EmojiSet/EmojiSet";
 import { isRegexString } from "./utilities/isRegexString/isRegexString";
-const { runtime, tabs } = (typeof chrome ? chrome : browser);
+const { runtime, tabs } = (isBrowser("CHROME") ? chrome : browser);
 
 
 var options; // Favioli Options

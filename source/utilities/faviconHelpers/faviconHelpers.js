@@ -1,5 +1,5 @@
 import { EMOJI_SIZE } from "../../constants/constants";
-import { getOptions } from "../chromeHelpers/chromeHelpers";
+import { getOptions, isBrowser } from "../chromeHelpers/chromeHelpers";
 
 
 // Append new favicon links to the document head
@@ -8,7 +8,7 @@ const PIXEL_GRID = 16;
 
 // TODO: Not entirely sure why ff is vertically off-centered atm.
 // This is temporary workaround
-const vertical_offset = (typeof chrome !== "undefined" ? 0 : 60)
+const vertical_offset = (isBrowser("FIREFOX") ? 40 : 0)
 
 // Initialize canvas and context to render emojis
 const canvas = document.createElement("canvas");

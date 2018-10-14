@@ -1,5 +1,8 @@
-const { storage, runtime, tabs } = (typeof chrome ? chrome : browser)
 import getEmojiFromLegacyString from "../../constants/emoji2Name"
+
+const CHROME = "CHROME"
+const FIREFOX = "FIREFOX"
+const { storage, runtime, tabs } = (isBrowser("CHROME") ? chrome : browser)
 
 
 const defaultOptions = {
@@ -39,6 +42,23 @@ export function getOptions() {
       resolve(Object.assign({}, defaultOptions, options, { overrides }))
     }
   ))
+}
+
+/**
+ * What browser is this?
+ * @param {string} toCheck to check
+ */
+export function isBrowser(toCheck) {
+  let currentBrowser = CHROME
+  try {
+    if (navigator.userAgent.indexOf("Firefox") > 0) currentBrowser = FIREFOX
+  }
+  catch (e) {}
+
+  if (!toCheck) return currentBrowser
+  if (toCheck === CHROME && currentBrowser === CHROME) return true
+  if (toCheck == FIREFOX && currentBrowser === FIREFOX) return true
+  return false
 }
 
 /**

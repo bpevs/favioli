@@ -1,5 +1,8 @@
 jest.mock("../chromeHelpers/chromeHelpers", () => {
-  return { getOptions: jest.fn(() => Promise.resolve({ flagReplaced: true })) }
+  return {
+    getOptions: jest.fn(() => Promise.resolve({ flagReplaced: true })),
+    isBrowser: jest.fn(() => false),
+  }
 });
 
 import { appendFaviconLink, removeAllFaviconLinks } from "./faviconHelpers"

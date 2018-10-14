@@ -1,5 +1,5 @@
-import { getTab, getOptions, setOptions } from "./chromeHelpers"
-const { storage, tabs } = (typeof chrome ? chrome : browser)
+import { getTab, getOptions, isBrowser, setOptions } from "./chromeHelpers"
+const { storage, tabs } = (isBrowser("CHROME") ? chrome : browser)
 
 beforeEach(() => {
   jest.clearAllMocks()

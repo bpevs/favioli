@@ -3,8 +3,9 @@ jest.mock("./utilities/faviconHelpers/faviconHelpers", () => ({
   removeAllFaviconLinks: jest.fn()
 }))
 
+import { isBrowser } from "./utilities/chromeHelpers/chromeHelpers"
 import { appendFaviconLink, removeAllFaviconLinks } from "./utilities/faviconHelpers/faviconHelpers"
-const { runtime, storage } = (typeof chrome ? chrome : browser)
+const { runtime, storage } = (isBrowser("CHROME") ? chrome : browser)
 
 beforeAll(() => {
   jest.clearAllMocks()

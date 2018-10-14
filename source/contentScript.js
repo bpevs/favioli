@@ -1,6 +1,6 @@
-import { getOptions } from "./utilities/chromeHelpers/chromeHelpers";
+import { getOptions, isBrowser } from "./utilities/chromeHelpers/chromeHelpers";
 import { appendFaviconLink, removeAllFaviconLinks } from "./utilities/faviconHelpers/faviconHelpers";
-const { runtime } = (typeof chrome ? chrome : browser);
+const { runtime } = (isBrowser("CHROME") ? chrome : browser);
 
 getOptions().then(() => {
   runtime.onMessage.addListener(updateFavicon);

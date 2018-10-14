@@ -1,4 +1,5 @@
-const { runtime, storage, tabs } = (typeof chrome ? chrome : browser)
+import { isBrowser } from "./utilities/chromeHelpers/chromeHelpers"
+const { runtime, storage, tabs } = (isBrowser("CHROME") ? chrome : browser)
 
 beforeAll(() => {
   jest.clearAllMocks()

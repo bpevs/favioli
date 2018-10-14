@@ -1,7 +1,8 @@
 import { shallow } from "enzyme"
 import * as React from "react"
 import { App } from "./App"
-const { storage } = (typeof chrome ? chrome : browser)
+import { isBrowser } from "../../utilities/chromeHelpers/chromeHelpers"
+const { storage } = (isBrowser("CHROME") ? chrome : browser)
 
 
 beforeEach(() => {
