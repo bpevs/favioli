@@ -1,8 +1,6 @@
 Favioli 🤯
 =======
 
-Making the world a better place or something. Favioli adds emoji FavIcons for websites that lack one. This README is for Favioli contribution information. Read [the blog post](https://bpev.me/favioli) for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
-
 <p align="center">
   <a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
     <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for-the-badge" />
@@ -10,6 +8,10 @@ Making the world a better place or something. Favioli adds emoji FavIcons for we
   <a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
     <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg?style=for-the-badge" />
   </a>
+</p>
+
+<p align="center">
+Making the world a better place or something. Favioli adds emoji FavIcons for websites that lack one. This README is for Favioli contribution information. Read the <a href="https://bpev.me/favioli">Favioli introduction blog post</a> for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
 </p>
 
 <img align="center" alt="comparison" src="./resources/screenshots/comparison.png" />
@@ -29,20 +31,13 @@ Development
   </a>
 </p>
 
-Favioli should work with any recent node.js version; I'm using `v10.5.0` on Mac OS High Sierra for development.
+Favioli should work with any recent [node.js](https://nodejs.org/en/) version; I'm currently using `v10.5.0` on Mac OS High Sierra for development.
 
-To start making code changes, run Favioli with:
 ```sh
 npm install
-npm run start
 ```
 
-This will build our distribution code into /dist, each browser with its own directory. To load Favioli, point to each browser's respective directory.
-
-![Load in Chrome](./resources/screenshots/load-chrome-favioli.png)
-![Load in Firefox](./resources/screenshots/load-ff-favioli.png)
-
-We run tests in Favioli with Jest.  Run Jest tests with our test script.
+We run tests in Favioli with [Jest](https://jestjs.io/).  Run Jest tests with our test script.
 ```sh
 npm test
 
@@ -51,7 +46,17 @@ npm run test:lint
 npm run test:unit
 ```
 
-We will also auto-run linting when you commit, and run both linting and unit tests for PR's.
+To start making code changes, run Favioli with:
+```sh
+npm start
+```
+
+This will build our distribution code into `/dist`, each browser with its own directory. To load Favioli, point to each browser's respective directory. [Google](https://developer.chrome.com/extensions) and [Mozilla](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons) each have resources about developing for their respective platforms.
+
+![Load in Chrome](./resources/screenshots/load-chrome-favioli.png)
+![Load in Firefox](./resources/screenshots/load-ff-favioli.png)
+
+
 
 Inspiration
 ==========
