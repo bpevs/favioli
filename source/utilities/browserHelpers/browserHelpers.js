@@ -2,8 +2,7 @@ import getEmojiFromLegacyString from "../../constants/emoji2Name"
 
 const CHROME = "CHROME"
 const FIREFOX = "FIREFOX"
-const { storage, runtime, tabs } = (isBrowser("CHROME") ? chrome : browser)
-
+const { storage, runtime, tabs } = isBrowser("CHROME") ? window.chrome : window.browser
 
 const defaultOptions = {
   flagReplaced: false,
@@ -11,6 +10,13 @@ const defaultOptions = {
   overrides: [],
 }
 
+export function onRuntimeMessage(...args) {
+  runtime.onMessage.addListener(...args)
+}
+
+export function onTabsUpdated(...args) {
+  tabs.onUpdated.addListener(...args)
+}
 
 /**
  * Get information about a tab
@@ -58,6 +64,14 @@ export function isBrowser(toCheck) {
     if (toCheck === FIREFOX && currentBrowser === FIREFOX) return true
     return false
   }
+}
+
+export function sendRuntimeMessage(...args) {
+  runtime.sendMessage(...args)
+}
+
+export function sendTabsMessage(...args) {
+  tabs.sendMessage(...args)
 }
 
 /**

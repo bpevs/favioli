@@ -1,9 +1,13 @@
 import debounce from "lodash.debounce"
 import { DEFAULT_OVERRIDES, DEFAULT_SET } from "./constants/constants"
-import { getOptions, isBrowser } from "./utilities/chromeHelpers/chromeHelpers"
+import {
+  getOptions,
+  onRuntimeMessage,
+  onTabsUpdated,
+  sendTabsMessage,
+} from "./utilities/browserHelpers/browserHelpers"
 import { EmojiSet } from "./utilities/EmojiSet/EmojiSet"
 import { isRegexString } from "./utilities/isRegexString/isRegexString"
-const { runtime, tabs } = (isBrowser("CHROME") ? chrome : browser)
 
 
 var options // Favioli Options
@@ -12,12 +16,12 @@ var emojis // Auto-replacement Emoji Set
 // After we get our options, start listening for url updates
 init().then(() => {
   // If a tab updates, check to see whether we should set a favicon
-  tabs.onUpdated.addListener(debounce((tabId, opts, tab) => {
+  onTabsUpdated(debounce((tabId, opts, tab) => {
     tryToSetFavicon(tabId, tab)
   }, 500))
 })
 
-runtime.onMessage.addListener((message, details) => {
+onRuntimeMessage((message, details) => {
   const tab = details.tab
   // If we manually say a tab has been updated, try to set favicon
   if (message === "updated:tab") tryToSetFavicon(tab.id, tab)
@@ -96,5 +100,5 @@ function tryToSetFavicon(tabId, tab) {
     || getOverride(DEFAULT_OVERRIDES, url, options)
     || emojis.getEmojiFromHost(url.host)
 
-  tabs.sendMessage(tabId, { frameId, shouldOverride, name })
+  sendTabsMessage(tabId, { frameId, shouldOverride, name })
 }

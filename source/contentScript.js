@@ -1,10 +1,9 @@
-import { getOptions, isBrowser } from "./utilities/chromeHelpers/chromeHelpers"
+import { getOptions, onRuntimeMessage, sendRuntimeMessage } from "./utilities/browserHelpers/browserHelpers"
 import { appendFaviconLink, removeAllFaviconLinks } from "./utilities/faviconHelpers/faviconHelpers"
-const { runtime } = (isBrowser("CHROME") ? chrome : browser)
 
 getOptions().then(() => {
-  runtime.onMessage.addListener(updateFavicon)
-  runtime.sendMessage(null, "updated:tab")
+  onRuntimeMessage(updateFavicon)
+  sendRuntimeMessage(null, "updated:tab")
 })
 
 function updateFavicon({ name, shouldOverride }) {

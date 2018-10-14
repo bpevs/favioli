@@ -3,6 +3,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "checkJs": true,
     "jsx": "react",
     "lib": [
       "dom",
@@ -10,6 +11,7 @@
       "es6",
       "scripthost"
     ],
+    "module": "commonjs",
     "noImplicitAny": true,
     "paths": {
       "*": [
@@ -24,9 +26,14 @@
   "exclude": [
     "dist",
     "node_modules",
+    "**/node_modules/*",
     "source/constants",
     "**/*.test.js",
     "**/*.test.jsx",
   ],
-  "include": [ "./source/**/*" ]
+  "include": [
+    "./globals.d.ts",
+    "jestsetup.js",
+    "./source/**/*"
+  ]
 }

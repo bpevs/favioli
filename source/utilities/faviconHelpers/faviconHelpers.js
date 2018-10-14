@@ -1,5 +1,5 @@
 import { EMOJI_SIZE } from "../../constants/constants"
-import { getOptions, isBrowser } from "../chromeHelpers/chromeHelpers"
+import { getOptions, isBrowser } from "../browserHelpers/browserHelpers"
 
 
 // Append new favicon links to the document head

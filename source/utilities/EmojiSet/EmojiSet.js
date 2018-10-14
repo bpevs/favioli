@@ -89,7 +89,6 @@ function rangeToCharArray(first, last) {
 }
 
 /* tslint:disable no-bitwise */
-
 /**
  *  Non-cryptographic hashing to get the same emoji index for different keys
  *  @source http://www.cse.yorku.ca/~oz/hash.html
@@ -103,5 +102,4 @@ function sdbm(key) {
     return charCode + (hash << 6) + (hash << 16) - hash
   }, 0) >>> 0
 }
-
 /* tslint:enable no-bitwise */

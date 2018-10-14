@@ -1,7 +1,5 @@
 jest.mock("react-dom", () => ({ render: jest.fn() }))
-jest.mock("./components/App/App", () => ({
-  App: () => <div></div>
-}))
+jest.mock("./components/App/App")
 
 
 import React from "react"
@@ -11,10 +9,8 @@ import "./options"
 
 
 test("Did mount App to DOM", () => {
-  const [ comp, node ] = render.mock.calls[0]
-  expect(comp).toEqual(<App />)
-
   const mountPoint = window.document.getElementById("mount")
-  expect(mountPoint).toBeTruthy()
-  expect(node).toEqual(mountPoint)
+  expect(mountPoint).toBeTruthy() // Prevent bad test state
+
+  expect(render).toBeCalledWith(<App />, mountPoint)
 })
