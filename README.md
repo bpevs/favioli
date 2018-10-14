@@ -1,6 +1,8 @@
 Favioli 🤯
 =======
 
+Making the world a better place or something. Favioli adds emoji FavIcons for websites that lack one. This README is for Favioli contribution information. Read [the blog post](https://bpev.me/favioli) for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
+
 <p align="center">
   <a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
     <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for-the-badge" />
@@ -10,7 +12,7 @@ Favioli 🤯
   </a>
 </p>
 
-Making the world a better place or something. This README is for Favioli contribution information. Read [the blog post](https://bpev.me/favioli) for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
+<img align="center" alt="comparison" src="./resources/screenshots/comparison.png" />
 
 
 Development
@@ -37,8 +39,8 @@ npm run start
 
 This will build our distribution code into /dist, each browser with its own directory. To load Favioli, point to each browser's respective directory.
 
-![Load in Chrome](./resources/screenshots/load-chrome-favioli)
-![Load in Firefox](./resources/screenshots/load-ff-favioli)
+![Load in Chrome](./resources/screenshots/load-chrome-favioli.png)
+![Load in Firefox](./resources/screenshots/load-ff-favioli.png)
 
 We run tests in Favioli with Jest.  Run Jest tests with our test script.
 ```sh
