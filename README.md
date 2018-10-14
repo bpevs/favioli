@@ -1,17 +1,13 @@
-**This is alpha version for Firefox. Base functionality works. Options page settings/overrides does not work correctly at the moment.**
-
-Favioli
+Favioli 🤯
 =======
-Making the world a better place or something. Favioli automatically uses an emoji as a favicon for every website that lacks one.
+[![dependencies Status](https://david-dm.org/ivebencrazy/favioli/status.svg?style=flat-square)](https://david-dm.org/ivebencrazy/favioli)
+[![devDependencies Status](https://david-dm.org/ivebencrazy/favioli/dev-status.svg?style=flat-square)](https://david-dm.org/ivebencrazy/favioli?type=dev)
+[![Travis CI Build Status](https://img.shields.io/travis/ivebencrazy/favioli/master.svg?style=flat-square)](https://travis-ci.org/ivebencrazy/favioli)
 
-Features
-========
-- Automatically use an emoji as a favicon for every website that lacks one.
-- We always use the same emoji, so you always know which site it is.
-![Using Favioli](./resources/screenshots/default.png)
+[![Download for Chrome](https://img.shields.io/badge/download_for-chrome-blue.svg?style=flat-square)](https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe)
+[![Download for Firefox](https://img.shields.io/badge/download_for-firefox-orange.svg?style=flat-square)](https://addons.mozilla.org/en-US/firefox/addon/favioli/)
 
-- Override custom website hosts by regex or by matching part of the url's host
-![Using Overrides](./resources/screenshots/overrides.png)
+Making the world a better place or something. This README is for Favioli contribution information. Read [the blog post](https://bpev.me/favioli) for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
 
 Build Steps
 =========
