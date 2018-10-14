@@ -2,10 +2,10 @@ Favioli 🤯
 =======
 <p align="center">
   <a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
-    <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for--the--badge" />
+    <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for-the-badge" />
   </a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
-    <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg?style=for--the--badge" />
+    <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg?style=for-the-badge" />
   </a>
 </p>
 
