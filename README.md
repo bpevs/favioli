@@ -1,25 +1,21 @@
 Favioli 🤯
+<a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
+  <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for-the-badge" />
+</a>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
+  <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg?style=for-the-badge" />
+</a>
 =======
-<p align="center">
-  <a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
-    <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for-the-badge" />
-  </a>
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
-    <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg?style=for-the-badge" />
-  </a>
-</p>
 
-<p align="center">
-  <a href="https://david-dm.org/ivebencrazy/favioli">
-    <img alt="dependencies status" src="https://david-dm.org/ivebencrazy/favioli/status.svg?style=flat-square" />
-  </a>
-  <a href="https://david-dm.org/ivebencrazy/favioli?type=dev">
-    <img alt="devDependencies status" src="https://david-dm.org/ivebencrazy/favioli/dev-status.svg?style=flat-square" />
-  </a>
-  <a href="https://travis-ci.org/ivebencrazy/favioli">
-    <img alt="build status" src="https://img.shields.io/travis/ivebencrazy/favioli/master.svg?style=flat-square" />
-  </a>
-</p>
+<a href="https://david-dm.org/ivebencrazy/favioli">
+  <img alt="dependencies status" src="https://david-dm.org/ivebencrazy/favioli/status.svg?style=flat-square" />
+</a>
+<a href="https://david-dm.org/ivebencrazy/favioli?type=dev">
+  <img alt="devDependencies status" src="https://david-dm.org/ivebencrazy/favioli/dev-status.svg?style=flat-square" />
+</a>
+<a href="https://travis-ci.org/ivebencrazy/favioli">
+  <img alt="build status" src="https://img.shields.io/travis/ivebencrazy/favioli/master.svg?style=flat-square" />
+</a>
 
 Making the world a better place or something. This README is for Favioli contribution information. Read [the blog post](https://bpev.me/favioli) for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
 
