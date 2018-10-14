@@ -2,16 +2,16 @@ Favioli 🤯
 =======
 
 <p align="center">
+Making the world a better place or something. Favioli adds emoji FavIcons for websites that lack one. This README is for Favioli contribution information. Read the <a href="https://bpev.me/favioli">Favioli introduction blog post</a> for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
+</p>
+
+<p align="center">
   <a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
     <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for-the-badge" />
   </a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
     <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg?style=for-the-badge" />
   </a>
-</p>
-
-<p align="center">
-Making the world a better place or something. Favioli adds emoji FavIcons for websites that lack one. This README is for Favioli contribution information. Read the <a href="https://bpev.me/favioli">Favioli introduction blog post</a> for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
 </p>
 
 <img align="center" alt="comparison" src="./resources/screenshots/comparison.png" />
@@ -31,23 +31,20 @@ Development
   </a>
 </p>
 
-Favioli should work with any recent [Node.js](https://nodejs.org/en/) version; I'm currently using `v10.5.0` on Mac OS High Sierra for development.
+Favioli should work with any recent [Node.js](https://nodejs.org/en/) version; I'm currently using `v10.5.0` on Mac OS High Sierra for development. We run tests in Favioli with [Jest](https://jestjs.io/).  Run Jest tests with our test script.
 
 ```sh
+# Install dependencies
 npm install
-```
 
-We run tests in Favioli with [Jest](https://jestjs.io/).  Run Jest tests with our test script.
-```sh
+# Run tests
 npm test
 
-// Or run them separately
+# Alternatively, run just a piece of testing
 npm run test:lint
 npm run test:unit
-```
 
-To start making code changes, run Favioli with:
-```sh
+# Start building for development
 npm start
 ```
 
