@@ -17,8 +17,7 @@ export class EmojiSet {
    * @param {...*} args
    */
   constructor(...args) {
-    this.flattenEmojis = this.flattenEmojis.bind(this)
-    this.emojis = this.flattenEmojis(args).filter(emoji => emoji && emoji.trim())
+    this.emojis = flattenEmojis(args).filter(emoji => emoji && emoji.trim())
   }
 
   /**
@@ -54,12 +53,12 @@ export class EmojiSet {
  * Create one giant array of emojis from all the constructor params.
  *  @param {any[]} args
  */
-flattenEmojis(args) {
+function flattenEmojis(args) {
   if (typeof args === "string") return args.split(" ")
   if (typeof args === "number") return [ String.fromCodePoint(args) ]
   if (isRange(args)) return rangeToCharArray.apply(null, args)
   if (Array.isArray(args)) {
-    return Array.prototype.concat(...args.map(this.flattenEmojis))
+    return Array.prototype.concat(...args.map(flattenEmojis))
   }
 }
 
