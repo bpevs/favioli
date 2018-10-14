@@ -1,30 +1,30 @@
-import debounce from "lodash.debounce";
-import { DEFAULT_OVERRIDES, DEFAULT_SET } from "./constants/constants";
-import { getOptions, isBrowser } from "./utilities/chromeHelpers/chromeHelpers";
-import { EmojiSet } from "./utilities/EmojiSet/EmojiSet";
-import { isRegexString } from "./utilities/isRegexString/isRegexString";
-const { runtime, tabs } = (isBrowser("CHROME") ? chrome : browser);
+import debounce from "lodash.debounce"
+import { DEFAULT_OVERRIDES, DEFAULT_SET } from "./constants/constants"
+import { getOptions, isBrowser } from "./utilities/chromeHelpers/chromeHelpers"
+import { EmojiSet } from "./utilities/EmojiSet/EmojiSet"
+import { isRegexString } from "./utilities/isRegexString/isRegexString"
+const { runtime, tabs } = (isBrowser("CHROME") ? chrome : browser)
 
 
-var options; // Favioli Options
-var emojis; // Auto-replacement Emoji Set
+var options // Favioli Options
+var emojis // Auto-replacement Emoji Set
 
 // After we get our options, start listening for url updates
 init().then(() => {
   // If a tab updates, check to see whether we should set a favicon
   tabs.onUpdated.addListener(debounce((tabId, opts, tab) => {
-    tryToSetFavicon(tabId, tab);
-  }, 500));
-});
+    tryToSetFavicon(tabId, tab)
+  }, 500))
+})
 
-runtime.onMessage.addListener(function (message, details) {
-  const tab = details.tab;
+runtime.onMessage.addListener((message, details) => {
+  const tab = details.tab
   // If we manually say a tab has been updated, try to set favicon
-  if (message === "updated:tab") tryToSetFavicon(tab.id, tab);
+  if (message === "updated:tab") tryToSetFavicon(tab.id, tab)
 
   // If our options change, re-run init to get new options
-  if (message === "updated:options") init();
-});
+  if (message === "updated:options") init()
+})
 
 
 /**
@@ -33,12 +33,12 @@ runtime.onMessage.addListener(function (message, details) {
  *  @param {object} tab Chrome tab we're visiting
  * .@return {boolean} Whether a website has a native favIcon
  */
-const hasFavIcon = function (tab) {
+function hasFavIcon(tab) {
   return Boolean(
     tab.favIconUrl &&
-    tab.favIconUrl.indexOf("http") > -1
-  );
-};
+    tab.favIconUrl.indexOf("http") > -1,
+  )
+}
 
 
 /**
@@ -49,23 +49,23 @@ const hasFavIcon = function (tab) {
  * .@return {string} emoji string or empty string if no
  */
 function getOverride(overrideSet, url, options) {
-  if (!options) return "";
+  if (!options) return ""
 
   for (let i = 0; i <= overrideSet.length; i++) {
-    if (!overrideSet[i]) return "";
+    if (!overrideSet[i]) return ""
 
-    const { emoji, filter } = overrideSet[i];
-    if (!filter) return;
+    const { emoji, filter } = overrideSet[i]
+    if (!filter) return
 
     if (!isRegexString(filter) && url.href.indexOf(filter) !== -1) {
-      return emoji.native;
+      return emoji.native
     }
 
-    const filterRegex = new RegExp(filter.slice(1, filter.length - 1));
-    if (url.href.match(filterRegex)) return emoji.native;
+    const filterRegex = new RegExp(filter.slice(1, filter.length - 1))
+    if (url.href.match(filterRegex)) return emoji.native
   }
 
-  return "";
+  return ""
 }
 
 /**
@@ -73,8 +73,8 @@ function getOverride(overrideSet, url, options) {
  *  and determine the EmojiSet to use for auto-replacement
  */
 async function init() {
-  options = await getOptions();
-  emojis = new EmojiSet(DEFAULT_SET);
+  options = await getOptions()
+  emojis = new EmojiSet(DEFAULT_SET)
 }
 
 /**
@@ -83,18 +83,18 @@ async function init() {
  *  @param {object} tab Chrome tab we're visiting
  */
 function tryToSetFavicon(tabId, tab) {
-  const url = new URL(tab.url);
-  const frameId = 0; // Don't replace iframes
-  const overrideFavIcon = getOverride(options.overrides, url, options);
+  const url = new URL(tab.url)
+  const frameId = 0 // Don't replace iframes
+  const overrideFavIcon = getOverride(options.overrides, url, options)
 
-  const shouldOverride = Boolean(overrideFavIcon || options.overrideAll);
-  const shouldSetFavIcon = shouldOverride || !hasFavIcon(tab);
+  const shouldOverride = Boolean(overrideFavIcon || options.overrideAll)
+  const shouldSetFavIcon = shouldOverride || !hasFavIcon(tab)
 
-  if (!shouldSetFavIcon) return;
+  if (!shouldSetFavIcon) return
 
   const name = overrideFavIcon
     || getOverride(DEFAULT_OVERRIDES, url, options)
-    || emojis.getEmojiFromHost(url.host);
+    || emojis.getEmojiFromHost(url.host)
 
-  tabs.sendMessage(tabId, { frameId, shouldOverride, name });
+  tabs.sendMessage(tabId, { frameId, shouldOverride, name })
 }

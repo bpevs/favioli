@@ -1,9 +1,9 @@
 import React from "react"
 
 
-function opt (context, func) {
+function opt(context, func) {
   if (typeof func === "function") return func.bind(context)
-  return () => {}
+  return () => { return }
 }
 
 export class Checkbox extends React.Component {
@@ -11,21 +11,21 @@ export class Checkbox extends React.Component {
     super(props)
 
     this.state = {
-      focused: false
+      focused: false,
     }
   }
 
   onBlur() {
     this.setState(
       { focused: false },
-      opt(this, this.props.onBlur)
+      opt(this, this.props.onBlur),
     )
   }
 
   onFocus() {
     this.setState(
       { focused: true },
-      opt(this, this.props.onFocus)
+      opt(this, this.props.onFocus),
     )
   }
 
@@ -36,7 +36,7 @@ export class Checkbox extends React.Component {
       onChange,
     } = this.props
 
-    const focusClass = this.state.focused ? " focused": ""
+    const focusClass = this.state.focused ? " focused" : ""
 
     return (
       <div className={"checkbox" + focusClass}>

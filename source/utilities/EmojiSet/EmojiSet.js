@@ -17,21 +17,8 @@ export class EmojiSet {
    * @param {...*} args
    */
   constructor(...args) {
-    this.flattenEmojis = this.flattenEmojis.bind(this);
-    this.emojis = this.flattenEmojis(args).filter(emoji => emoji && emoji.trim());
-  }
-
-  /**
-   * Creates one giant array of emojis from all the constructor params.
-   * .@param {any[]} args
-   */
-  flattenEmojis(args) {
-    if (typeof args === "string") return args.split(" ");
-    if (typeof args === "number") return [ String.fromCodePoint(args) ];
-    if (isRange(args)) return rangeToCharArray.apply(null, args);
-    if (Array.isArray(args)) {
-      return Array.prototype.concat(...args.map(this.flattenEmojis));
-    }
+    this.flattenEmojis = this.flattenEmojis.bind(this)
+    this.emojis = this.flattenEmojis(args).filter(emoji => emoji && emoji.trim())
   }
 
   /**
@@ -39,26 +26,40 @@ export class EmojiSet {
    * .@return {string[]} Emoji Array
    */
   get() {
-    return this.emojis.slice();
+    return this.emojis.slice()
   }
 
   /**
    * Gets a single emoji dependent on our location
-   * .@return {string} emoji
+   *  @return {string} emoji
    */
   getEmoji() {
-    return this.getEmojiFromHost(location.host);
+    return this.getEmojiFromHost(location.host)
   }
 
 
   /**
    * Gets a single emoji from a host string
    *  @param {string} host
-   * .@return {string} emoji
+   *  @return {string} emoji
    */
   getEmojiFromHost(host) {
-    const emojiIndex = Math.abs(sdbm(host)) % this.emojis.length;
-    return this.emojis[emojiIndex];
+    const emojiIndex = Math.abs(sdbm(host)) % this.emojis.length
+    return this.emojis[emojiIndex]
+  }
+}
+
+
+/**
+ * Create one giant array of emojis from all the constructor params.
+ *  @param {any[]} args
+ */
+flattenEmojis(args) {
+  if (typeof args === "string") return args.split(" ")
+  if (typeof args === "number") return [ String.fromCodePoint(args) ]
+  if (isRange(args)) return rangeToCharArray.apply(null, args)
+  if (Array.isArray(args)) {
+    return Array.prototype.concat(...args.map(this.flattenEmojis))
   }
 }
 
@@ -66,13 +67,13 @@ export class EmojiSet {
 /**
  *  Determines whether we have a number tuple
  *  @param {any} item
- * .@return {boolean}
+ *  @return {boolean}
  */
 function isRange(item) {
   return Array.isArray(item)
     && item.length === 2
     && typeof item[0] === "number"
-    && typeof item[1] === "number";
+    && typeof item[1] === "number"
 }
 
 
@@ -80,26 +81,28 @@ function isRange(item) {
  *  Gets an array of emojis from a codePoint tuple
  *  @param {number} first
  *  @param {number} last
- * .@return {string[]} emoji array
+ *  @return {string[]} emoji array
  */
 function rangeToCharArray(first, last) {
   return Array(last - first)
     .fill(null)
-    .map((_, i) => String.fromCodePoint(i + first));
+    .map((_, i) => String.fromCodePoint(i + first))
 }
 
+/* tslint:disable no-bitwise */
 
 /**
  *  Non-cryptographic hashing to get the same emoji index for different keys
  *  @source http://www.cse.yorku.ca/~oz/hash.html
  *  @source https://github.com/sindresorhus/sdbm
-
  *  @param {any} key
- * .@return {number} index
+ *  @return {number} index
  */
-function sdbm(key){
+function sdbm(key) {
   return String(key).split("").reduce((hash, char, i) => {
-    const charCode = key.charCodeAt(i);
-    return charCode + (hash << 6) + (hash << 16) - hash;
-  }, 0) >>> 0;
+    const charCode = key.charCodeAt(i)
+    return charCode + (hash << 6) + (hash << 16) - hash
+  }, 0) >>> 0
 }
+
+/* tslint:enable no-bitwise */

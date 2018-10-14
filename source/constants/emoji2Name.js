@@ -1434,7 +1434,7 @@ export const oldFavioliEmojisMap = {
   "⏯": "black_right_pointing_triangle_with_double_vertical_bar",
   "⏮": "black_left_pointing_double_triangle_with_vertical_bar",
   "🗯": "right_anger_bubble",
-  "🗨": "left_speech_bubble"
+  "🗨": "left_speech_bubble",
 }
 
 export default function getEmoji(string) {

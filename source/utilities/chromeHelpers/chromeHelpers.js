@@ -28,7 +28,7 @@ export function getOptions() {
   return new Promise((resolve, reject) => storage.sync.get(
     Object.keys(defaultOptions),
     options => {
-      if(runtime.lastError) return reject(runtime.lastError)
+      if (runtime.lastError) return reject(runtime.lastError)
 
       // Legacy Favioli used straight emoji strings. Using the format of
       // EmojiMart allows us great flexibility for future expansion
@@ -36,11 +36,11 @@ export function getOptions() {
         .map(override => Object.assign({}, override, {
           emoji: typeof override.emoji === "string"
             ? getEmojiFromLegacyString(options.overrides[0].emoji)
-            : override.emoji
+            : override.emoji,
         }))
 
       resolve(Object.assign({}, defaultOptions, options, { overrides }))
-    }
+    },
   ))
 }
 
@@ -52,13 +52,12 @@ export function isBrowser(toCheck) {
   let currentBrowser = CHROME
   try {
     if (navigator.userAgent.indexOf("Firefox") > 0) currentBrowser = FIREFOX
+  } finally {
+    if (!toCheck) return currentBrowser
+    if (toCheck === CHROME && currentBrowser === CHROME) return true
+    if (toCheck === FIREFOX && currentBrowser === FIREFOX) return true
+    return false
   }
-  catch (e) {}
-
-  if (!toCheck) return currentBrowser
-  if (toCheck === CHROME && currentBrowser === CHROME) return true
-  if (toCheck == FIREFOX && currentBrowser === FIREFOX) return true
-  return false
 }
 
 /**
@@ -76,7 +75,7 @@ export function setOptions(toSet) {
 
   return new Promise((resolve, reject) => storage.sync.set(
     options,
-    () => runtime.lastError ? reject(runtime.lastError) : resolve()
+    () => runtime.lastError ? reject(runtime.lastError) : resolve(),
   ))
   .then(() => runtime.sendMessage("updated:options"))
 }

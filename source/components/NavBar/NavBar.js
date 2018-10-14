@@ -2,7 +2,7 @@ import React from "react"
 
 
 export const NavBar = ({
-  route, onSelect
+  route, onSelect,
 }) => <nav><ul>
   <li className="title">🤯</li>
   <li><a

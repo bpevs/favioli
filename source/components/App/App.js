@@ -1,6 +1,6 @@
 import React from "react"
-import { getOptions, setOptions } from "../../utilities/chromeHelpers/chromeHelpers"
 import { Checkbox, NavBar, OverridesList } from "../../components/components"
+import { getOptions, setOptions } from "../../utilities/chromeHelpers/chromeHelpers"
 
 
 export class App extends React.Component {
