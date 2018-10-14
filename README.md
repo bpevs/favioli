@@ -27,7 +27,7 @@ Build Steps
 =========
 Should work with any recent node; I'm using `v10.5.0` on Mac OS High Sierra for development.
 
-```
+```sh
 npm install
 npm run build
 ```
