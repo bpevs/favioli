@@ -1,27 +1,59 @@
-**This is alpha version for Firefox. Base functionality works. Options page settings/overrides does not work correctly at the moment.**
-
-Favioli
+Favioli 🤯
 =======
-Making the world a better place or something. Favioli automatically uses an emoji as a favicon for every website that lacks one.
 
-Features
-========
-- Automatically use an emoji as a favicon for every website that lacks one.
-- We always use the same emoji, so you always know which site it is.
-![Using Favioli](./resources/screenshots/default.png)
+<p align="center">
+Making the world a better place or something. Favioli adds emoji FavIcons for websites that lack one. This README is for Favioli contribution information. Read the <a href="https://bpev.me/favioli">Favioli introduction blog post</a> for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
+</p>
 
-- Override custom website hosts by regex or by matching part of the url's host
-![Using Overrides](./resources/screenshots/overrides.png)
+<p align="center">
+  <a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
+    <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for-the-badge" />
+  </a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
+    <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg?style=for-the-badge" />
+  </a>
+</p>
 
-Build Steps
-=========
-Should work with any recent node; I'm using `v10.5.0` on Mac OS High Sierra for development.
+<img align="center" alt="comparison" src="./resources/screenshots/comparison.png" />
 
-```
+
+Development
+===========
+<p>
+  <a href="https://david-dm.org/ivebencrazy/favioli">
+    <img alt="dependencies status" src="https://david-dm.org/ivebencrazy/favioli/status.svg?style=flat-square" />
+  </a>
+  <a href="https://david-dm.org/ivebencrazy/favioli?type=dev">
+    <img alt="devDependencies status" src="https://david-dm.org/ivebencrazy/favioli/dev-status.svg?style=flat-square" />
+  </a>
+  <a href="https://travis-ci.org/ivebencrazy/favioli">
+    <img alt="build status" src="https://img.shields.io/travis/ivebencrazy/favioli/master.svg?style=flat-square" />
+  </a>
+</p>
+
+Favioli should work with any recent [Node.js](https://nodejs.org/en/) version; I'm currently using `v10.5.0` on Mac OS High Sierra for development. We run tests in Favioli with [Jest](https://jestjs.io/).  Run Jest tests with our test script.
+
+```sh
+# Install dependencies
 npm install
-npm run build
+
+# Run tests
+npm test
+
+# Alternatively, run just a piece of testing
+npm run test:lint
+npm run test:unit
+
+# Start building for development
+npm start
 ```
-This will build our distribution code into /dist, each browser with its own directory.
+
+This will build our distribution code into `/dist`, each browser with its own directory. To load Favioli, point to each browser's respective directory. [Google](https://developer.chrome.com/extensions) and [Mozilla](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons) each have resources about developing for their respective platforms.
+
+![Load in Chrome](./resources/screenshots/load-chrome-favioli.png)
+![Load in Firefox](./resources/screenshots/load-ff-favioli.png)
+
+
 
 Inspiration
 ==========
