@@ -8,7 +8,7 @@ const PIXEL_GRID = 16;
 
 // TODO: Not entirely sure why ff is vertically off-centered atm.
 // This is temporary workaround
-const vertical_offset = (typeof chrome ? 0 : 40)
+const vertical_offset = (typeof chrome !== "undefined" ? 0 : 60)
 
 // Initialize canvas and context to render emojis
 const canvas = document.createElement("canvas");

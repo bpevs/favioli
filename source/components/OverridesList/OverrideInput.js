@@ -29,6 +29,9 @@ export class OverrideInput extends React.Component {
       filter: evt.target.value,
       index: this.props.index
     })
+    this.setState({
+      pickerIsOpen: false
+    })
   }
 
   _delete() {

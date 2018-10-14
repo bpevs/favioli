@@ -13,7 +13,10 @@ exports[`Should Render Checkbox 1`] = `
     checked={true}
     id="flag"
     name="my-checkbox"
+    onBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
+    tabIndex={0}
     type="checkbox"
   />
   <div
@@ -35,7 +38,10 @@ exports[`Should Render Checkbox unchecked 1`] = `
     checked={false}
     id="flag"
     name="my-checkbox1"
+    onBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
+    tabIndex={0}
     type="checkbox"
   />
   <div
@@ -77,7 +83,10 @@ exports[`Should run onChange on change 1`] = `
       checked={false}
       id="flag"
       name="my-checkbox3"
+      onBlur={[Function]}
       onChange={[Function]}
+      onFocus={[Function]}
+      tabIndex={0}
       type="checkbox"
     />
     <div
