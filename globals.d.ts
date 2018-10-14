@@ -8,3 +8,10 @@ declare namespace NodeJS {
     window: any;
   }
 }
+
+declare namespace Window {
+  interface window {
+    browser: any;
+    chrome: any;
+  }
+}

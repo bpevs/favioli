@@ -6,6 +6,10 @@ getOptions().then(() => {
   sendRuntimeMessage(null, "updated:tab")
 })
 
+/**
+ * Attempt to add a favicon to the current site
+ * @param {any} options
+ */
 function updateFavicon({ name, shouldOverride }) {
   if (shouldOverride) removeAllFaviconLinks()
 

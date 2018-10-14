@@ -2,7 +2,7 @@ import getEmojiFromLegacyString from "../../constants/emoji2Name"
 
 const CHROME = "CHROME"
 const FIREFOX = "FIREFOX"
-const { storage, runtime, tabs } = isBrowser("CHROME") ? window.chrome : window.browser
+const { storage, runtime, tabs } = isBrowser("CHROME") ? chrome : browser
 
 const defaultOptions = {
   flagReplaced: false,
@@ -10,10 +10,18 @@ const defaultOptions = {
   overrides: [],
 }
 
+/**
+ * Add a listener for runtime messages
+ * @param  {...any} args
+ */
 export function onRuntimeMessage(...args) {
   runtime.onMessage.addListener(...args)
 }
 
+/**
+ * Add a listener for tab messages
+ * @param  {...any} args
+ */
 export function onTabsUpdated(...args) {
   tabs.onUpdated.addListener(...args)
 }
@@ -36,18 +44,28 @@ export function getOptions() {
     options => {
       if (runtime.lastError) return reject(runtime.lastError)
 
-      // Legacy Favioli used straight emoji strings. Using the format of
-      // EmojiMart allows us great flexibility for future expansion
       const overrides = (options && options.overrides || [])
-        .map(override => Object.assign({}, override, {
-          emoji: typeof override.emoji === "string"
-            ? getEmojiFromLegacyString(options.overrides[0].emoji)
-            : override.emoji,
-        }))
+        .map(normalizeOverride.bind(this, options))
 
       resolve(Object.assign({}, defaultOptions, options, { overrides }))
     },
   ))
+}
+
+
+/**
+ * Legacy Favioli used straight emoji strings. Using the format of
+ * EmojiMart allows us great flexibility for future expansion. This takes
+ * an emoji object OR an emoji string, and converts it to an object.
+ * @param {any} options
+ * @param {string | object} override
+ */
+function normalizeOverride(options, override) {
+  return Object.assign({}, override, {
+    emoji: typeof override.emoji === "string"
+      ? getEmojiFromLegacyString(options.overrides[0].emoji)
+      : override.emoji,
+  })
 }
 
 /**
@@ -66,12 +84,21 @@ export function isBrowser(toCheck) {
   }
 }
 
+/**
+ * Send a runtime message
+ * @param  {...any} args
+ */
 export function sendRuntimeMessage(...args) {
   runtime.sendMessage(...args)
 }
 
-export function sendTabsMessage(...args) {
-  tabs.sendMessage(...args)
+/**
+ * Send a tab message
+ * @param  {string} id
+ * @param  {object} options
+ */
+export function sendTabsMessage(id, options) {
+  tabs.sendMessage(id, options)
 }
 
 /**
