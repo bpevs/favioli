@@ -5,46 +5,73 @@
   "license": "Unlicense",
   "description": "Emoji Favicons for the web",
   "repository": "https://github.com/ivebencrazy/favioli",
-  "main": "build/index.js",
+  "main": "dist/base/index.js",
   "scripts": {
     "start": "npm run watch",
     "build": "npm-run-all -p build:*",
-    "build:markup": "pug ./source --out ./build",
+    "build:markup": "pug ./source --out ./dist/base",
     "build:scripts": "rollup -c ./rollup.config.js",
-    "build:styles": "stylus ./source -o ./build",
-    "prebuild": "mkdir -p ./build",
+    "build:styles": "stylus ./source -o ./dist/base",
+    "prebuild": "mkdir -p ./dist/base",
+    "postbuild": "node package.setup.js",
     "test": "npm-run-all -p test:*",
     "test:unit": "jest",
     "watch": "npm-run-all -p watch:*",
+    "watch:dists": "watch 'npm run postbuild' ./dist/base --wait=0.1",
     "watch:markup": "npm run build:markup -- -w",
     "watch:scripts": "npm run build:scripts -- --watch",
     "watch:styles": "npm run build:styles -- --watch",
-    "prewatch": "mkdir -p ./build"
+    "prewatch": "mkdir -p ./dist/base"
   },
   "dependencies": {
-    "fun-tabs": "^1.0.3",
-    "lodash.debounce": "^4.0.8"
+    "@babel/runtime": "^7.1.2",
+    "emoji-mart": "^2.8.1",
+    "lodash.debounce": "^4.0.8",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.46",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
     "@types/chrome": "0.0.63",
-    "babel-jest": "^22.4.3",
-    "babel-preset-env": "^1.6.1",
+    "babel-core": "^7.0.0-bridge.0",
     "canvas-prebuilt": "^1.6.11",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
     "husky": "^0.14.3",
-    "jest": "^23.3.0",
+    "jest": "^23.6.0",
     "node-pre-gyp": "^0.11.0",
     "npm-run-all": "^4.1.2",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
+    "raf": "^3.4.0",
     "rollup": "^0.56.5",
+    "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "stylus": "^0.54.5"
+    "rollup-plugin-replace": "^2.0.0",
+    "stylus": "^0.54.5",
+    "watch": "^1.0.2"
   },
   "babel": {
+    "plugins": [
+      [
+        "@babel/plugin-transform-runtime",
+        {
+          "corejs": false,
+          "helpers": true,
+          "regenerator": true,
+          "useESModules": false
+        }
+      ]
+    ],
     "presets": [
-      "env"
+      "@babel/preset-env",
+      "@babel/preset-react"
     ]
   },
   "husky": {
@@ -53,8 +80,29 @@
     }
   },
   "jest": {
+    "collectCoverageFrom": [
+      "source/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "constants",
+      "vendor",
+      ".test.js",
+      ".d.ts$"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
     "setupFiles": [
-      "./jestsetup.js"
+      "<rootDir>/jestsetup.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "**/*.test.(js|jsx)"
     ]
   }
 }

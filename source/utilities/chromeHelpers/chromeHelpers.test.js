@@ -1,42 +1,62 @@
-import { getTab, getOptions, setOptions } from "./chromeHelpers";
-
+import { getTab, getOptions, isBrowser, setOptions } from "./chromeHelpers"
+const { storage, tabs } = (isBrowser("CHROME") ? chrome : browser)
 
 beforeEach(() => {
-  jest.clearAllMocks();
-});
+  jest.clearAllMocks()
+})
 
 
 test("Should get tab", async function () {
-  const tabId = 5;
-  const callback = jest.fn();
+  const tabId = 5
+  const callback = jest.fn()
 
-  await getTab(tabId).then(callback);
-  expect(chrome.tabs.get.mock.calls[0][0]).toBe(tabId);
-  expect(callback).toBeCalled();
-});
+  await getTab(tabId).then(callback)
+  expect(tabs.get.mock.calls[0][0]).toBe(tabId)
+  expect(callback).toBeCalled()
+})
 
 
 test("Should get options from storage", async function () {
-  const callback = jest.fn();
+  const callback = jest.fn()
 
-  await getOptions().then(callback);
+  await getOptions().then(callback)
 
-  expect(callback).toBeCalled();
+  expect(callback).toBeCalled()
 
-  const toFetch = chrome.storage.sync.get.mock.calls[0][0];
-  expect(toFetch.indexOf("flagReplaced")).toBeGreaterThan(-1);
-  expect(toFetch.indexOf("overrideAll")).toBeGreaterThan(-1);
-  expect(toFetch.indexOf("overrides")).toBeGreaterThan(-1);
-});
+  const toFetch = storage.sync.get.mock.calls[0][0]
+  expect(toFetch.indexOf("flagReplaced")).toBeGreaterThan(-1)
+  expect(toFetch.indexOf("overrideAll")).toBeGreaterThan(-1)
+  expect(toFetch.indexOf("overrides")).toBeGreaterThan(-1)
+})
 
+test("Should convert emoji string overrides to objects", async function () {
+  const options = await getOptions()
+
+  expect(options.overrides[0].emoji).toEqual({
+    "colons": ":grinning:",
+    "emoticons": [],
+    "id": "grinning",
+    "name": "Grinning Face",
+    "native": "😀",
+    "skin": null,
+    "unified": "1f600",
+  })
+})
 
 test("Should set options to storage", async function () {
-  const callback = jest.fn();
-  const myOptions = { myOption1: "myOption1" };
+  const callback = jest.fn()
+  const myOptions = {
+    flagReplaced: false,
+    overrideAll: true,
+    overrides: [ "override1" ],
+    moo: "hehehe",
+  }
 
-  await setOptions(myOptions).then(callback);
+  await setOptions(myOptions).then(callback)
 
-  const fetchedOptions = chrome.storage.sync.set.mock.calls[0][0];
-  expect(callback).toBeCalled();
-  expect(fetchedOptions).toBe(myOptions);
-});
+  const fetchedOptions = storage.sync.set.mock.calls[0][0]
+  expect(callback).toBeCalled()
+
+  delete myOptions.moo // Trim unsupported options
+  expect(fetchedOptions).toEqual(myOptions)
+})

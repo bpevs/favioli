@@ -1,5 +1,8 @@
 jest.mock("../chromeHelpers/chromeHelpers", () => {
-  return { getOptions: jest.fn(() => Promise.resolve({ flagReplaced: true })) }
+  return {
+    getOptions: jest.fn(() => Promise.resolve({ flagReplaced: true })),
+    isBrowser: jest.fn(() => false),
+  }
 });
 
 import { appendFaviconLink, removeAllFaviconLinks } from "./faviconHelpers"
@@ -24,6 +27,10 @@ describe("appendFaviconLink", () => {
     expect(emojiLink.href.length).toBeGreaterThan(100)
 
     expect(defaultFavicon.href).toMatch(/favicon\.ico$/)
+  })
+
+  test("Shouldn't append favicon if none is passed", () => {
+    appendFaviconLink()
   })
 
   test("Should replace existing favioli-generated link", () => {

@@ -18,7 +18,7 @@ export class EmojiSet {
    */
   constructor(...args) {
     this.flattenEmojis = this.flattenEmojis.bind(this);
-    this.emojis = this.flattenEmojis(args).filter(emoji => emoji.trim());
+    this.emojis = this.flattenEmojis(args).filter(emoji => emoji && emoji.trim());
   }
 
   /**

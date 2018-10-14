@@ -1,6 +1,32 @@
 import "canvas-prebuilt"
+import "raf/polyfill"
+import Enzyme from "enzyme"
+import Adapter from "enzyme-adapter-react-16"
+import { JSDOM } from "jsdom"
 
-global.chrome = {
+
+// React 16 Enzyme adapter
+Enzyme.configure({ adapter: new Adapter() })
+
+
+// Imitate Browser
+const jsdom = new JSDOM("<!doctype html><body></body></html>")
+const { window } = jsdom
+
+global.window = window
+global.document = window.document
+global.navigator = { userAgent: "node.js" }
+copyProps(window, global)
+
+
+// Add react mountpoint to match our options page html
+const mountPoint = document.createElement("div")
+mountPoint.setAttribute("id", "mount")
+document.body.appendChild(mountPoint)
+
+
+// Mock Chrome
+global.browser = global.chrome = {
   runtime: {
     lastError: null,
     onMessage: {
@@ -12,7 +38,11 @@ global.chrome = {
   storage: {
     sync: {
       get: jest.fn((value, callback) => {
-        if (typeof callback === "function") callback()
+        if (typeof callback === "function") callback({
+          flagReplaced: true,
+          overrideAll: false,
+          overrides: [ { emoji: "😀", filter: "bookface" } ],
+        })
       }),
       set: jest.fn((value, callback) => {
         if (typeof callback === "function") callback()
@@ -37,10 +67,7 @@ global.chrome = {
   },
 };
 
-global.customElements = {
-  define: jest.fn(),
-};
-
+// Mock for Canvas
 global.testContext = {
   measureText: jest.fn(() => ({ width: 100 })),
   clearRect: jest.fn(),
@@ -53,26 +80,13 @@ global.testContext = {
   restore: jest.fn(),
 };
 
-// HTML Elements
-[ "navlink", "navlink", "save", "save", "override-inputs" ]
-  .forEach((name, index) => {
-    const node = document.createElement("div");
-    node.className = name;
-    node.appendChild(document.createTextNode(name + index))
-    document.body.appendChild(node);
-  });
 
-[ "page", "page" ]
-  .forEach((name, index) => {
-    const node = document.createElement("div");
-    node.className = "page navlink" + index;
-    document.body.appendChild(node);
-  });
-
-[ "flag" ]
-  .forEach(name => {
-    const node = document.createElement("input");
-    node.type= "checkbox";
-    node.id = name;
-    document.body.appendChild(node);
-  });
+function copyProps(src, target) {
+  const props = Object.getOwnPropertyNames(src)
+    .filter(prop => typeof target[prop] === "undefined")
+    .reduce((result, prop) => ({
+      ...result,
+      [prop]: Object.getOwnPropertyDescriptor(src, prop),
+    }), {})
+  Object.defineProperties(target, props)
+}

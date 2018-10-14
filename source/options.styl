@@ -1,12 +1,21 @@
 @import "stylesheets/reset.styl"
 @import "stylesheets/checkbox.styl"
 @import "stylesheets/saveButton.styl"
+@import "stylesheets/emojiSelector.styl"
 @import "stylesheets/nav.styl"
+@import "vendor/emoji-mart.styl"
 
 html
+  font-size: 24px
   min-width: 600px
 
 body
+  width: 100%
+  height: 100%
+  margin: 0
+  padding: 0
+
+#mount
   margin: auto
   padding-top: 1em
   min-width: 500px
@@ -16,52 +25,13 @@ h1
   font-size: 2em
   margin-bottom: 0.5em
   user-select: none
-
-.submit
-  display: inline-block
-  position: relative
-  margin-top: 2em
-  padding: 0
-
-#status
-  font-size: 0.7em
-  padding-top: 20px
-
-.site-selector
-  background-color: #eee
-  border: none
-  border-radius: 2px
-  color: rgba(0, 0, 0, 0.8)
-  cursor: text
-  display: inline-block
-  font-weight: 300
-  font-size: 1em
-  height: 1.3em
-  line-height: 1
-  padding-left: 0.2em
-  position: relative
-  transition: ease background 0.2s
-  vertical-align: middle
-  width: 75%
-  z-index: 1
-  &:hover, &:focus
-    background: #ddd
+  -moz-user-select: none
 
 .emoji-label
   margin: 0.2em
 
-.remove-button
-  border: none
-  color: rgba(0, 0, 0, 0.4)
-  cursor: pointer
-  font-size: 0.5em
-  transition: ease color 0.2s
-  vertical-align: middle
-  &:hover
-    color: rgba(0, 0, 0, 0.8)
-
 .page
-  display: none
+  display: block
   left: 50%
   max-width: 600px
   padding-top: 2em
@@ -78,7 +48,8 @@ h1
   opacity: 1
 
 #status
-  position: fixed
-  left: 50%
-  transform: translateX(-50%)
   bottom: 10px
+  left: 50%
+  padding-top: 20px
+  position: fixed
+  transform: translateX(-50%)

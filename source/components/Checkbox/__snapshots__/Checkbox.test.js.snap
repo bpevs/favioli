@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should Render Checkbox 1`] = `
+<div
+  className="checkbox"
+>
+  <label
+    className="help"
+  >
+    Flag Replaced Favicons
+  </label>
+  <input
+    checked={true}
+    id="flag"
+    name="my-checkbox"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    tabIndex={0}
+    type="checkbox"
+  />
+  <div
+    className="checkmark"
+  />
+</div>
+`;
+
+exports[`Should Render Checkbox unchecked 1`] = `
+<div
+  className="checkbox"
+>
+  <label
+    className="help"
+  >
+    Flag Replaced Favicons
+  </label>
+  <input
+    checked={false}
+    id="flag"
+    name="my-checkbox1"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    tabIndex={0}
+    type="checkbox"
+  />
+  <div
+    className="checkmark"
+  />
+</div>
+`;
+
+exports[`Should run onChange on change 1`] = `
+<Checkbox
+  name="my-checkbox3"
+  onChange={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Object {
+            "my-checkbox3": false,
+          },
+        ],
+      ],
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
+    }
+  }
+>
+  <div
+    className="checkbox"
+  >
+    <label
+      className="help"
+    >
+      Flag Replaced Favicons
+    </label>
+    <input
+      checked={false}
+      id="flag"
+      name="my-checkbox3"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      tabIndex={0}
+      type="checkbox"
+    />
+    <div
+      className="checkmark"
+    />
+  </div>
+</Checkbox>
+`;
