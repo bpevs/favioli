@@ -31,7 +31,7 @@ Development
   </a>
 </p>
 
-Favioli should work with any recent [node.js](https://nodejs.org/en/) version; I'm currently using `v10.5.0` on Mac OS High Sierra for development.
+Favioli should work with any recent [Node.js](https://nodejs.org/en/) version; I'm currently using `v10.5.0` on Mac OS High Sierra for development.
 
 ```sh
 npm install
