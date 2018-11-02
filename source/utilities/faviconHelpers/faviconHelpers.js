@@ -4,6 +4,7 @@ import { getOptions, isBrowser } from "../browserHelpers/browserHelpers"
 
 // Append new favicon links to the document head
 const documentHead = document.getElementsByTagName("head")[0]
+const hasPreExistingFavicon = getAllFaviconLinks().length
 const PIXEL_GRID = 16
 
 // TODO: Not entirely sure why ff is vertically off-centered atm.
@@ -20,7 +21,11 @@ context.textAlign = "center"
 context.textBaseline = "middle"
 
 let settings = {}
-getOptions().then(options => settings = options)
+let hasFavicon = false
+getOptions().then(options => {
+  settings = options
+  hasFavicon = Boolean(getAllFaviconLinks().length)
+})
 
 
 /**
@@ -35,7 +40,7 @@ export function appendFaviconLink(name, shouldOverride) {
 
   if (existingFavicon) {
     existingFavicon.setAttribute("href", href)
-  } else {
+  } else if (!hasFavicon) {
     const link = createLink(href, EMOJI_SIZE, "image/png")
     existingFavicon = documentHead.appendChild(link)
 
@@ -46,13 +51,17 @@ export function appendFaviconLink(name, shouldOverride) {
   }
 }
 
+export function getAllFaviconLinks() {
+  return Array.prototype
+    .slice.call(document.getElementsByTagName("link"))
+    .filter(isIconLink)
+}
+
 /**
  * Removes all icon link tags
  */
 export function removeAllFaviconLinks() {
-  Array.prototype
-    .slice.call(document.getElementsByTagName("link"))
-    .filter(isIconLink)
+  getAllFaviconLinks()
     .forEach(link => link.remove())
 
   existingFavicon = null
