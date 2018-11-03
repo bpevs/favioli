@@ -4,7 +4,6 @@ import { getOptions, isBrowser } from "../browserHelpers/browserHelpers"
 
 // Append new favicon links to the document head
 const documentHead = document.getElementsByTagName("head")[0]
-const hasPreExistingFavicon = getAllFaviconLinks().length
 const PIXEL_GRID = 16
 
 // TODO: Not entirely sure why ff is vertically off-centered atm.
@@ -22,9 +21,14 @@ context.textBaseline = "middle"
 
 let settings = {}
 let hasFavicon = false
+
+/** @type {?HTMLElement} */
+let existingFavicon = null
+
+
 getOptions().then(options => {
   settings = options
-  hasFavicon = Boolean(getAllFaviconLinks().length)
+  hasFavicon = Boolean(isBrowser("FIREFOX") && getAllIconLinks().length)
 })
 
 
@@ -33,14 +37,13 @@ getOptions().then(options => {
  * @param {string} name
  * @param {boolean} shouldOverride
  */
-let existingFavicon = null
-
 export function appendFaviconLink(name, shouldOverride) {
   const href = createEmojiUrl(name)
+  if (!href) return
 
   if (existingFavicon) {
     existingFavicon.setAttribute("href", href)
-  } else if (!hasFavicon) {
+  } else if (!hasFavicon || shouldOverride) {
     const link = createLink(href, EMOJI_SIZE, "image/png")
     existingFavicon = documentHead.appendChild(link)
 
@@ -51,7 +54,11 @@ export function appendFaviconLink(name, shouldOverride) {
   }
 }
 
-export function getAllFaviconLinks() {
+/**
+ * Return an array of link tags that have an icon rel
+ * @returns {Array.<HTMLElement>}
+ */
+export function getAllIconLinks() {
   return Array.prototype
     .slice.call(document.getElementsByTagName("link"))
     .filter(isIconLink)
@@ -61,7 +68,7 @@ export function getAllFaviconLinks() {
  * Removes all icon link tags
  */
 export function removeAllFaviconLinks() {
-  getAllFaviconLinks()
+  getAllIconLinks()
     .forEach(link => link.remove())
 
   existingFavicon = null
@@ -73,7 +80,7 @@ export function removeAllFaviconLinks() {
  * @returns {string}
  */
 function createEmojiUrl(emoji) {
-  if (!emoji) return
+  if (!emoji) return ""
 
   // Calculate sizing
   const char = String(emoji)
