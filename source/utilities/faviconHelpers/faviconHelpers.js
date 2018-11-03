@@ -11,7 +11,9 @@ const PIXEL_GRID = 16
 const verticalOffset = (isBrowser("FIREFOX") ? 40 : 0)
 
 // Initialize canvas and context to render emojis
-const canvas = document.createElement("canvas")
+const canvas = (typeof global !== "undefined")
+  ? require("canvas").createCanvas()
+  : document.createElement("canvas")
 canvas.width = canvas.height = EMOJI_SIZE
 
 const context = (typeof global !== "undefined" && global.testContext) || canvas.getContext("2d")
@@ -20,7 +22,16 @@ context.textAlign = "center"
 context.textBaseline = "middle"
 
 let settings = {}
-getOptions().then(options => settings = options)
+let hasFavicon = false
+
+/** @type {?HTMLElement} */
+let existingFavicon = null
+
+
+getOptions().then(options => {
+  settings = options
+  hasFavicon = Boolean(isBrowser("FIREFOX") && getAllIconLinks().length)
+})
 
 
 /**
@@ -28,14 +39,13 @@ getOptions().then(options => settings = options)
  * @param {string} name
  * @param {boolean} shouldOverride
  */
-let existingFavicon = null
-
 export function appendFaviconLink(name, shouldOverride) {
   const href = createEmojiUrl(name)
+  if (!href) return
 
   if (existingFavicon) {
     existingFavicon.setAttribute("href", href)
-  } else {
+  } else if (!hasFavicon || shouldOverride) {
     const link = createLink(href, EMOJI_SIZE, "image/png")
     existingFavicon = documentHead.appendChild(link)
 
@@ -47,12 +57,20 @@ export function appendFaviconLink(name, shouldOverride) {
 }
 
 /**
+ * Return an array of link tags that have an icon rel
+ * @returns {Array.<HTMLElement>}
+ */
+export function getAllIconLinks() {
+  return Array.prototype
+    .slice.call(document.getElementsByTagName("link"))
+    .filter(isIconLink)
+}
+
+/**
  * Removes all icon link tags
  */
 export function removeAllFaviconLinks() {
-  Array.prototype
-    .slice.call(document.getElementsByTagName("link"))
-    .filter(isIconLink)
+  getAllIconLinks()
     .forEach(link => link.remove())
 
   existingFavicon = null
@@ -64,7 +82,7 @@ export function removeAllFaviconLinks() {
  * @returns {string}
  */
 function createEmojiUrl(emoji) {
-  if (!emoji) return
+  if (!emoji) return ""
 
   // Calculate sizing
   const char = String(emoji)
