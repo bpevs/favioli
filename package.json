@@ -42,7 +42,7 @@
     "@types/jest": "^23.3.5",
     "@types/jsdom": "^12.2.0",
     "babel-core": "^7.0.0-bridge.0",
-    "canvas-prebuilt": "^1.6.11",
+    "canvas": "^2.0.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "enzyme-to-json": "^3.3.4",

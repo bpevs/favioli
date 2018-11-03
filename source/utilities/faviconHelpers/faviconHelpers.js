@@ -11,7 +11,9 @@ const PIXEL_GRID = 16
 const verticalOffset = (isBrowser("FIREFOX") ? 40 : 0)
 
 // Initialize canvas and context to render emojis
-const canvas = document.createElement("canvas")
+const canvas = (typeof global !== "undefined")
+  ? require("canvas").createCanvas()
+  : document.createElement("canvas")
 canvas.width = canvas.height = EMOJI_SIZE
 
 const context = (typeof global !== "undefined" && global.testContext) || canvas.getContext("2d")

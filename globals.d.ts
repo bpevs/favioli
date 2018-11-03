@@ -15,3 +15,8 @@ declare namespace Window {
     chrome: any;
   }
 }
+
+declare module "canvas" {
+  var x: any;
+  export = x;
+}
