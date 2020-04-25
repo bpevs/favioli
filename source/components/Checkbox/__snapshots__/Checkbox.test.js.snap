@@ -64,7 +64,7 @@ exports[`Should run onChange on change 1`] = `
       ],
       "results": Array [
         Object {
-          "isThrow": false,
+          "type": "return",
           "value": undefined,
         },
       ],
