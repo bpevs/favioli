@@ -3,7 +3,7 @@ import React from "react"
 import { isRegexString } from "../../utilities/isRegexString/isRegexString"
 
 
-const DEFAULT_EMOJI = {
+export const DEFAULT_EMOJI = {
   colons: ":grinning:",
   emoticons: [],
   id: "grinning",
@@ -78,11 +78,11 @@ export class OverrideInput extends React.Component {
 
       {
         this.props.canDelete
-         ? <button className="remove" onClick={this._delete.bind(this)}>X</button>
-         : ""
+          ? <button className="remove" onClick={this._delete.bind(this)}>X</button>
+          : ""
       }
 
-      { pickerIsOpen ? <Picker
+      {pickerIsOpen ? <Picker
         style={{
           boxShadow: "5px 3px 20px rgba(0,0,0,0.2)",
           position: "absolute",
