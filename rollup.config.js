@@ -11,6 +11,9 @@ function createConfig(name) {
       file: `./dist/base/${name}.js`,
       format: "iife",
       name: name,
+
+      // https://github.com/facebook/regenerator/blob/master/packages/regenerator-runtime/runtime.js#L719
+      strict: false,
     },
     plugins: [
       json(),

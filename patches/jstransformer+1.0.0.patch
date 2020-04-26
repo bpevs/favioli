@@ -1,0 +1,129 @@
+diff --git a/node_modules/jstransformer/index.js b/node_modules/jstransformer/index.js
+index c12d7f9..95e32c9 100644
+--- a/node_modules/jstransformer/index.js
++++ b/node_modules/jstransformer/index.js
+@@ -3,7 +3,10 @@
+ var fs = require('fs');
+ var assert = require('assert');
+ var Promise = require('promise');
+-var isPromise = require('is-promise');
++function isPromise(obj) {
++  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
++}
++
+ 
+ var tr = (module.exports = function (transformer) {
+   return new Transformer(transformer);
+@@ -23,7 +26,7 @@ if (fs.readFile) {
+ 
+ function normalizeFn(result) {
+   if (typeof result === 'function') {
+-    return {fn: result, dependencies: []};
++    return { fn: result, dependencies: [] };
+   } else if (result && typeof result === 'object' && typeof result.fn === 'function') {
+     if ('dependencies' in result) {
+       if (!Array.isArray(result.dependencies)) {
+@@ -50,7 +53,7 @@ function normalizeFnAsync(result, cb) {
+ }
+ function normalize(result) {
+   if (typeof result === 'string') {
+-    return {body: result, dependencies: []};
++    return { body: result, dependencies: [] };
+   } else if (result && typeof result === 'object' && typeof result.body === 'string') {
+     if ('dependencies' in result) {
+       if (!Array.isArray(result.dependencies)) {
+@@ -94,31 +97,31 @@ function Transformer(tr) {
+     'renderFile',
+     'renderFileAsync'
+   ].some(function (method) {
+-    return typeof tr[method] === 'function';
++    return typeof tr[ method ] === 'function';
+   }), 'Transformer must implement at least one of the potential methods.');
+   this._tr = tr;
+   this.name = this._tr.name;
+   this.outputFormat = this._tr.outputFormat;
+-  this.inputFormats = this._tr.inputFormats || [this.name];
++  this.inputFormats = this._tr.inputFormats || [ this.name ];
+ }
+ 
+ var fallbacks = {
+-  compile: ['compile', 'render'],
+-  compileAsync: ['compileAsync', 'compile', 'render'],
+-  compileFile: ['compileFile', 'compile', 'renderFile', 'render'],
++  compile: [ 'compile', 'render' ],
++  compileAsync: [ 'compileAsync', 'compile', 'render' ],
++  compileFile: [ 'compileFile', 'compile', 'renderFile', 'render' ],
+   compileFileAsync: [
+     'compileFileAsync', 'compileFile', 'compileAsync', 'compile',
+     'renderFile', 'render'
+   ],
+-  compileClient: ['compileClient'],
+-  compileClientAsync: ['compileClientAsync', 'compileClient'],
+-  compileFileClient: ['compileFileClient', 'compileClient'],
++  compileClient: [ 'compileClient' ],
++  compileClientAsync: [ 'compileClientAsync', 'compileClient' ],
++  compileFileClient: [ 'compileFileClient', 'compileClient' ],
+   compileFileClientAsync: [
+     'compileFileClientAsync', 'compileFileClient', 'compileClientAsync', 'compileClient'
+   ],
+-  render: ['render', 'compile'],
+-  renderAsync: ['renderAsync', 'render', 'compileAsync', 'compile'],
+-  renderFile: ['renderFile', 'render', 'compileFile', 'compile'],
++  render: [ 'render', 'compile' ],
++  renderAsync: [ 'renderAsync', 'render', 'compileAsync', 'compile' ],
++  renderFile: [ 'renderFile', 'render', 'compileFile', 'compile' ],
+   renderFileAsync: [
+     'renderFileAsync', 'renderFile', 'renderAsync', 'render',
+     'compileFileAsync', 'compileFile', 'compileAsync', 'compile'
+@@ -126,10 +129,10 @@ var fallbacks = {
+ };
+ 
+ Transformer.prototype._hasMethod = function (method) {
+-  return typeof this._tr[method] === 'function';
++  return typeof this._tr[ method ] === 'function';
+ };
+ Transformer.prototype.can = function (method) {
+-  return fallbacks[method].some(function (method) {
++  return fallbacks[ method ].some(function (method) {
+     return this._hasMethod(method);
+   }.bind(this));
+ };
+@@ -290,7 +293,7 @@ Transformer.prototype.render = function (str, options, locals) {
+     if (typeof body !== 'string') {
+       throw new Error('The Transform "' + this.name + '" does not support rendering synchronously.');
+     }
+-    return tr.normalize({body: body, dependencies: compiled.dependencies});
++    return tr.normalize({ body: body, dependencies: compiled.dependencies });
+   }
+ };
+ Transformer.prototype.renderAsync = function (str, options, locals, cb) {
+@@ -311,7 +314,7 @@ Transformer.prototype.renderAsync = function (str, options, locals, cb) {
+     return tr.normalizeAsync(this._tr.render(str, options, locals), cb);
+   } else {
+     return tr.normalizeAsync(this.compileAsync(str, options).then(function (compiled) {
+-      return {body: compiled.fn(locals || options), dependencies: compiled.dependencies};
++      return { body: compiled.fn(locals || options), dependencies: compiled.dependencies };
+     }), cb);
+   }
+ };
+@@ -328,7 +331,7 @@ Transformer.prototype.renderFile = function (filename, options, locals) {
+     return tr.normalize(this._tr.render(tr.readFileSync(filename, 'utf8'), options, locals));
+   } else { // compile || compileFile
+     var compiled = this.compileFile(filename, options);
+-    return tr.normalize({body: compiled.fn(locals || options), dependencies: compiled.dependencies});
++    return tr.normalize({ body: compiled.fn(locals || options), dependencies: compiled.dependencies });
+   }
+ };
+ Transformer.prototype.renderFileAsync = function (filename, options, locals, cb) {
+@@ -345,9 +348,9 @@ Transformer.prototype.renderFileAsync = function (filename, options, locals, cb)
+   } else if (this._hasMethod('renderFile')) {
+     return tr.normalizeAsync(this._tr.renderFile(filename, options, locals), cb);
+   } else if (this._hasMethod('compile') || this._hasMethod('compileAsync')
+-             || this._hasMethod('compileFile') || this._hasMethod('compileFileAsync')) {
++    || this._hasMethod('compileFile') || this._hasMethod('compileFileAsync')) {
+     return tr.normalizeAsync(this.compileFileAsync(filename, options).then(function (compiled) {
+-      return {body: compiled.fn(locals || options), dependencies: compiled.dependencies};
++      return { body: compiled.fn(locals || options), dependencies: compiled.dependencies };
+     }), cb);
+   } else { // render || renderAsync
+     if (!options) options = {};

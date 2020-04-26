@@ -5,13 +5,13 @@ import { Picker } from "emoji-mart"
 
 const mockOverride = {
   emoji: {
-      "colons": ":grinning:",
-      "emoticons": [],
-      "id": "grinning",
-      "name": "Grinning Face",
-      "native": "😀",
-      "skin": null,
-      "unified": "1f600",
+    "colons": ":grinning:",
+    "emoticons": [],
+    "id": "grinning",
+    "name": "Grinning Face",
+    "native": "😀",
+    "skin": null,
+    "unified": "1f600",
   },
   filter: "bookface",
 }
@@ -125,7 +125,7 @@ test("Should run onChange and close emojimart on selecting emoji", () => {
   const override = wrapper.find(".override-inputs button.emoji").first()
   override.simulate("click", mockOverride)
 
-  const emoji = wrapper.find("span.emoji-mart-emoji span").first()
+  const emoji = wrapper.find(".emoji-mart-emoji span").first()
   emoji.simulate("click")
 
   expect(onChange).toHaveBeenCalledTimes(1)

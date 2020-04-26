@@ -1,5 +1,5 @@
 import React from "react"
-import { OverrideInput } from "./OverrideInput"
+import { DEFAULT_EMOJI, OverrideInput } from "./OverrideInput"
 
 
 export class OverridesList extends React.Component {
@@ -23,9 +23,11 @@ export class OverridesList extends React.Component {
     if (toDelete)
       overrides.splice(index, 1)
     else {
-      overrides[index] = overrides[index] || {}
-      if (emoji != null) overrides[index].emoji = emoji
-      if (filter != null) overrides[index].filter = filter
+      overrides[ index ] = overrides[ index ] || {
+        emoji: DEFAULT_EMOJI,
+      }
+      if (emoji != null) overrides[ index ].emoji = emoji
+      if (filter != null) overrides[ index ].filter = filter
     }
 
     this.setState({ overrides }, () => {
@@ -51,7 +53,7 @@ export class OverridesList extends React.Component {
           onChange={this.onChange.bind(this)}
         />)
     }
-  </div>
+    </div>
   }
 }
 

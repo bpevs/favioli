@@ -47,7 +47,7 @@ function hasFavIcon(tab) {
 
 /**
  *  If the url has an override, return it. Otherwise, return ""
- *  @param {object} overrideSet
+ *  @param {any[]} overrideSet
  *  @param {URL} url of the current site
  *  @param {object} options favioli options
  * .@return {string} emoji string or empty string if no
@@ -56,10 +56,10 @@ function getOverride(overrideSet, url, options) {
   if (!options) return ""
 
   for (let i = 0; i <= overrideSet.length; i++) {
-    if (!overrideSet[i]) return ""
+    if (!overrideSet[ i ]) return ""
 
-    const { emoji, filter } = overrideSet[i]
-    if (!filter) return
+    const { emoji, filter } = overrideSet[ i ]
+    if (!emoji || !filter) return ""
 
     if (!isRegexString(filter) && url.href.indexOf(filter) !== -1) {
       return emoji.native
