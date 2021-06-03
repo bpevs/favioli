@@ -8,6 +8,7 @@ const defaultOptions = {
   flagReplaced: false,
   overrideAll: false,
   overrides: [],
+  skips: [],
 }
 
 /**
@@ -46,8 +47,9 @@ export function getOptions() {
 
       const overrides = (options && options.overrides || [])
         .map(normalizeOverride.bind(this, options))
+      const skips = (options && options.skips || [])
 
-      resolve(Object.assign({}, defaultOptions, options, { overrides }))
+      resolve(Object.assign({}, defaultOptions, options, { overrides, skips }))
     },
   ))
 }
@@ -111,7 +113,8 @@ export function setOptions(toSet) {
   const options = {
     flagReplaced: Boolean(toSet.flagReplaced),
     overrideAll: Boolean(toSet.overrideAll),
-    overrides: toSet.overrides || defaultOptions,
+    overrides: toSet.overrides || defaultOptions.overrides,
+    skips: toSet.skips || defaultOptions.skips
   }
 
   return new Promise((resolve, reject) => storage.sync.set(

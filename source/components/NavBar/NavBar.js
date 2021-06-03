@@ -12,6 +12,12 @@ export const NavBar = ({
     href="#overrides" />
   </li>
   <li><a
+    className={"navlink " + (route === "SKIPPED" ? "active" : "")}
+    children="Skipped"
+    onClick={onSelect}
+    href="#skipped" />
+  </li>
+  <li><a
     className={"navlink " + (route === "SETTINGS" ? "active" : "")}
     children="Settings"
     onClick={onSelect}
