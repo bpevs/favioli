@@ -34,7 +34,6 @@ export class SkipsList extends React.Component {
   }
 
   render() {
-    console.log('SKIPS', this.state)
     return <div className="override-inputs">{
       this.state.skips
         .map((filter, index) => <SkipsInput

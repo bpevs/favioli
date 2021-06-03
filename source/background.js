@@ -81,7 +81,7 @@ function getOverride(overrideSet, url, options) {
  *  @param {object} options favioli options
  * .@return {string} `true` if we should not set favicon
  */
-function shouldSkip(skipSet, url) {
+function shouldSkip(skipSet = [], url) {
   if (!options) return false
 
   for (let i = 0; i <= skipSet.length; i++) {
@@ -118,7 +118,7 @@ function tryToSetFavicon(tabId, tab) {
   const url = new URL(tab.url)
   const frameId = 0 // Don't replace iframes
 
-  if (shouldSkip(options.skips, url)) return;
+  if (shouldSkip(options.skips, url)) return
 
   const overrideFavIcon = getOverride(options.overrides, url, options)
 

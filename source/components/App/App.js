@@ -51,10 +51,6 @@ export class App extends React.Component {
         onChange={this._updateOptions.bind(this)}
         overrides={overrides}
       />,
-      SKIPPED: <SkipsList
-        onChange={this._updateOptions.bind(this)}
-        skips={skips}
-      />,
       SETTINGS: (<div>
         <Checkbox
           checked={flagReplaced}
@@ -62,6 +58,10 @@ export class App extends React.Component {
           onChange={this._updateOptions.bind(this)}
         />
       </div>),
+      SKIPPED: <SkipsList
+        onChange={this._updateOptions.bind(this)}
+        skips={skips}
+      />,
     }
 
     return (

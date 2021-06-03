@@ -114,7 +114,7 @@ export function setOptions(toSet) {
     flagReplaced: Boolean(toSet.flagReplaced),
     overrideAll: Boolean(toSet.overrideAll),
     overrides: toSet.overrides || defaultOptions.overrides,
-    skips: toSet.skips || defaultOptions.skips
+    skips: toSet.skips || defaultOptions.skips,
   }
 
   return new Promise((resolve, reject) => storage.sync.set(

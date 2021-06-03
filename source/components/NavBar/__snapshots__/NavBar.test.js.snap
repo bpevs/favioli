@@ -20,6 +20,15 @@ exports[`Should Render NavBar 1`] = `
     <li>
       <a
         className="navlink "
+        href="#skipped"
+        onClick={[MockFunction]}
+      >
+        Skipped
+      </a>
+    </li>
+    <li>
+      <a
+        className="navlink "
         href="#settings"
         onClick={[MockFunction]}
       >
@@ -45,6 +54,15 @@ exports[`Should Render NavBar 2`] = `
         onClick={[MockFunction]}
       >
         Overrides
+      </a>
+    </li>
+    <li>
+      <a
+        className="navlink "
+        href="#skipped"
+        onClick={[MockFunction]}
+      >
+        Skipped
       </a>
     </li>
     <li>
