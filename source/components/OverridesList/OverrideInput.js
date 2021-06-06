@@ -61,7 +61,7 @@ export class OverrideInput extends React.Component {
     const { emoji, filter } = this.props
     const filterColor = isRegexString(filter) ? "green" : "black"
 
-    return <div className="override">
+    return <div className="list-item">
       <input
         autoFocus={this.props.autoFocus}
         className="filter"

@@ -112,7 +112,7 @@ exports[`Should update with new overrides 1`] = `
       onChange={[Function]}
     >
       <div
-        className="override"
+        className="list-item"
       >
         <input
           autoFocus={true}
@@ -159,7 +159,7 @@ exports[`Should update with new overrides 1`] = `
       onChange={[Function]}
     >
       <div
-        className="override"
+        className="list-item"
       >
         <input
           className="filter"
@@ -239,7 +239,7 @@ exports[`Should update with new overrides 2`] = `
       onChange={[Function]}
     >
       <div
-        className="override"
+        className="list-item"
       >
         <input
           autoFocus={true}
@@ -286,7 +286,7 @@ exports[`Should update with new overrides 2`] = `
       onChange={[Function]}
     >
       <div
-        className="override"
+        className="list-item"
       >
         <input
           className="filter"

@@ -1,5 +1,5 @@
 import React from "react"
-import { Checkbox, NavBar, OverridesList } from "../../components/components"
+import { Checkbox, NavBar, OverridesList, SkipsList } from "../../components/components"
 import { getOptions, setOptions } from "../../utilities/browserHelpers/browserHelpers"
 
 
@@ -10,6 +10,7 @@ export class App extends React.Component {
       flagReplaced: false,
       overrides: [],
       route: window.location.hash.substr(1) || "overrides",
+      skips: [],
       status: "",
     }
 
@@ -42,7 +43,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const { flagReplaced, overrides, status } = this.state
+    const { flagReplaced, overrides, skips, status } = this.state
     const route = this.state.route.toUpperCase()
 
     const pages = {
@@ -57,6 +58,10 @@ export class App extends React.Component {
           onChange={this._updateOptions.bind(this)}
         />
       </div>),
+      SKIPPED: <SkipsList
+        onChange={this._updateOptions.bind(this)}
+        skips={skips}
+      />,
     }
 
     return (

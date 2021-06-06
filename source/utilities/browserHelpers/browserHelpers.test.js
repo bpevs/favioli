@@ -52,6 +52,7 @@ test("Should set options to storage", async function () {
     flagReplaced: false,
     overrideAll: true,
     overrides: [ "override1" ],
+    skips: [],
     moo: "hehehe",
   }
 

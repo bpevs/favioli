@@ -72,6 +72,34 @@ function getOverride(overrideSet, url, options) {
   return ""
 }
 
+// `false` if we should not skip
+// `true` if we should skip
+/**
+ *  If the url is in skip list, return true ""
+ *  @param {any[]} skipsSet
+ *  @param {URL} url of the current site
+ *  @param {object} options favioli options
+ * .@return {string} `true` if we should not set favicon
+ */
+function shouldSkip(skipSet = [], url) {
+  if (!options) return false
+
+  for (let i = 0; i <= skipSet.length; i++) {
+    const filter = skipSet[ i ]
+
+    if (filter) {
+      if (isRegexString(filter)) {
+        const filterRegex = new RegExp(filter.slice(1, filter.length - 1))
+        if (url.href.match(filterRegex)) return true
+      } else {
+        if (url.href.indexOf(filter) !== -1) return true
+      }
+    }
+  }
+
+  return false
+}
+
 /**
  *  Fetch extension options from Chrome,
  *  and determine the EmojiSet to use for auto-replacement
@@ -89,6 +117,9 @@ async function init() {
 function tryToSetFavicon(tabId, tab) {
   const url = new URL(tab.url)
   const frameId = 0 // Don't replace iframes
+
+  if (shouldSkip(options.skips, url)) return
+
   const overrideFavIcon = getOverride(options.overrides, url, options)
 
   const shouldOverride = Boolean(overrideFavIcon || options.overrideAll)
