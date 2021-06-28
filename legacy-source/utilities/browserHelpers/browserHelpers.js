@@ -1,22 +1,22 @@
-import getEmojiFromLegacyString from "../../constants/emoji2Name"
+import getEmojiFromLegacyString from "../../constants/emoji2Name";
 
-const CHROME = "CHROME"
-const FIREFOX = "FIREFOX"
-const { storage, runtime, tabs } = isBrowser("CHROME") ? chrome : browser
+const CHROME = "CHROME";
+const FIREFOX = "FIREFOX";
+const { storage, runtime, tabs } = isBrowser("CHROME") ? chrome : browser;
 
 const defaultOptions = {
   flagReplaced: false,
   overrideAll: false,
   overrides: [],
   skips: [],
-}
+};
 
 /**
  * Add a listener for runtime messages
  * @param  {...any} args
  */
 export function onRuntimeMessage(...args) {
-  runtime.onMessage.addListener(...args)
+  runtime.onMessage.addListener(...args);
 }
 
 /**
@@ -24,7 +24,7 @@ export function onRuntimeMessage(...args) {
  * @param  {...any} args
  */
 export function onTabsUpdated(...args) {
-  tabs.onUpdated.addListener(...args)
+  tabs.onUpdated.addListener(...args);
 }
 
 /**
@@ -32,28 +32,30 @@ export function onTabsUpdated(...args) {
  * @param {number} tabId
  */
 export function getTab(tabId) {
-  return new Promise(resolve => tabs.get(tabId, resolve))
+  return new Promise((resolve) => tabs.get(tabId, resolve));
 }
-
 
 /**
  * Get options.
  */
 export function getOptions() {
-  return new Promise((resolve, reject) => storage.sync.get(
-    Object.keys(defaultOptions),
-    options => {
-      if (runtime.lastError) return reject(runtime.lastError)
+  return new Promise((resolve, reject) =>
+    storage.sync.get(
+      Object.keys(defaultOptions),
+      (options) => {
+        if (runtime.lastError) return reject(runtime.lastError);
 
-      const overrides = (options && options.overrides || [])
-        .map(normalizeOverride.bind(this, options))
-      const skips = (options && options.skips || [])
+        const overrides = (options && options.overrides || [])
+          .map(normalizeOverride.bind(this, options));
+        const skips = (options && options.skips || []);
 
-      resolve(Object.assign({}, defaultOptions, options, { overrides, skips }))
-    },
-  ))
+        resolve(
+          Object.assign({}, defaultOptions, options, { overrides, skips }),
+        );
+      },
+    )
+  );
 }
-
 
 /**
  * Legacy Favioli used straight emoji strings. Using the format of
@@ -67,7 +69,7 @@ function normalizeOverride(options, override) {
     emoji: typeof override.emoji === "string"
       ? getEmojiFromLegacyString(options.overrides[0].emoji)
       : override.emoji,
-  })
+  });
 }
 
 /**
@@ -75,14 +77,14 @@ function normalizeOverride(options, override) {
  * @param {string} toCheck to check
  */
 export function isBrowser(toCheck) {
-  let currentBrowser = CHROME
+  let currentBrowser = CHROME;
   try {
-    if (navigator.userAgent.indexOf("Firefox") > 0) currentBrowser = FIREFOX
+    if (navigator.userAgent.indexOf("Firefox") > 0) currentBrowser = FIREFOX;
   } finally {
-    if (!toCheck) return currentBrowser
-    if (toCheck === CHROME && currentBrowser === CHROME) return true
-    if (toCheck === FIREFOX && currentBrowser === FIREFOX) return true
-    return false
+    if (!toCheck) return currentBrowser;
+    if (toCheck === CHROME && currentBrowser === CHROME) return true;
+    if (toCheck === FIREFOX && currentBrowser === FIREFOX) return true;
+    return false;
   }
 }
 
@@ -91,7 +93,7 @@ export function isBrowser(toCheck) {
  * @param  {...any} args
  */
 export function sendRuntimeMessage(...args) {
-  runtime.sendMessage(...args)
+  runtime.sendMessage(...args);
 }
 
 /**
@@ -100,7 +102,7 @@ export function sendRuntimeMessage(...args) {
  * @param  {object} options
  */
 export function sendTabsMessage(id, options) {
-  tabs.sendMessage(id, options)
+  tabs.sendMessage(id, options);
 }
 
 /**
@@ -108,18 +110,20 @@ export function sendTabsMessage(id, options) {
  * @param {object} toSet
  */
 export function setOptions(toSet) {
-  if (!toSet) return
+  if (!toSet) return;
 
   const options = {
     flagReplaced: Boolean(toSet.flagReplaced),
     overrideAll: Boolean(toSet.overrideAll),
     overrides: toSet.overrides || defaultOptions.overrides,
     skips: toSet.skips || defaultOptions.skips,
-  }
+  };
 
-  return new Promise((resolve, reject) => storage.sync.set(
-    options,
-    () => runtime.lastError ? reject(runtime.lastError) : resolve(),
-  ))
-  .then(() => runtime.sendMessage("updated:options"))
+  return new Promise((resolve, reject) =>
+    storage.sync.set(
+      options,
+      () => runtime.lastError ? reject(runtime.lastError) : resolve(),
+    )
+  )
+    .then(() => runtime.sendMessage("updated:options"));
 }

@@ -1,4 +1,4 @@
-import { emojiIndex } from "emoji-mart"
+import { emojiIndex } from "emoji-mart";
 
 // Emojis from v1.0, so we can map from char to name.
 // This is because emoji-mart can't search via char.
@@ -1435,13 +1435,13 @@ export const oldFavioliEmojisMap = {
   "⏮": "black_left_pointing_double_triangle_with_vertical_bar",
   "🗯": "right_anger_bubble",
   "🗨": "left_speech_bubble",
-}
+};
 
 export default function getEmoji(string) {
-  if (!oldFavioliEmojisMap[string]) return null
+  if (!oldFavioliEmojisMap[string]) return null;
 
-  const emojis = emojiIndex.search(oldFavioliEmojisMap[string]) || []
+  const emojis = emojiIndex.search(oldFavioliEmojisMap[string]) || [];
 
-  if (emojis && emojis.length) return emojis[0]
-  return null
+  if (emojis && emojis.length) return emojis[0];
+  return null;
 }

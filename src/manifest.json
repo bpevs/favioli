@@ -30,11 +30,11 @@
     "tabs"
   ],
   "icons": {
-    "32": "icons/32.png",
-    "48": "icons/48.png",
-    "64": "icons/64.png",
-    "128": "icons/128.png",
-    "256": "icons/256.png"
+    "32": "static/icons/32.png",
+    "48": "static/icons/48.png",
+    "64": "static/icons/64.png",
+    "128": "static/icons/128.png",
+    "256": "static/icons/256.png"
   },
   "applications": {
     "gecko": {

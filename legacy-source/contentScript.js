@@ -1,17 +1,24 @@
-import { getOptions, onRuntimeMessage, sendRuntimeMessage } from "./utilities/browserHelpers/browserHelpers"
-import { appendFaviconLink, removeAllFaviconLinks } from "./utilities/faviconHelpers/faviconHelpers"
+import {
+  getOptions,
+  onRuntimeMessage,
+  sendRuntimeMessage,
+} from "./utilities/browserHelpers/browserHelpers";
+import {
+  appendFaviconLink,
+  removeAllFaviconLinks,
+} from "./utilities/faviconHelpers/faviconHelpers";
 
 getOptions().then(() => {
-  onRuntimeMessage(updateFavicon)
-  sendRuntimeMessage(null, "updated:tab")
-})
+  onRuntimeMessage(updateFavicon);
+  sendRuntimeMessage(null, "updated:tab");
+});
 
 /**
  * Attempt to add a favicon to the current site
  * @param {any} options
  */
 function updateFavicon({ name, shouldOverride }) {
-  if (shouldOverride) removeAllFaviconLinks()
+  if (shouldOverride) removeAllFaviconLinks();
 
-  appendFaviconLink(name, shouldOverride)
+  appendFaviconLink(name, shouldOverride);
 }

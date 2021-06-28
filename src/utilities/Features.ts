@@ -1,7 +1,5 @@
-import defaultFeatureFlags from '../config/defaultFeatureFlags';
+import defaultFeatureFlags from "../config/features.ts";
 
-export class Features {
-  isActive(featureName) {
-    return defaultFeatureFlags[featureName];
-  }
+export function isActive(featureName) {
+  return defaultFeatureFlags[featureName];
 }

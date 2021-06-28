@@ -5,7 +5,7 @@
  */
 
 export function isRegexString(filter) {
-  return filter.length > 2
-    && filter.startsWith("/")
-    && filter.endsWith("/")
+  return filter.length > 2 &&
+    filter.startsWith("/") &&
+    filter.endsWith("/");
 }

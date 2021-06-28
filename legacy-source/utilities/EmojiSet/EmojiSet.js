@@ -5,7 +5,6 @@
  */
 
 export class EmojiSet {
-
   /**
    * @constructor
    * Accepts an array of arguments that can be any of:
@@ -17,7 +16,7 @@ export class EmojiSet {
    * @param {...*} args
    */
   constructor(...args) {
-    this.emojis = flattenEmojis(args).filter(emoji => emoji && emoji.trim())
+    this.emojis = flattenEmojis(args).filter((emoji) => emoji && emoji.trim());
   }
 
   /**
@@ -25,7 +24,7 @@ export class EmojiSet {
    * .@return {string[]} Emoji Array
    */
   get() {
-    return this.emojis.slice()
+    return this.emojis.slice();
   }
 
   /**
@@ -33,9 +32,8 @@ export class EmojiSet {
    *  @return {string} emoji
    */
   getEmoji() {
-    return this.getEmojiFromHost(location.host)
+    return this.getEmojiFromHost(location.host);
   }
-
 
   /**
    * Gets a single emoji from a host string
@@ -43,25 +41,23 @@ export class EmojiSet {
    *  @return {string} emoji
    */
   getEmojiFromHost(host) {
-    const emojiIndex = Math.abs(sdbm(host)) % this.emojis.length
-    return this.emojis[emojiIndex]
+    const emojiIndex = Math.abs(sdbm(host)) % this.emojis.length;
+    return this.emojis[emojiIndex];
   }
 }
-
 
 /**
  * Create one giant array of emojis from all the constructor params.
  *  @param {any[]} args
  */
 function flattenEmojis(args) {
-  if (typeof args === "string") return args.split(" ")
-  if (typeof args === "number") return [ String.fromCodePoint(args) ]
-  if (isRange(args)) return rangeToCharArray.apply(null, args)
+  if (typeof args === "string") return args.split(" ");
+  if (typeof args === "number") return [String.fromCodePoint(args)];
+  if (isRange(args)) return rangeToCharArray.apply(null, args);
   if (Array.isArray(args)) {
-    return Array.prototype.concat(...args.map(flattenEmojis))
+    return Array.prototype.concat(...args.map(flattenEmojis));
   }
 }
-
 
 /**
  *  Determines whether we have a number tuple
@@ -69,12 +65,11 @@ function flattenEmojis(args) {
  *  @return {boolean}
  */
 function isRange(item) {
-  return Array.isArray(item)
-    && item.length === 2
-    && typeof item[0] === "number"
-    && typeof item[1] === "number"
+  return Array.isArray(item) &&
+    item.length === 2 &&
+    typeof item[0] === "number" &&
+    typeof item[1] === "number";
 }
-
 
 /**
  *  Gets an array of emojis from a codePoint tuple
@@ -85,7 +80,7 @@ function isRange(item) {
 function rangeToCharArray(first, last) {
   return Array(last - first)
     .fill(null)
-    .map((_, i) => String.fromCodePoint(i + first))
+    .map((_, i) => String.fromCodePoint(i + first));
 }
 
 /* tslint:disable no-bitwise */
@@ -98,8 +93,8 @@ function rangeToCharArray(first, last) {
  */
 function sdbm(key) {
   return String(key).split("").reduce((hash, char, i) => {
-    const charCode = key.charCodeAt(i)
-    return charCode + (hash << 6) + (hash << 16) - hash
-  }, 0) >>> 0
+    const charCode = key.charCodeAt(i);
+    return charCode + (hash << 6) + (hash << 16) - hash;
+  }, 0) >>> 0;
 }
 /* tslint:enable no-bitwise */

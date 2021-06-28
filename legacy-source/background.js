@@ -1,35 +1,33 @@
-import debounce from "lodash.debounce"
-import { DEFAULT_OVERRIDES, DEFAULT_SET } from "./constants/constants"
+import debounce from "lodash.debounce";
+import { DEFAULT_OVERRIDES, DEFAULT_SET } from "./constants/constants";
 import {
   getOptions,
   onRuntimeMessage,
   onTabsUpdated,
   sendTabsMessage,
-} from "./utilities/browserHelpers/browserHelpers"
-import { EmojiSet } from "./utilities/EmojiSet/EmojiSet"
-import { isRegexString } from "./utilities/isRegexString/isRegexString"
+} from "./utilities/browserHelpers/browserHelpers";
+import { EmojiSet } from "./utilities/EmojiSet/EmojiSet";
+import { isRegexString } from "./utilities/isRegexString/isRegexString";
 
-
-var options // Favioli Options
-var emojis // Auto-replacement Emoji Set
+var options; // Favioli Options
+var emojis; // Auto-replacement Emoji Set
 
 // After we get our options, start listening for url updates
 init().then(() => {
   // If a tab updates, check to see whether we should set a favicon
   onTabsUpdated(debounce((tabId, opts, tab) => {
-    tryToSetFavicon(tabId, tab)
-  }, 500))
-})
+    tryToSetFavicon(tabId, tab);
+  }, 500));
+});
 
 onRuntimeMessage((message, details) => {
-  const tab = details.tab
+  const tab = details.tab;
   // If we manually say a tab has been updated, try to set favicon
-  if (message === "updated:tab") tryToSetFavicon(tab.id, tab)
+  if (message === "updated:tab") tryToSetFavicon(tab.id, tab);
 
   // If our options change, re-run init to get new options
-  if (message === "updated:options") init()
-})
-
+  if (message === "updated:options") init();
+});
 
 /**
  *  Determines whether tab has native favIcon.
@@ -40,10 +38,9 @@ onRuntimeMessage((message, details) => {
 function hasFavIcon(tab) {
   return Boolean(
     tab.favIconUrl &&
-    tab.favIconUrl.indexOf("http") > -1,
-  )
+      tab.favIconUrl.indexOf("http") > -1,
+  );
 }
-
 
 /**
  *  If the url has an override, return it. Otherwise, return ""
@@ -53,23 +50,23 @@ function hasFavIcon(tab) {
  * .@return {string} emoji string or empty string if no
  */
 function getOverride(overrideSet, url, options) {
-  if (!options) return ""
+  if (!options) return "";
 
   for (let i = 0; i <= overrideSet.length; i++) {
-    if (!overrideSet[ i ]) return ""
+    if (!overrideSet[i]) return "";
 
-    const { emoji, filter } = overrideSet[ i ]
-    if (!emoji || !filter) return ""
+    const { emoji, filter } = overrideSet[i];
+    if (!emoji || !filter) return "";
 
     if (!isRegexString(filter) && url.href.indexOf(filter) !== -1) {
-      return emoji.native
+      return emoji.native;
     }
 
-    const filterRegex = new RegExp(filter.slice(1, filter.length - 1))
-    if (url.href.match(filterRegex)) return emoji.native
+    const filterRegex = new RegExp(filter.slice(1, filter.length - 1));
+    if (url.href.match(filterRegex)) return emoji.native;
   }
 
-  return ""
+  return "";
 }
 
 // `false` if we should not skip
@@ -82,22 +79,22 @@ function getOverride(overrideSet, url, options) {
  * .@return {string} `true` if we should not set favicon
  */
 function shouldSkip(skipSet = [], url) {
-  if (!options) return false
+  if (!options) return false;
 
   for (let i = 0; i <= skipSet.length; i++) {
-    const filter = skipSet[ i ]
+    const filter = skipSet[i];
 
     if (filter) {
       if (isRegexString(filter)) {
-        const filterRegex = new RegExp(filter.slice(1, filter.length - 1))
-        if (url.href.match(filterRegex)) return true
+        const filterRegex = new RegExp(filter.slice(1, filter.length - 1));
+        if (url.href.match(filterRegex)) return true;
       } else {
-        if (url.href.indexOf(filter) !== -1) return true
+        if (url.href.indexOf(filter) !== -1) return true;
       }
     }
   }
 
-  return false
+  return false;
 }
 
 /**
@@ -105,8 +102,8 @@ function shouldSkip(skipSet = [], url) {
  *  and determine the EmojiSet to use for auto-replacement
  */
 async function init() {
-  options = await getOptions()
-  emojis = new EmojiSet(DEFAULT_SET)
+  options = await getOptions();
+  emojis = new EmojiSet(DEFAULT_SET);
 }
 
 /**
@@ -115,21 +112,21 @@ async function init() {
  *  @param {object} tab Chrome tab we're visiting
  */
 function tryToSetFavicon(tabId, tab) {
-  const url = new URL(tab.url)
-  const frameId = 0 // Don't replace iframes
+  const url = new URL(tab.url);
+  const frameId = 0; // Don't replace iframes
 
-  if (shouldSkip(options.skips, url)) return
+  if (shouldSkip(options.skips, url)) return;
 
-  const overrideFavIcon = getOverride(options.overrides, url, options)
+  const overrideFavIcon = getOverride(options.overrides, url, options);
 
-  const shouldOverride = Boolean(overrideFavIcon || options.overrideAll)
-  const shouldSetFavIcon = shouldOverride || !hasFavIcon(tab)
+  const shouldOverride = Boolean(overrideFavIcon || options.overrideAll);
+  const shouldSetFavIcon = shouldOverride || !hasFavIcon(tab);
 
-  if (!shouldSetFavIcon) return
+  if (!shouldSetFavIcon) return;
 
-  const name = overrideFavIcon
-    || getOverride(DEFAULT_OVERRIDES, url, options)
-    || emojis.getEmojiFromHost(url.host)
+  const name = overrideFavIcon ||
+    getOverride(DEFAULT_OVERRIDES, url, options) ||
+    emojis.getEmojiFromHost(url.host);
 
-  sendTabsMessage(tabId, { frameId, shouldOverride, name })
+  sendTabsMessage(tabId, { frameId, shouldOverride, name });
 }

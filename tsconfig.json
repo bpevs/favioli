@@ -13,27 +13,17 @@
     ],
     "module": "commonjs",
     "noImplicitAny": true,
-    "paths": {
-      "*": [
-        "node_modules/*",
-        "/node_modules/*"
-      ]
-    },
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "es5"
   },
   "exclude": [
     "dist",
-    "node_modules",
-    "**/node_modules/*",
-    "source/constants",
+    "src/constants",
     "**/*.test.js",
-    "**/*.test.jsx",
+    "**/*.test.jsx"
   ],
   "include": [
-    "./globals.d.ts",
-    "jestsetup.js",
-    "./source/**/*"
+    "./globals.d.ts"
   ]
 }
