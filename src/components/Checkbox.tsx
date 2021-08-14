@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from "../deps.ts";
+import { React } from "../deps.ts";
+
+export type Target = { [name: string]: boolean };
 
 export interface CheckboxProps {
   checked?: boolean;
   name: string;
   label: string;
-  onChange?: (...args: any[]) => void;
+  onChange?: (target: Target) => void;
 }
 
 export default function Checkbox({
@@ -13,25 +15,23 @@ export default function Checkbox({
   label,
   ...props
 }: CheckboxProps) {
-  const [isFocused, setFocused] = useState(false);
+  const [isFocused, setFocused] = React.useState(false);
 
-  const onBlur = useCallback(() => {
+  const onBlur = React.useCallback(() => {
     setFocused(false);
-  });
+  }, [setFocused]);
 
-  const onFocus = useCallback(() => {
+  const onFocus = React.useCallback(() => {
     setFocused(true);
-  });
+  }, [setFocused]);
 
-  const onChange = useCallback((e) => {
+  const onChange = React.useCallback((e) => {
     const { name, checked } = e?.target || {};
-    props.onChange({ [name]: checked });
-  });
-
-  const focusClass = isFocused ? "focused" : "";
+    if (props.onChange) props.onChange({ [name]: checked });
+  }, [props.onChange]);
 
   return (
-    <div className={`checkbox ${focusClass}`}>
+    <div className={`checkbox ${isFocused ? "focused" : ""}`}>
       <label className="help">{label}</label>
       <input
         id="flag"

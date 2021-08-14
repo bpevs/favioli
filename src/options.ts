@@ -3,8 +3,7 @@
  * The page that hosts settings, etc.
  */
 
-import React from "react";
-import ReactDOM from "react-dom";
+import { React, ReactDOM } from "./deps.ts";
 import { App } from "./components/App/App";
 
 ReactDOM.render(

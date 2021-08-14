@@ -7,12 +7,12 @@ export interface Locale {
   [name: string]: LocalizedString;
 }
 
-import en from './locales/en.js';
+import en from "./locales/en.js";
 
 const locales: {
-  [name: string]: Locale
+  [name: string]: Locale;
 } = {
-  en
-}
+  en,
+};
 
 export default locales;

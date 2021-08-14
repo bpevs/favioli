@@ -1,4 +1,4 @@
-import locales, { Locale } from '../config/locales';
+import locales, { Locale } from "../config/locales";
 
 async function getStrings(): Locale {
   const languages = await browser.i18n.getAcceptLanguages();

@@ -1,43 +1,44 @@
-import React, { useCallback, useState } from "../deps.ts";
+import { React } from "../deps.ts";
 import { isRegexString } from "../utilities/isRegexString.ts";
 
-const DEFAULT_INPUT = '';
+type Target = {
+  textValue?: string;
+  index: number;
+  toDelete: boolean;
+};
 
-export interface ListInputProps {
-  autoFocus: any;
+interface ListInputProps {
+  autoFocus: boolean;
   canDelete: boolean;
   value: string;
   index: number;
   placeholder: string;
-  onChange: (
-    value: string | null,
-    index: number,
-    toDelete: boolean
-  ) => void;
+  onChange: (target: Target) => void;
 }
 
 export default function ListInput({
-  autoFocus,
+  autoFocus = false,
   canDelete = true,
   onChange = () => {},
-  placeholder='',
-  value = '',
+  placeholder = "",
+  value: textValue = "",
+  index,
 }: ListInputProps) {
-  const onChangeValue = useCallback(() => {
-    onChange(value, index, false);
-  });
+  const onChangeValue = React.useCallback(() => {
+    onChange({ textValue, index, toDelete: false });
+  }, [onChange]);
 
-  const onDelete = useCallback(() => {
-    onChange(null, index, canDelete);
-  });
+  const onDelete = React.useCallback(() => {
+    onChange({ index, toDelete: canDelete });
+  }, [onChange]);
 
   return (
     <div className="list-item">
       <input
         autoFocus={autoFocus}
         className="filter"
-        style={{ color: isRegexString(filter) ? "green" : "black" }}
-        value={value}
+        style={{ color: isRegexString(textValue) ? "green" : "black" }}
+        value={textValue}
         onChange={onChangeValue}
         placeholder={placeholder}
       />
@@ -46,5 +47,5 @@ export default function ListInput({
         ? <button className="remove" onClick={onDelete} children="X" />
         : ""}
     </div>
-  )
+  );
 }
