@@ -1,8 +1,8 @@
 {
+  "deno.config": "./deno.json",
   "deno.enable": true,
+  "deno.importMap": "./import_map.json",
   "deno.lint": true,
   "deno.unstable": true,
-  "deno.suggest.imports.hosts": {
-    "https://cdn.skypack.dev": false
-  }
+  "editor.defaultFormatter": "denoland.vscode-deno"
 }

@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "emoji": "https://deno.land/x/emoji@0.1.2",
+    "preact": "https://esm.sh/preact?dev",
+    "preact/hooks": "https://esm.sh/preact/hooks?dev",
+    "preact-router": "https://esm.sh/preact-router?dev"
+  }
+}

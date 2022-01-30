@@ -1,0 +1,12 @@
+{
+  "lib": [
+    "deno.ns",
+    "dom",
+    "dom.iterable",
+    "esnext"
+  ],
+  "jsx": "react",
+  "jsxFactory": "h",
+  "jsxFragmentFactory": "Fragment",
+  "target": "es5"
+}
