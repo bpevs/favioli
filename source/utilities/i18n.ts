@@ -18,6 +18,7 @@ const en: { [name: string]: string } = {
   flagReplacedDesc:
     "Show an icon when using a favicon that Favioli has replaced",
   flagReplacedLabel: "Enable Replacement Icon",
+  saveLabel: "Save",
 };
 
 export function t(id: string): string {

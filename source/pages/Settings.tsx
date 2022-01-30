@@ -1,17 +1,19 @@
 /* @jsx h */
 
-import { h } from "preact";
-import { t } from "../utilities/i18n.ts";
+import { Fragment, h } from "preact";
+import { StateUpdater } from "preact/hooks";
 
 import Checkbox from "../components/Checkbox.tsx";
+import { t } from "../utilities/i18n.ts";
 
 export interface SettingsProps {
   default?: boolean;
   path?: string;
+  onChange?: StateUpdater<Record<string, void>>;
 }
 
 const SettingsPage = (props: SettingsProps) => (
-  <div>
+  <Fragment>
     <h1>Settings</h1>
     <Checkbox
       name="flagReplaced"
@@ -25,7 +27,7 @@ const SettingsPage = (props: SettingsProps) => (
       name="enableAutofillFavicon"
       label={t("enableAutofillFaviconLabel")}
     />
-  </div>
+  </Fragment>
 );
 
 export default SettingsPage;

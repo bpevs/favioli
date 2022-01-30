@@ -1,5 +1,10 @@
-import { React } from "../deps.ts";
-import { isRegexString } from "../utilities/isRegexString.ts";
+/* @jsx h */
+
+import { h } from "preact";
+import { useCallback } from "preact/hooks";
+
+import isRegexString from "../utilities/isRegexString.ts";
+import Only from "./Only.tsx";
 
 type Target = {
   textValue?: string;
@@ -24,11 +29,11 @@ export default function ListInput({
   value: textValue = "",
   index,
 }: ListInputProps) {
-  const onChangeValue = React.useCallback(() => {
+  const onChangeValue = useCallback(() => {
     onChange({ textValue, index, toDelete: false });
   }, [onChange]);
 
-  const onDelete = React.useCallback(() => {
+  const onDelete = useCallback(() => {
     onChange({ index, toDelete: canDelete });
   }, [onChange]);
 
@@ -43,9 +48,13 @@ export default function ListInput({
         placeholder={placeholder}
       />
 
-      {canDelete
-        ? <button className="remove" onClick={onDelete} children="X" />
-        : ""}
+      <Only if={canDelete}>
+        <button
+          className="remove"
+          onClick={onDelete}
+          children="X"
+        />
+      </Only>
     </div>
   );
 }

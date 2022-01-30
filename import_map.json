@@ -1,5 +1,6 @@
 {
   "imports": {
+    "asserts": "https://deno.land/std@0.123.0/testing/asserts.ts",
     "emoji": "https://deno.land/x/emoji@0.1.2",
     "preact": "https://esm.sh/preact?dev",
     "preact/hooks": "https://esm.sh/preact/hooks?dev",

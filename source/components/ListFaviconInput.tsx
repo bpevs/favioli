@@ -1,22 +1,22 @@
-import { React, Picker } from "../deps.ts";
+import { Picker, React } from "../deps.ts";
 import { isRegexString } from "../utilities/isRegexString.ts";
 import Only from "./Only.tsx";
 
 type Favicon = {
-  colons: string,
-  emoticons: string[],
-  id: string,
-  name: string,
-  native: string,
-  skin: string,
-  unified: string,
-}
+  colons: string;
+  emoticons: string[];
+  id: string;
+  name: string;
+  native: string;
+  skin: string;
+  unified: string;
+};
 
 type Target = {
-  textValue?: string | null,
-  faviconValue?: Favicon,
-  index: number,
-  toDelete: boolean,
+  textValue?: string | null;
+  faviconValue?: Favicon;
+  index: number;
+  toDelete: boolean;
 };
 
 export const DEFAULT_FAVICON_INPUT = {

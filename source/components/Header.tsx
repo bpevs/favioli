@@ -9,9 +9,24 @@ export interface HeaderProps {
 
 export default function Header(props: HeaderProps) {
   return (
-    <div>
-      <a href="/favicons">Favicons</a>
-      <a href="/settings">Settings</a>
-    </div>
+    <nav>
+      <ul>
+        <li className="title">🤯</li>
+        <li>
+          <a
+            className="navlink active"
+            children="My Favicons"
+            href="/favicons"
+          />
+        </li>
+        <li>
+          <a
+            className="navlink"
+            children="Settings"
+            href="/settings"
+          />
+        </li>
+      </ul>
+    </nav>
   );
 }

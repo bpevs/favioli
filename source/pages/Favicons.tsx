@@ -1,15 +1,17 @@
 /* @jsx h */
 
-import { h } from "preact";
+import { Fragment, h } from "preact";
+import { StateUpdater } from "preact/hooks";
 
 export interface FaviconsPageProps {
   default?: boolean;
   path?: string;
+  onChange?: StateUpdater<Record<string, void>>;
 }
 
 export default function FaviconsPage(props: FaviconsPageProps) {
   return (
-    <div>
+    <Fragment>
       <h1>Modify Favicons for These Sites:</h1>
       <ul>
         <li>favicon 1</li>
@@ -23,6 +25,6 @@ export default function FaviconsPage(props: FaviconsPageProps) {
         <li>ignore 2</li>
         <li>ignore 3</li>
       </ul>
-    </div>
+    </Fragment>
   );
 }
