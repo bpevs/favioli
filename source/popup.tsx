@@ -1,1 +1,1 @@
-console.log('popup script');
+console.log("popup script");

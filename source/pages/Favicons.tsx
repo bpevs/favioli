@@ -1,30 +1,55 @@
 /* @jsx h */
+import type { BrowserStorage } from "../hooks/useBrowserStorage.ts";
 
 import { Fragment, h } from "preact";
-import { StateUpdater } from "preact/hooks";
+import { useEffect } from "preact/hooks";
+
+import { defaultSettings, Settings } from "../types.ts";
+import useListState from "../hooks/useListState.ts";
+import List from "../components/List.tsx";
+import Only from "../components/Only.tsx";
 
 export interface FaviconsPageProps {
   default?: boolean;
   path?: string;
-  onChange?: StateUpdater<Record<string, void>>;
+  storage?: BrowserStorage<Settings>;
 }
 
-export default function FaviconsPage(props: FaviconsPageProps) {
+export default function FaviconsPage({ storage }: FaviconsPageProps) {
+  const {
+    siteList = [],
+    ignoreList = [],
+    enableSiteIgnore,
+  } = storage?.cache || defaultSettings;
+  const siteListState = useListState(siteList);
+  const ignoreListState = useListState(ignoreList);
+
+  useEffect(() => {
+    if (storage) {
+      storage.setCache({
+        siteList: siteListState.listItems,
+        ignoreList: ignoreListState.listItems,
+      });
+    }
+  }, [siteListState.listItems, ignoreListState.listItems]);
+
+  if (!storage) return null;
+
   return (
     <Fragment>
       <h1>Modify Favicons for These Sites:</h1>
-      <ul>
-        <li>favicon 1</li>
-        <li>favicon 2</li>
-        <li>favicon 3</li>
-      </ul>
+      <List type="EMOJI" state={siteListState} onChange={storage.setCache} />
 
-      <h1>Ignore These Sites:</h1>
-      <ul>
-        <li>ignore 1</li>
-        <li>ignore 2</li>
-        <li>ignore 3</li>
-      </ul>
+      <Only if={Boolean(enableSiteIgnore)}>
+        <Fragment>
+          <h1>Ignore These Sites:</h1>
+          <List
+            type="TEXT"
+            state={ignoreListState}
+            onChange={storage.setCache}
+          />
+        </Fragment>
+      </Only>
     </Fragment>
   );
 }

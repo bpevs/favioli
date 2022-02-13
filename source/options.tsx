@@ -1,31 +1,36 @@
 /* @jsx h */
 
 import { h, render } from "preact";
-import { useCallback, useState } from "preact/hooks";
 import Router from "preact-router";
 
+import { Settings } from "./types.ts";
 import Header from "./components/Header.tsx";
-import Favicons from "./pages/Favicons.tsx";
-import Settings from "./pages/Settings.tsx";
-import browserAPI from "./utilities/browserAPI.ts";
+import useBrowserStorage, {
+  BrowserStorage,
+} from "./hooks/useBrowserStorage.ts";
+import useStatus from "./hooks/useStatus.ts";
+import FaviconsPage from "./pages/Favicons.tsx";
+import SettingsPage from "./pages/Settings.tsx";
 import { t } from "./utilities/i18n.ts";
 
 const App = () => {
-  const [status, setStatus] = useState("");
-  const [settings, updateSettings] = useState({});
-
-  const saveSettings = useCallback(async () => {
-    await browserAPI.saveSettings(settings);
-    setStatus("Successfully Saved");
-    setTimeout(() => setStatus(""), 1000);
-  }, [settings]);
+  const storage = useBrowserStorage<Settings>(["siteList", "ignoreList"]);
+  const { error = "", saveCacheToStorage } = storage;
+  const { status, saveSettings } = useStatus(error || "", saveCacheToStorage);
 
   return (
     <div className="page">
       <Header />
       <Router>
-        <Favicons default path="/favicons" onChange={updateSettings} />
-        <Settings path="/settings" onChange={updateSettings} />
+        <FaviconsPage
+          default
+          path="/favicons"
+          storage={storage as BrowserStorage<Settings>}
+        />
+        <SettingsPage
+          path="/settings"
+          storage={storage as BrowserStorage<Settings>}
+        />
       </Router>
 
       <button
@@ -33,6 +38,7 @@ const App = () => {
         className="save"
         onClick={saveSettings}
       />
+
       <div id="status">{status}</div>
     </div>
   );

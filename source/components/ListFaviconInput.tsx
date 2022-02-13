@@ -1,5 +1,10 @@
-import { Picker, React } from "../deps.ts";
-import { isRegexString } from "../utilities/isRegexString.ts";
+/* @jsx h */
+
+import { h } from "preact";
+import { useCallback, useState } from "preact/hooks";
+
+import isRegexString from "../utilities/isRegexString.ts";
+import EmojiPicker from "./EmojiPicker.tsx";
 import Only from "./Only.tsx";
 
 type Favicon = {
@@ -35,7 +40,7 @@ export interface ListInputProps {
   textValue: string;
   faviconValue: Favicon;
   index: number;
-  textPlaceholder: string;
+  textPlaceholder?: string;
   onChange: (target: Target) => void;
 }
 
@@ -48,35 +53,24 @@ export default function ListInput({
   index,
   faviconValue,
 }: ListInputProps) {
-  const [isPickerOpen, setPickerOpen] = React.useState(false);
-
-  const onChangeFaviconValue = React.useCallback((e) => {
-    onChange({
-      faviconValue,
-      index,
-      toDelete: false,
-    });
+  const [isPickerOpen, setPickerOpen] = useState(false);
+  const onChangeFaviconValue = useCallback(() => {
+    onChange({ index, faviconValue, toDelete: false });
     setPickerOpen(false);
   }, []);
 
-  const onChangeTextValue = React.useCallback((e) => {
-    onChange({
-      textValue: e?.target?.value,
-      index,
-      toDelete: false,
-    });
+  const onChangeTextValue = useCallback((e: Event) => {
+    const { value: textValue } = (e?.target as HTMLInputElement);
+    onChange({ index, textValue, toDelete: false });
     setPickerOpen(false);
   }, []);
 
-  const onDelete = React.useCallback(() => {
-    onChange({
-      index,
-      toDelete: canDelete,
-    });
+  const onDelete = useCallback(() => {
+    onChange({ index, toDelete: canDelete });
     setPickerOpen(false);
   }, []);
 
-  const togglePicker = React.useCallback(() => {
+  const togglePicker = useCallback(() => {
     setPickerOpen(!isPickerOpen);
   }, []);
 
@@ -102,7 +96,7 @@ export default function ListInput({
       </Only>
 
       <Only if={isPickerOpen}>
-        <Picker
+        <EmojiPicker
           style={{
             boxShadow: "5px 3px 20px rgba(0,0,0,0.2)",
             position: "absolute",

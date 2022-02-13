@@ -9,7 +9,9 @@ export interface CheckboxProps {
   name: string;
   checked?: boolean;
   label: string;
-  onChange?: (target: Target) => void;
+
+  // deno-lint-ignore no-explicit-any
+  onChange?: (...args: any[]) => void;
 }
 
 export default function Checkbox({
