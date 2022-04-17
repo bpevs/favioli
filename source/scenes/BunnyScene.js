@@ -2,7 +2,6 @@ import { BaseScene } from "./BaseScene.js";
 import { Bunny } from "../entities/Entity.js";
 import { addListeners, distance, random } from "../utilities/index.js";
 
-
 /**
  * BunnyScene
  *
@@ -42,16 +41,15 @@ export const BunnyScene = Object.assign(BaseScene, {
   listenForMouseMovement() {
     const mouseStop = debounce(() => this.mouseMoving = false, 1000);
 
-    addListeners(this, [ "mousemove", "mouseover", "mouseout" ]);
+    addListeners(this, ["mousemove", "mouseover", "mouseout"]);
     // For as long as the mouse is over the screen, listen for mousemove events.
     this.mouseovers
       .concatMap(() => {
         return this.mousemoves
           .takeUntil(this.mouseouts);
       })
-
       // For each mousemove event...
-      .forEach(pos => {
+      .forEach((pos) => {
         this.mouseMoving = true;
 
         // Set the mouse position to our event data.
@@ -69,7 +67,7 @@ export const BunnyScene = Object.assign(BaseScene, {
    * @param  {Number} numberOfBunnies however many bunnies you want.
    */
   makeBunnies(numberOfBunnies) {
-    for(let i=0; i <= numberOfBunnies; i++){ this.makeBunny() };
+    for (let i = 0; i <= numberOfBunnies; i++) this.makeBunny();
   },
 
   /**
@@ -95,17 +93,20 @@ export const BunnyScene = Object.assign(BaseScene, {
     this.models.forEach((model) => {
       model.position.y += model.mass * this.gravity;
       model.rotation += model.rotationSpeed;
-      if(model.position.y > (this.state.height + model.height)) {
+      if (model.position.y > (this.state.height + model.height)) {
         model.position.y = -model.height;
-        if(model.scale.y < 2) {
+        if (model.scale.y < 2) {
           model.position.x = random(0, this.state.width);
         }
       }
-      if( this.mousePosition && this.mouseMoving &&
-        distance(this.mousePosition, model.position) < Math.sqrt(model.height * model.width)/2) {
+      if (
+        this.mousePosition && this.mouseMoving &&
+        distance(this.mousePosition, model.position) <
+          Math.sqrt(model.height * model.width) / 2
+      ) {
         model.scale.x += 0.08;
         model.scale.y += 0.08;
       }
     });
-  }
+  },
 });

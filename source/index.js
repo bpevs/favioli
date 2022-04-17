@@ -1,7 +1,6 @@
 import { ScenesManager } from "./ScenesManager.js";
 import { BunnyScene } from "./scenes/index.js";
 
-
 /**
  * Main
  *

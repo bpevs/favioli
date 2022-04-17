@@ -1,6 +1,6 @@
 (function () {
-  'use strict';
-  
+  "use strict";
+
   /**
    * Checks if `value` is the
    * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
@@ -28,18 +28,20 @@
    */
   function isObject(value) {
     var type = typeof value;
-    return value != null && (type == 'object' || type == 'function');
+    return value != null && (type == "object" || type == "function");
   }
-  
+
   /** Detect free variable `global` from Node.js. */
-  var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
-  
+  var freeGlobal = typeof global == "object" && global &&
+    global.Object === Object && global;
+
   /** Detect free variable `self`. */
-  var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-  
+  var freeSelf = typeof self == "object" && self && self.Object === Object &&
+    self;
+
   /** Used as a reference to the global object. */
-  var root = freeGlobal || freeSelf || Function('return this')();
-  
+  var root = freeGlobal || freeSelf || Function("return this")();
+
   /**
    * Gets the timestamp of the number of milliseconds that have elapsed since
    * the Unix epoch (1 January 1970 00:00:00 UTC).
@@ -56,29 +58,29 @@
    * }, _.now());
    * // => Logs the number of milliseconds it took for the deferred invocation.
    */
-  var now = function() {
+  var now = function () {
     return root.Date.now();
   };
-  
+
   /** Built-in value references. */
   var Symbol = root.Symbol;
-  
+
   /** Used for built-in method references. */
   var objectProto = Object.prototype;
-  
+
   /** Used to check objects for own properties. */
   var hasOwnProperty = objectProto.hasOwnProperty;
-  
+
   /**
    * Used to resolve the
    * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
    * of values.
    */
   var nativeObjectToString = objectProto.toString;
-  
+
   /** Built-in value references. */
   var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-  
+
   /**
    * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
    *
@@ -88,13 +90,13 @@
    */
   function getRawTag(value) {
     var isOwn = hasOwnProperty.call(value, symToStringTag),
-        tag = value[symToStringTag];
-  
+      tag = value[symToStringTag];
+
     try {
       value[symToStringTag] = undefined;
       var unmasked = true;
     } catch (e) {}
-  
+
     var result = nativeObjectToString.call(value);
     if (unmasked) {
       if (isOwn) {
@@ -105,17 +107,17 @@
     }
     return result;
   }
-  
+
   /** Used for built-in method references. */
   var objectProto$1 = Object.prototype;
-  
+
   /**
    * Used to resolve the
    * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
    * of values.
    */
   var nativeObjectToString$1 = objectProto$1.toString;
-  
+
   /**
    * Converts `value` to a string using `Object.prototype.toString`.
    *
@@ -126,14 +128,14 @@
   function objectToString(value) {
     return nativeObjectToString$1.call(value);
   }
-  
+
   /** `Object#toString` result references. */
-  var nullTag = '[object Null]',
-      undefinedTag = '[object Undefined]';
-  
+  var nullTag = "[object Null]",
+    undefinedTag = "[object Undefined]";
+
   /** Built-in value references. */
   var symToStringTag$1 = Symbol ? Symbol.toStringTag : undefined;
-  
+
   /**
    * The base implementation of `getTag` without fallbacks for buggy environments.
    *
@@ -149,7 +151,7 @@
       ? getRawTag(value)
       : objectToString(value);
   }
-  
+
   /**
    * Checks if `value` is object-like. A value is object-like if it's not `null`
    * and has a `typeof` result of "object".
@@ -175,12 +177,12 @@
    * // => false
    */
   function isObjectLike(value) {
-    return value != null && typeof value == 'object';
+    return value != null && typeof value == "object";
   }
-  
+
   /** `Object#toString` result references. */
-  var symbolTag = '[object Symbol]';
-  
+  var symbolTag = "[object Symbol]";
+
   /**
    * Checks if `value` is classified as a `Symbol` primitive or object.
    *
@@ -199,28 +201,28 @@
    * // => false
    */
   function isSymbol(value) {
-    return typeof value == 'symbol' ||
+    return typeof value == "symbol" ||
       (isObjectLike(value) && baseGetTag(value) == symbolTag);
   }
-  
+
   /** Used as references for various `Number` constants. */
   var NAN = 0 / 0;
-  
+
   /** Used to match leading and trailing whitespace. */
   var reTrim = /^\s+|\s+$/g;
-  
+
   /** Used to detect bad signed hexadecimal string values. */
   var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-  
+
   /** Used to detect binary string values. */
   var reIsBinary = /^0b[01]+$/i;
-  
+
   /** Used to detect octal string values. */
   var reIsOctal = /^0o[0-7]+$/i;
-  
+
   /** Built-in method references without a dependency on `root`. */
   var freeParseInt = parseInt;
-  
+
   /**
    * Converts `value` to a number.
    *
@@ -245,33 +247,33 @@
    * // => 3.2
    */
   function toNumber(value) {
-    if (typeof value == 'number') {
+    if (typeof value == "number") {
       return value;
     }
     if (isSymbol(value)) {
       return NAN;
     }
     if (isObject(value)) {
-      var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-      value = isObject(other) ? (other + '') : other;
+      var other = typeof value.valueOf == "function" ? value.valueOf() : value;
+      value = isObject(other) ? (other + "") : other;
     }
-    if (typeof value != 'string') {
+    if (typeof value != "string") {
       return value === 0 ? value : +value;
     }
-    value = value.replace(reTrim, '');
+    value = value.replace(reTrim, "");
     var isBinary = reIsBinary.test(value);
     return (isBinary || reIsOctal.test(value))
       ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
       : (reIsBadHex.test(value) ? NAN : +value);
   }
-  
+
   /** Error message constants. */
-  var FUNC_ERROR_TEXT = 'Expected a function';
-  
+  var FUNC_ERROR_TEXT = "Expected a function";
+
   /* Built-in method references for those with the same name as other `lodash` methods. */
   var nativeMax = Math.max,
-      nativeMin = Math.min;
-  
+    nativeMin = Math.min;
+
   /**
    * Creates a debounced function that delays invoking `func` until after `wait`
    * milliseconds have elapsed since the last time the debounced function was
@@ -328,37 +330,39 @@
    */
   function debounce(func, wait, options) {
     var lastArgs,
-        lastThis,
-        maxWait,
-        result,
-        timerId,
-        lastCallTime,
-        lastInvokeTime = 0,
-        leading = false,
-        maxing = false,
-        trailing = true;
-  
-    if (typeof func != 'function') {
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+    if (typeof func != "function") {
       throw new TypeError(FUNC_ERROR_TEXT);
     }
     wait = toNumber(wait) || 0;
     if (isObject(options)) {
       leading = !!options.leading;
-      maxing = 'maxWait' in options;
-      maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-      trailing = 'trailing' in options ? !!options.trailing : trailing;
+      maxing = "maxWait" in options;
+      maxWait = maxing
+        ? nativeMax(toNumber(options.maxWait) || 0, wait)
+        : maxWait;
+      trailing = "trailing" in options ? !!options.trailing : trailing;
     }
-  
+
     function invokeFunc(time) {
       var args = lastArgs,
-          thisArg = lastThis;
-  
+        thisArg = lastThis;
+
       lastArgs = lastThis = undefined;
       lastInvokeTime = time;
       result = func.apply(thisArg, args);
       return result;
     }
-  
+
     function leadingEdge(time) {
       // Reset any `maxWait` timer.
       lastInvokeTime = time;
@@ -367,28 +371,28 @@
       // Invoke the leading edge.
       return leading ? invokeFunc(time) : result;
     }
-  
+
     function remainingWait(time) {
       var timeSinceLastCall = time - lastCallTime,
-          timeSinceLastInvoke = time - lastInvokeTime,
-          timeWaiting = wait - timeSinceLastCall;
-  
+        timeSinceLastInvoke = time - lastInvokeTime,
+        timeWaiting = wait - timeSinceLastCall;
+
       return maxing
         ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
         : timeWaiting;
     }
-  
+
     function shouldInvoke(time) {
       var timeSinceLastCall = time - lastCallTime,
-          timeSinceLastInvoke = time - lastInvokeTime;
-  
+        timeSinceLastInvoke = time - lastInvokeTime;
+
       // Either this is the first call, activity has stopped and we're at the
       // trailing edge, the system time has gone backwards and we're treating
       // it as the trailing edge, or we've hit the `maxWait` limit.
       return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
         (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
     }
-  
+
     function timerExpired() {
       var time = now();
       if (shouldInvoke(time)) {
@@ -397,10 +401,10 @@
       // Restart the timer.
       timerId = setTimeout(timerExpired, remainingWait(time));
     }
-  
+
     function trailingEdge(time) {
       timerId = undefined;
-  
+
       // Only invoke if we have `lastArgs` which means `func` has been
       // debounced at least once.
       if (trailing && lastArgs) {
@@ -409,7 +413,7 @@
       lastArgs = lastThis = undefined;
       return result;
     }
-  
+
     function cancel() {
       if (timerId !== undefined) {
         clearTimeout(timerId);
@@ -417,19 +421,19 @@
       lastInvokeTime = 0;
       lastArgs = lastCallTime = lastThis = timerId = undefined;
     }
-  
+
     function flush() {
       return timerId === undefined ? result : trailingEdge(now());
     }
-  
+
     function debounced() {
       var time = now(),
-          isInvoking = shouldInvoke(time);
-  
+        isInvoking = shouldInvoke(time);
+
       lastArgs = arguments;
       lastThis = this;
       lastCallTime = time;
-  
+
       if (isInvoking) {
         if (timerId === undefined) {
           return leadingEdge(lastCallTime);
@@ -449,8 +453,6 @@
     debounced.flush = flush;
     return debounced;
   }
-  
+
   window.debounce = debounce;
-  
-  }());
-  
+})();

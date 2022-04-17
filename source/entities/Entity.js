@@ -1,6 +1,5 @@
 import { random } from "../utilities/index.js";
 
-
 /**
  * Makes Bunnies by creating a Sprite, then extending the resulting sprite with
  * new, more specific properties.
@@ -29,6 +28,6 @@ export function Bunny() {
       this.mass = random(0.1, 0.3);
       this.anchor.x = this.anchor.y = 0.5;
       return this;
-    }
+    },
   });
 }

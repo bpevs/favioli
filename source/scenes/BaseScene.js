@@ -1,5 +1,4 @@
-const identity = item => item;
-
+const identity = (item) => item;
 
 /**
  * Scene extends Pixi containers, allowing us to pause containers and update
@@ -59,7 +58,7 @@ export const BaseScene = Object.assign(new PIXI.Container(), {
    *
    * @return {Boolean} this.paused Represents whether the current scene is paused.
    */
-  isPaused(){
+  isPaused() {
     return this.paused;
   },
 });
