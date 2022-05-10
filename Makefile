@@ -11,13 +11,13 @@ firefox:
 	deno run --unstable --allow-net --allow-read --allow-write bundler.ts firefox
 
 watch:
-	deno run --unstable --watch --allow-net --allow-read --allow-write bundler.ts
+	deno run --watch=source --unstable --allow-net --allow-read --allow-write bundler.ts
 
 watch-chrome:
-	deno run --unstable --watch --allow-net --allow-read --allow-write bundler.ts chrome
+	deno run --watch=source --unstable --allow-net --allow-read --allow-write bundler.ts chrome
 
 watch-firefox:
-	deno run --unstable --watch --allow-net --allow-read --allow-write bundler.ts firefox
+	deno run --watch=source --unstable --allow-net --allow-read --allow-write bundler.ts firefox
 
 test:
 	deno fmt

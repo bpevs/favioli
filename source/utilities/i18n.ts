@@ -12,10 +12,10 @@ const en: { [name: string]: string } = {
   enableFaviconActiveFlagDesc:
     'Show an icon when using a favicon that Favioli has replaced',
   enableFaviconActiveFlagLabel: 'Enable Replacement Icon',
-  enableFaviconAutofillDesc:
+  enableAutofillFaviconDesc:
     'If a website doesn\'t have a favicon, Favioli will automatically create one for it using an emoji.',
-  enableFaviconAutofillLabel: 'Enable Favicon Autofill',
-  enableFaviconAutofillPopup: broadPermissionsWarning,
+  enableAutofillFaviconLabel: 'Enable Favicon Autofill',
+  enableAutofillFaviconPopup: broadPermissionsWarning,
   enableSiteIgnoreDesc: 'Select sites that autofill should ignore',
   enableSiteIgnoreLabel: 'Enable Ignore List',
   saveLabel: 'Save',

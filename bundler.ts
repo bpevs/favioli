@@ -71,29 +71,16 @@ Object.keys(browsers).forEach(async (browserId) => {
   console.log(`Initializing ${colorizedBrowserName} build...`);
 
   const jsFiles = await Promise.all([
-    loadFile('background.ts'),
-    loadFile('options.tsx'),
-    loadFile('contentScript.ts'),
-    loadFile('popup.tsx'),
+    loadFile(browserId, 'background.ts'),
+    loadFile(browserId, 'options.tsx'),
+    loadFile(browserId, 'contentScript.ts'),
+    loadFile(browserId, 'popup.tsx'),
   ]);
-
-  console.log(`Writing Files for ${colorizedBrowserName}`);
-  jsFiles.forEach(({ name, emitResult }) => {
-    const { diagnostics, files } = emitResult;
-    const bundleCode: string = files['deno:///bundle.js'];
-    const outputFileName = name.replace(/(t|j)sx?$/, 'js');
-    const outputPath = `dist/${browserId}/${outputFileName}`;
-
-    console.info(`%c building ${name} > ${outputPath}...`, 'color: #bada55');
-    if (diagnostics.length) console.warn(Deno.formatDiagnostics(diagnostics));
-
-    Deno.writeTextFile(outputPath, bundleCode);
-  });
 
   console.log(`Build complete for ${colorizedBrowserName}`);
 });
 
-async function loadFile(name: string) {
+async function loadFile(browserId: string, name: string) {
   const emitOptions: Deno.EmitOptions = {
     bundle: 'classic',
     compilerOptions: {
@@ -107,8 +94,17 @@ async function loadFile(name: string) {
     importMapPath: './import_map.json',
   };
 
-  return {
-    name,
-    emitResult: await Deno.emit(`source/${name}`, emitOptions),
-  };
+  buildFiles(browserId, name, await Deno.emit(`source/${name}`, emitOptions));
+}
+
+function buildFiles(browserId: string, name: string, emitResult: any) {
+  const { diagnostics, files } = emitResult;
+  const bundleCode: string = files['deno:///bundle.js'];
+  const outputFileName = name.replace(/(t|j)sx?$/, 'js');
+  const outputPath = `dist/${browserId}/${outputFileName}`;
+
+  console.info(`%c building ${name} > ${outputPath}...`, 'color: #bada55');
+  if (diagnostics.length) console.warn(Deno.formatDiagnostics(diagnostics));
+
+  Deno.writeTextFile(outputPath, bundleCode);
 }
