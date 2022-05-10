@@ -23,6 +23,7 @@ export default function FaviconsPage({ storage }: FaviconsPageProps) {
   } = storage?.cache || defaultSettings;
   const siteListState = useListState(siteList);
   const ignoreListState = useListState(ignoreList);
+  console.log(siteListState, ignoreListState);
 
   useEffect(() => {
     if (storage) {

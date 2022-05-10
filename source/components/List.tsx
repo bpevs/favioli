@@ -3,7 +3,6 @@
 import type { ListState } from '../hooks/useListState.ts';
 
 import { h } from 'preact';
-
 import ListInput from './ListInput.tsx';
 
 export interface ListProps<Type> {

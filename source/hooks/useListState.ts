@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks';
+import { useCallback, useState } from 'preact/hooks';
 
 // deno-lint-ignore no-explicit-any
 type ListItem = any;
@@ -16,26 +16,29 @@ export default (initialValue: ListItem[]) => {
   return {
     listItems,
 
-    addListItem: (listItem: ListItem) => {
+    addListItem: useCallback((listItem: ListItem) => {
       setListItems([...listItems, listItem]);
-    },
+    }, []),
 
-    updateListItem: (listItemIndex: number, nextListItem: ListItem) => {
-      const nextlistItems: ListItem[] = listItems.map(
-        (listItem, index) => {
-          return index === listItemIndex ? nextListItem : listItem;
-        },
-      );
+    updateListItem: useCallback(
+      (listItemIndex: number, nextListItem: ListItem) => {
+        const nextlistItems: ListItem[] = listItems.map(
+          (listItem, index) => {
+            return index === listItemIndex ? nextListItem : listItem;
+          },
+        );
 
-      setListItems(nextlistItems);
-    },
+        setListItems(nextlistItems);
+      },
+      [],
+    ),
 
-    deleteListItem: (listItemIndex: number) => {
+    deleteListItem: useCallback((listItemIndex: number) => {
       const nextlistItems = listItems.filter(
         (_, index) => index !== listItemIndex,
       );
 
       setListItems(nextlistItems);
-    },
+    }, []),
   };
 };

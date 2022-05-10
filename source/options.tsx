@@ -9,8 +9,9 @@ import useBrowserStorage, {
   BrowserStorage,
 } from './hooks/useBrowserStorage.ts';
 import useStatus from './hooks/useStatus.ts';
-import FaviconsPage from './pages/Favicons.tsx';
-import SettingsPage from './pages/Settings.tsx';
+import AboutPage from "./pages/about_page.tsx";
+import FaviconsPage from './pages/favicons_page.tsx';
+import SettingsPage from './pages/settings_page.tsx';
 import { t } from './utilities/i18n.ts';
 
 const App = () => {
@@ -29,7 +30,7 @@ const App = () => {
 
   return (
     <div className='page'>
-      <Header />
+      <Header path={route} />
       {route === '#settings'
         ? <SettingsPage storage={storage} />
         : <FaviconsPage storage={storage} />}

@@ -14,7 +14,7 @@ export default function Header(props: HeaderProps) {
         <li className='title'>🤯</li>
         <li>
           <a
-            className='navlink active'
+            className='navlink'
             children='My Favicons'
             href='#favicons'
           />
