@@ -1,12 +1,25 @@
 {
-  "lib": [
-    "deno.ns",
-    "dom",
-    "dom.iterable",
-    "esnext"
-  ],
-  "jsx": "react",
-  "jsxFactory": "h",
-  "jsxFragmentFactory": "Fragment",
-  "target": "es5"
+  "compilerOptions": {
+    "lib": [
+      "deno.unstable",
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment"
+  },
+  "importMap": "./import_map.json",
+  "fmt": {
+    "options": {
+      "singleQuote": true,
+      "proseWrap": "preserve"
+    }
+  },
+  "lint": {
+    "files": {
+      "exclude": ["dist"]
+    }
+  }
 }

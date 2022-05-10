@@ -1,11 +1,11 @@
 /* @jsx h */
 
-import { h } from "preact";
-import { useCallback, useState } from "preact/hooks";
+import { h } from 'preact';
+import { useCallback, useState } from 'preact/hooks';
 
-import isRegexString from "../utilities/isRegexString.ts";
-import EmojiPicker from "./EmojiPicker.tsx";
-import Only from "./Only.tsx";
+import isRegexString from '../utilities/isRegexString.ts';
+import EmojiPicker from './EmojiPicker.tsx';
+import Only from './Only.tsx';
 
 type Favicon = {
   colons: string;
@@ -25,13 +25,13 @@ type Target = {
 };
 
 export const DEFAULT_FAVICON_INPUT = {
-  colons: ":grinning:",
+  colons: ':grinning:',
   emoticons: [],
-  id: "grinning",
-  name: "Grinning Face",
-  native: "😀",
+  id: 'grinning',
+  name: 'Grinning Face',
+  native: '😀',
   skin: null,
-  unified: "1f600",
+  unified: '1f600',
 };
 
 export interface ListInputProps {
@@ -48,8 +48,8 @@ export default function ListInput({
   autoFocus,
   canDelete = true,
   onChange = () => {},
-  textPlaceholder = "",
-  textValue = "",
+  textPlaceholder = '',
+  textValue = '',
   index,
   faviconValue,
 }: ListInputProps) {
@@ -75,11 +75,11 @@ export default function ListInput({
   }, []);
 
   return (
-    <div className="list-item">
+    <div className='list-item'>
       <input
         autoFocus={autoFocus}
-        className="filter"
-        style={{ color: isRegexString(textValue) ? "green" : "black" }}
+        className='filter'
+        style={{ color: isRegexString(textValue) ? 'green' : 'black' }}
         value={textValue}
         onChange={onChangeTextValue}
         placeholder={textPlaceholder}
@@ -87,22 +87,22 @@ export default function ListInput({
 
       <button
         children={faviconValue.native}
-        className="favicon"
+        className='favicon'
         onClick={togglePicker}
       />
 
       <Only if={canDelete}>
-        <button className="remove" onClick={onDelete} children="X" />
+        <button className='remove' onClick={onDelete} children='X' />
       </Only>
 
       <Only if={isPickerOpen}>
         <EmojiPicker
           style={{
-            boxShadow: "5px 3px 20px rgba(0,0,0,0.2)",
-            position: "absolute",
+            boxShadow: '5px 3px 20px rgba(0,0,0,0.2)',
+            position: 'absolute',
             right: 0,
             top: 0,
-            transform: "translateY(52%) translateX(-30%)",
+            transform: 'translateY(52%) translateX(-30%)',
             zIndex: 10,
           }}
           emoji={faviconValue.id}
@@ -110,7 +110,7 @@ export default function ListInput({
           onSelect={onChangeFaviconValue}
           showSkinTones={false}
           skin={1}
-          title="Select Emoji"
+          title='Select Emoji'
         />
       </Only>
     </div>

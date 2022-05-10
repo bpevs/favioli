@@ -6,6 +6,6 @@
 
 export default function isRegexString(filter: string) {
   return filter.length > 2 &&
-    filter.startsWith("/") &&
-    filter.endsWith("/");
+    filter.startsWith('/') &&
+    filter.endsWith('/');
 }

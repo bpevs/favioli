@@ -10,20 +10,20 @@ Favioli does NOT collect or store any of this data, and does NOT use these permi
 
 const en: { [name: string]: string } = {
   enableFaviconActiveFlagDesc:
-    "Show an icon when using a favicon that Favioli has replaced",
-  enableFaviconActiveFlagLabel: "Enable Replacement Icon",
+    'Show an icon when using a favicon that Favioli has replaced',
+  enableFaviconActiveFlagLabel: 'Enable Replacement Icon',
   enableFaviconAutofillDesc:
-    "If a website doesn't have a favicon, Favioli will automatically create one for it using an emoji.",
-  enableFaviconAutofillLabel: "Enable Favicon Autofill",
+    'If a website doesn\'t have a favicon, Favioli will automatically create one for it using an emoji.',
+  enableFaviconAutofillLabel: 'Enable Favicon Autofill',
   enableFaviconAutofillPopup: broadPermissionsWarning,
-  enableSiteIgnoreDesc: "Select sites that autofill should ignore",
-  enableSiteIgnoreLabel: "Enable Ignore List",
-  saveLabel: "Save",
+  enableSiteIgnoreDesc: 'Select sites that autofill should ignore',
+  enableSiteIgnoreLabel: 'Enable Ignore List',
+  saveLabel: 'Save',
 };
 
 export function t(id: string): string {
   if (!id) {
     console.warn(`Invalid string id: ${id}`);
   }
-  return en[id] || "";
+  return en[id] || '';
 }

@@ -1,6 +1,6 @@
 /* @jsx h */
 
-import { h, VNode } from "preact";
+import { h, VNode } from 'preact';
 
 export interface OnlyProps {
   if: boolean;

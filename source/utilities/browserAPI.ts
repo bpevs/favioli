@@ -24,10 +24,10 @@ declare global {
   const chrome: BrowserExtensionAPI;
 }
 
-const CHROME = "CHROME";
-const FIREFOX = "FIREFOX";
+const CHROME = 'CHROME';
+const FIREFOX = 'FIREFOX';
 
-export type BrowserName = "CHROME" | "FIREFOX";
+export type BrowserName = 'CHROME' | 'FIREFOX';
 
 const browserAPI = isBrowser(CHROME) ? chrome : browser; // Default to Chromium
 
@@ -45,8 +45,8 @@ export function isBrowser(toCheck: BrowserName): boolean | string {
     // Use try block, since userAgent not guaranteed to exist.
     // If fail, assume Chromium
     // deno-lint-ignore no-explicit-any
-    const userAgent: string = (navigator as any)?.userAgent || "";
-    if (userAgent.indexOf("Firefox") > 0) {
+    const userAgent: string = (navigator as any)?.userAgent || '';
+    if (userAgent.indexOf('Firefox') > 0) {
       currentBrowser = FIREFOX;
     }
   } catch (_) {

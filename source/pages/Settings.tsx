@@ -1,11 +1,11 @@
 /* @jsx h */
-import type { BrowserStorage } from "../hooks/useBrowserStorage.ts";
+import type { BrowserStorage } from '../hooks/useBrowserStorage.ts';
 
-import { Fragment, h } from "preact";
+import { Fragment, h } from 'preact';
 
-import { defaultSettings, Settings } from "../types.ts";
-import Checkbox from "../components/Checkbox.tsx";
-import { t } from "../utilities/i18n.ts";
+import { defaultSettings, Settings } from '../types.ts';
+import Checkbox from '../components/Checkbox.tsx';
+import { t } from '../utilities/i18n.ts';
 
 export interface SettingsProps {
   default?: boolean;
@@ -25,20 +25,20 @@ const SettingsPage = ({ storage }: SettingsProps) => {
     <Fragment>
       <h1>Settings</h1>
       <Checkbox
-        name="enableFaviconActiveFlag"
-        label={t("enableFaviconActiveFlagLabel")}
+        name='enableFaviconActiveFlag'
+        label={t('enableFaviconActiveFlagLabel')}
         checked={enableFaviconActiveFlag}
         onChange={setCache}
       />
       <Checkbox
-        name="enableSiteIgnore"
-        label={t("enableSiteIgnoreLabel")}
+        name='enableSiteIgnore'
+        label={t('enableSiteIgnoreLabel')}
         checked={enableSiteIgnore}
         onChange={setCache}
       />
       <Checkbox
-        name="enableAutofillFavicon"
-        label={t("enableAutofillFaviconLabel")}
+        name='enableAutofillFavicon'
+        label={t('enableAutofillFaviconLabel')}
         checked={enableFaviconAutofill}
         onChange={setCache}
       />

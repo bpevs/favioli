@@ -1,10 +1,10 @@
 /* @jsx h */
 
-import { h } from "preact";
-import { useCallback } from "preact/hooks";
+import { h } from 'preact';
+import { useCallback } from 'preact/hooks';
 
-import FilterInput from "./FilterInput.tsx";
-import Only from "./Only.tsx";
+import FilterInput from './FilterInput.tsx';
+import Only from './Only.tsx';
 
 type Target = {
   textValue?: string;
@@ -32,8 +32,8 @@ export default function ListInput(props: ListInputProps) {
     addListItem = () => {},
     deleteListItem = () => {},
     updateListItem = () => {},
-    placeholder = "",
-    value = "",
+    placeholder = '',
+    value = '',
     index,
   } = props;
 
@@ -51,7 +51,7 @@ export default function ListInput(props: ListInputProps) {
   }, [index, deleteListItem]);
 
   return (
-    <div className="list-item">
+    <div className='list-item'>
       <FilterInput
         autoFocus={autoFocus}
         value={value}
@@ -61,9 +61,9 @@ export default function ListInput(props: ListInputProps) {
 
       <Only if={canDelete}>
         <button
-          className="remove"
+          className='remove'
           onClick={onClickDelete}
-          children="X"
+          children='X'
         />
       </Only>
     </div>

@@ -1,6 +1,6 @@
 /* @jsx h */
 
-import { h } from "preact";
+import { h } from 'preact';
 
 interface EmojiPickerProps {
   // deno-lint-ignore no-explicit-any

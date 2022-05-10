@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useState } from 'preact/hooks';
 
 // deno-lint-ignore no-explicit-any
 type ListItem = any;

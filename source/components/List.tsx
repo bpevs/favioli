@@ -1,13 +1,13 @@
 /* @jsx h */
 
-import type { ListState } from "../hooks/useListState.ts";
+import type { ListState } from '../hooks/useListState.ts';
 
-import { h } from "preact";
+import { h } from 'preact';
 
-import ListInput from "./ListInput.tsx";
+import ListInput from './ListInput.tsx';
 
 export interface ListProps<Type> {
-  type: "EMOJI" | "TEXT";
+  type: 'EMOJI' | 'TEXT';
   state: ListState<Type>;
   // deno-lint-ignore no-explicit-any
   onChange: (...args: any[]) => void;
@@ -37,7 +37,7 @@ export default function List<Type,>({ type, state }: ListProps<Type>) {
   );
 
   return (
-    <div className="list">
+    <div className='list'>
       {listInputs.concat(newItemInput)}
     </div>
   );

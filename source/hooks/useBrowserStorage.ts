@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useState } from "preact/hooks";
-import browserAPI from "../utilities/browserAPI.ts";
+import { useCallback, useEffect, useState } from 'preact/hooks';
+import browserAPI from '../utilities/browserAPI.ts';
 
 const { storage, runtime } = browserAPI;
 
 // deno-lint-ignore no-explicit-any
 type Storage = Record<string, any>;
 
-export interface BrowserStorage<Type> {
+export interface BrowserStorage<Type extends Storage> {
   error?: string;
-  cache: Type;
+  cache?: Type;
   setCache: (nextCache: Partial<Type>) => void;
   saveCacheToStorage: () => Promise<void>;
 }
@@ -35,7 +35,7 @@ export default function useBrowserStorage<Type extends Storage>(
     });
   }, []);
 
-  return {
+  const result: BrowserStorage<Type> = {
     error,
     cache,
 
@@ -57,4 +57,6 @@ export default function useBrowserStorage<Type extends Storage>(
       );
     },
   };
+
+  return result;
 }

@@ -1,7 +1,7 @@
-import { useState } from "preact/hooks";
+import { useState } from 'preact/hooks';
 
 export default () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
   return {
     value,
@@ -9,6 +9,6 @@ export default () => {
       const target = (event.target as HTMLInputElement);
       setValue(target.value);
     },
-    reset: () => setValue(""),
+    reset: () => setValue(''),
   };
 };

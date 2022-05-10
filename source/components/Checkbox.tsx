@@ -1,7 +1,7 @@
 /* @jsx h */
 
-import { h } from "preact";
-import { useCallback, useState } from "preact/hooks";
+import { h } from 'preact';
+import { useCallback, useState } from 'preact/hooks';
 
 export type Target = { [name: string]: boolean };
 
@@ -32,17 +32,17 @@ export default function Checkbox({
 
   const onChange = useCallback((e: Event) => {
     const { name, checked } = (e?.target as HTMLInputElement);
-    if (props.onChange && name && typeof checked === "boolean") {
+    if (props.onChange && name && typeof checked === 'boolean') {
       props.onChange({ [name]: checked });
     }
   }, [props.onChange]);
 
   return (
-    <div className={`checkbox ${isFocused ? "focused" : ""}`}>
-      <label className="help">{label}</label>
+    <div className={`checkbox ${isFocused ? 'focused' : ''}`}>
+      <label className='help'>{label}</label>
       <input
-        id="flag"
-        type="checkbox"
+        id='flag'
+        type='checkbox'
         tabIndex={0}
         name={name}
         checked={checked}
@@ -50,7 +50,7 @@ export default function Checkbox({
         onFocus={onFocus}
         onChange={onChange}
       />
-      <div className="checkmark" />
+      <div className='checkmark' />
     </div>
   );
 }
