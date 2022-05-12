@@ -26,6 +26,13 @@ export default function Header(props: HeaderProps) {
             href='#settings'
           />
         </li>
+        <li>
+          <a
+            className='navlink'
+            children='About'
+            href='#about'
+          />
+        </li>
       </ul>
     </nav>
   );

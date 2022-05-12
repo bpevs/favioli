@@ -9,6 +9,7 @@ type Storage = Record<string, any>;
 export interface BrowserStorage<Type extends Storage> {
   error?: string;
   cache?: Type;
+  loading: boolean;
   setCache: (nextCache: Partial<Type>) => void;
   saveCacheToStorage: () => Promise<void>;
 }
@@ -27,17 +28,20 @@ export default function useBrowserStorage<Type extends Storage>(
 ) {
   const [error, setError] = useState<string>();
   const [cache, setCache] = useState<Type>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     storage.sync.get(keys, (result: Type) => {
       if (runtime.lastError) setError(runtime.lastError);
       setCache(result);
+      setLoading(false);
     });
   }, []);
 
   const result: BrowserStorage<Type> = {
     error,
     cache,
+    loading,
 
     setCache: useCallback((nextCache: Partial<Type>): void => {
       const nextStorage = { ...cache, ...nextCache };

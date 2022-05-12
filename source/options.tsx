@@ -1,6 +1,7 @@
 /* @jsx h */
 
-import { h, render } from 'preact';
+import { h, Fragment, render } from 'preact';
+import { useCallback } from 'preact/hooks';
 
 import { Settings } from './types.ts';
 import Header from './components/Header.tsx';
@@ -20,27 +21,26 @@ import { t } from './utilities/i18n.ts';
 const App = () => {
   const route = useRoute();
   const storage = useBrowserStorage<Settings>(['siteList', 'ignoreList']);
-  const { error = '', saveCacheToStorage } = storage;
+  const { error = '', loading, saveCacheToStorage } = storage;
   const { status, saveSettings } = useStatus(error || '', saveCacheToStorage);
 
+  if (loading) return <div />;
+
   return (
-    <div className='page'>
+    <Fragment>
       <Header path={route} />
-      <Switch
-        value={route}
-        defaultCase={<SettingsPage storage={storage} />}
-        cases={{
-          '#settings': <SettingsPage storage={storage} />,
-          '#favicons': <FaviconsPage storage={storage} />,
-        }}
-      />
-      <button
-        children={t('saveLabel')}
-        className='save'
-        onClick={saveSettings}
-      />
+      <div className='page'>
+        <Switch
+          value={route}
+          defaultCase={<SettingsPage storage={storage} />}
+          cases={{
+            '#favicons': <FaviconsPage save={saveSettings} storage={storage} />,
+            '#about': <AboutPage />,
+          }}
+        />
+      </div>
       <div id='status'>{status}</div>
-    </div>
+    </Fragment>
   );
 };
 

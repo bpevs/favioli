@@ -5,17 +5,19 @@ import { Fragment, h } from 'preact';
 import { useEffect } from 'preact/hooks';
 
 import { defaultSettings, Settings } from '../types.ts';
-import useListState from '../hooks/useListState.ts';
 import List from '../components/List.tsx';
 import Only from '../components/Only.tsx';
+import useListState from '../hooks/use_list_state.ts';
+import { t } from '../utilities/i18n.ts';
 
 export interface FaviconsPageProps {
   default?: boolean;
   path?: string;
   storage?: BrowserStorage<Settings>;
+  save?: (...args: any[]) => {};
 }
 
-export default function FaviconsPage({ storage }: FaviconsPageProps) {
+export default function FaviconsPage({ save, storage }: FaviconsPageProps) {
   const {
     siteList = [],
     ignoreList = [],
@@ -23,34 +25,38 @@ export default function FaviconsPage({ storage }: FaviconsPageProps) {
   } = storage?.cache || defaultSettings;
   const siteListState = useListState(siteList);
   const ignoreListState = useListState(ignoreList);
-  console.log(siteListState, ignoreListState);
 
   useEffect(() => {
     if (storage) {
       storage.setCache({
-        siteList: siteListState.listItems,
-        ignoreList: ignoreListState.listItems,
+        siteList: siteListState.contents,
+        ignoreList: ignoreListState.contents,
       });
     }
-  }, [siteListState.listItems, ignoreListState.listItems]);
-
+  }, [siteListState.contents, ignoreListState.contents]);
   if (!storage) return null;
 
-  return (
-    <Fragment>
-      <h1>Modify Favicons for These Sites:</h1>
-      <List type='EMOJI' state={siteListState} onChange={storage.setCache} />
+  const hasIgnores = ignoreListState.contents?.length;
 
-      <Only if={Boolean(enableSiteIgnore)}>
+  return (
+    <form onSubmit={save}>
+      <h1>Override Favicons on these Sites</h1>
+      <List type='EMOJI' state={siteListState} />
+
+      <Only if={Boolean(enableSiteIgnore || hasIgnores)}>
         <Fragment>
-          <h1>Ignore These Sites:</h1>
-          <List
-            type='TEXT'
-            state={ignoreListState}
-            onChange={storage.setCache}
-          />
+          <h1>
+            Ignore These Sites
+            <Only if={!enableSiteIgnore}>
+              <span style={{ opacity: 0.5 }}> (Disabled)</span>
+            </Only>
+          </h1>
+
+          <List type='TEXT' state={ignoreListState} />
         </Fragment>
       </Only>
-    </Fragment>
+
+      <input type="submit" children={t('saveLabel')} className='save' />
+    </form>
   );
 }
