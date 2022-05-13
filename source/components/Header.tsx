@@ -3,35 +3,24 @@
 import { h } from 'preact';
 
 export interface HeaderProps {
-  default?: boolean;
-  path?: string;
+  route?: string;
 }
 
-export default function Header(props: HeaderProps) {
+export default function Header({ route }: HeaderProps) {
+  const isDefaultRoute = route !== "#settings" && route !== "#about";
+
   return (
     <nav>
       <ul>
-        <li className='title'>🤯</li>
-        <li>
-          <a
-            className='navlink'
-            children='My Favicons'
-            href='#favicons'
-          />
+        <li className='logo'>🤯</li>
+        <li className={isDefaultRoute ? "active" : ""}>
+          <a children='My Favicons' href='#favicons' />
         </li>
-        <li>
-          <a
-            className='navlink'
-            children='Settings'
-            href='#settings'
-          />
+        <li className={route === "#settings" ? "active" : ""}>
+          <a children='Settings' href='#settings' />
         </li>
-        <li>
-          <a
-            className='navlink'
-            children='About'
-            href='#about'
-          />
+        <li className={route === "#about" ? "active" : ""}>
+          <a children='About' href='#about' />
         </li>
       </ul>
     </nav>

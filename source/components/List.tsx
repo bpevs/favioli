@@ -3,6 +3,7 @@
 import type { ListState } from '../hooks/use_list_state.ts';
 
 import { h } from 'preact';
+import { useRef } from 'preact/hooks';
 import ListInput from './list_input.tsx';
 
 export interface ListProps<Type> {
@@ -11,17 +12,20 @@ export interface ListProps<Type> {
 }
 
 export default function List<Type,>({ type, state }: ListProps<Type>) {
+  const listRef = useRef<HTMLInputElement>(null)
   const listInputs = state.contents.map((listItem: string, index: number) => {
-    const isLastItem = index === state.contents.length - 1;
     return (
       <ListInput
-        canDelete
         key={index}
         index={index}
         value={state.contents[index] || ""}
-        autoFocus={isLastItem}
+        autoFocus={index === 0}
         updateItem={state.updateItem}
-        deleteItem={state.deleteItem}
+        deleteItem={(index) => {
+          state.deleteItem(index);
+          const firstInput = listRef?.current?.querySelector('input');
+          if (firstInput) firstInput.focus();
+        }}
       />
     );
   });
@@ -35,7 +39,7 @@ export default function List<Type,>({ type, state }: ListProps<Type>) {
   );
 
   return (
-    <div className='list'>
+    <div className='list' ref={listRef}>
       {listInputs.concat(newItemInput)}
     </div>
   );

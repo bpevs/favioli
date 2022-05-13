@@ -10,12 +10,6 @@ body {
   padding: 0;
 }
 
-#mount {
-  margin: auto;
-  padding-top: 1em;
-  min-width: 500px;
-}
-
 h1 {
   font-weight: 300;
   font-size: 1.5em;
@@ -40,10 +34,6 @@ h1 {
   z-index: -1;
 }
 
-.title {
-  vertical-align: middle;
-}
-
 #status {
   bottom: 10px;
   left: 50%;
@@ -52,7 +42,7 @@ h1 {
   transform: translateX(-50%);
 }
 
-/** NAV **/
+/** Nav **/
 nav {
   position: absolute;
   margin: 0;
@@ -69,30 +59,154 @@ nav ul {
   top: 0;
   left: 0;
   list-style: none;
+  padding: 0;
   margin: 0;
-  padding: 5px 0 5px 10px;
   width: 100%;
+  height: 100%;
   background: var(--text-color);
 }
 
 nav li {
-  display: inline;
-  padding: 10px;
+  display: inline-block;
+  padding: 0;
+}
+
+nav li.logo {
+  margin: 0 15px 0 15px;
 }
 
 nav a {
-  color: var(--background-color);
-  font-weight: 200;
-  text-decoration: none;
+  color: black;
+  font-weight: 300;
   opacity: 0.5;
+  text-decoration: none;
+  padding: 10px 15px 10px 15px;
+  margin:  0;
+  height: 100%;
 }
 
-nav a:hover {
-  opacity:  0.7;
+nav li.active a {
+  background-color: rgba(0, 0, 0, 0.1);
+  opacity: 0.7;
 }
-nav a.active:hover {
+
+nav li a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
   opacity: 1;
 }
+
+/** Save Button **/
+.save {
+  display: inline-block;
+  position: relative;
+  font-size: 0.8em;
+  font-weight: 200;
+  color: white;
+  cursor: pointer;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 2px;
+  margin-top: 2em;
+  padding: 10px 30px 10px 30px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.save:active {
+  opacity: 0.7;
+}
+
+.save:hover,
+.save:focus {
+  opacity: 0.9;
+}
+
+.save[disabled] {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.save.outline {
+  background: none;
+  color: #2196F3;
+}
+
+.save.outline:hover,
+.save.outline:focus {
+  background: #2196F3;
+  color: white;
+}
+
+/** CHECKBOX **/
+.checkbox {
+  color: rgba(0, 0, 0, 0.8);
+  display: block;
+  font-size: 24px;
+  font-weight: 200;
+  padding-left: 1.5em;
+  position: relative;
+  margin-bottom: 12px;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.checkbox.focused .checkmark {
+  outline-color: Highlight;
+  outline-style: auto;
+}
+
+.checkbox input {
+  cursor: pointer;
+  font-size: 24px;
+  height: 1.4em;
+  left: -0.3em;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 1.4em;
+}
+
+.checkbox .checkmark {
+  background-color: #eee;
+  border-radius: 2px;
+  cursor: pointer;
+  height: 1.3em;
+  left: 0;
+  position: absolute;
+  top: 0.2em;
+  width: 1.3em;
+  transition: background ease 0.2s;
+  z-index: -1;
+}
+
+.checkbox:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.checkbox input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox .checkmark:after {
+  left: 0.48em;
+  top: 0.2em;
+  width: 0.3em;
+  height: 0.6em;
+  border: solid white;
+  border-width: 0 0.1em 0.1em 0;
+  transform: rotate(45deg);
+}
+
 
 /** List **/
 .list-item .filter {
@@ -135,3 +249,27 @@ nav a.active:hover {
 .list-item .remove:hover {
   color: rgba(0, 0, 0, 0.8);
 }
+
+/** Emoji Selector **/
+.list-item button.emoji {
+  background: #eee;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 1rem;
+  height: 32px;
+  line-height: 1;
+  margin-top: 0;
+  margin-left: 10px;
+  padding: 4px 0;
+  transition: background ease 0.2s;
+  user-select: none;
+  vertical-align: middle;
+  width: 1.3rem;
+}
+
+.list-item button.emoji:hover,
+.list-item button.emoji:focus {
+  background: #ddd;
+}
+

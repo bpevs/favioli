@@ -28,7 +28,7 @@ const App = () => {
 
   return (
     <Fragment>
-      <Header path={route} />
+      <Header route={route} />
       <div className='page'>
         <Switch
           value={route}
