@@ -3,7 +3,7 @@
 import { h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
-import isRegexString from '../utilities/is_regex_string.ts';
+import { isRegexString } from '../utilities/predicates.ts';
 import Only from './Only.tsx';
 
 type Target = {

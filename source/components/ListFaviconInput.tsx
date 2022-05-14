@@ -3,7 +3,7 @@
 import { h } from 'preact';
 import { useCallback, useState } from 'preact/hooks';
 
-import isRegexString from '../utilities/isRegexString.ts';
+import { isRegexString } from '../utilities/predicates.ts';
 import EmojiPicker from './EmojiPicker.tsx';
 import Only from './Only.tsx';
 

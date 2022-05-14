@@ -11,7 +11,7 @@ Favioli does NOT collect or store any of this data, and does NOT use these permi
 const en: { [name: string]: string } = {
   enableFaviconActiveFlagDesc:
     'Show an icon when using a favicon that Favioli has replaced',
-  enableFaviconActiveFlagLabel: 'Enable Replacement Icon',
+  enableFaviconActiveFlagLabel: 'Enable Icon Replacement',
   enableAutofillFaviconDesc:
     'If a website doesn\'t have a favicon, Favioli will automatically create one for it using an emoji.',
   enableAutofillFaviconLabel: 'Enable Favicon Autofill',

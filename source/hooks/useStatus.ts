@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'preact/hooks';
 
-const STATUS_TIME = 3000;
+const STATUS_TIME = 4000;
 
 export default function useStatus(
   error: string,
@@ -14,8 +14,12 @@ export default function useStatus(
   }, [error]);
 
   const saveSettings = useCallback(async () => {
-    await saveCacheToStorage();
-    setStatus('Successfully Saved');
+    try {
+      await saveCacheToStorage();
+      setStatus('Successfully Saved');
+    } catch (e) {
+      setStatus(`Error: ${e}`);
+    }
     setTimeout(() => setStatus(''), STATUS_TIME);
   }, [saveCacheToStorage]);
 

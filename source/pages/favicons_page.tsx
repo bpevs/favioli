@@ -14,7 +14,7 @@ export interface FaviconsPageProps {
   default?: boolean;
   path?: string;
   storage?: BrowserStorage<Settings>;
-  save?: (...args: any[]) => {};
+  save?: (...args: any[]) => void;
 }
 
 export default function FaviconsPage({ save, storage }: FaviconsPageProps) {
@@ -56,7 +56,7 @@ export default function FaviconsPage({ save, storage }: FaviconsPageProps) {
         </Fragment>
       </Only>
 
-      <input type="submit" children={t('saveLabel')} className='save' />
+      <button type="submit" children={t('saveLabel')} className='save' />
     </form>
   );
 }

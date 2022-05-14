@@ -11,11 +11,14 @@ body {
 }
 
 h1 {
-  font-weight: 300;
   font-size: 1.5em;
   margin-bottom: 0.5em;
   user-select: none;
   -moz-user-select: none;
+}
+
+h2, p {
+  font-weight: 300;
 }
 
 .emoji-label {

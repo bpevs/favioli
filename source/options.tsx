@@ -24,6 +24,11 @@ const App = () => {
   const { error = '', loading, saveCacheToStorage } = storage;
   const { status, saveSettings } = useStatus(error || '', saveCacheToStorage);
 
+  const save = useCallback((e: any) => {
+    e.preventDefault();
+    saveSettings();
+  }, [saveSettings])
+
   if (loading) return <div />;
 
   return (
@@ -32,9 +37,9 @@ const App = () => {
       <div className='page'>
         <Switch
           value={route}
-          defaultCase={<SettingsPage storage={storage} />}
+          defaultCase={<FaviconsPage save={save} storage={storage} />}
           cases={{
-            '#favicons': <FaviconsPage save={saveSettings} storage={storage} />,
+            '#settings': <SettingsPage storage={storage} />,
             '#about': <AboutPage />,
           }}
         />
