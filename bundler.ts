@@ -88,7 +88,6 @@ async function loadFile(browserId: string, name: string) {
       jsx: 'react',
       jsxFactory: 'h',
       jsxFragmentFactory: 'Fragment',
-      target: 'es5',
     },
     importMap,
     importMapPath: './import_map.json',

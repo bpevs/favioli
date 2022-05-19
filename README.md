@@ -19,6 +19,14 @@ Favioli should work with any recent [Node.js](https://nodejs.org/en/) version;
 I'm currently using `v10.5.0` on Mac OS High Sierra for development.
 
 ```sh
+# NOTE:
+# Deno.emit is not supported in v1.22.0
+# We will move to v1.22.0 when we can make a stable configuration for
+# https://github.com/denoland/deno_emit
+
+# To use unstable Deno v1.21.3:
+# deno upgrade --version 1.21.3
+
 # Run tests
 make test
 
