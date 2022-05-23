@@ -1,26 +1,11 @@
-export function hasHttp(filter: string) {
-  return Boolean(filter.match(/^http/));
+// Checks whether a link is an icon rel
+export function isIconLink(link: HTMLLinkElement): boolean {
+  return link.rel.toLowerCase().indexOf('icon') !== -1;
 }
 
-/**
- * Determines whether a string is in the shape of a regex
- * @param {string} filter
- * @return {boolean}
- */
-export function isRegexString(filter: string) {
+// Determines whether a string is in the shape of a regex
+export function isRegexString(filter: string): boolean {
   return filter.length > 2 &&
     filter.startsWith('/') &&
     filter.endsWith('/');
-}
-
-/**
- * Determins whether a string is "close enough" to the shape of a url
- */
-export function isValidUrlish(filter: string) {
-  const toCheck = hasHttp(filter) ? filter : `https://${filter}`;
-  try {
-    return Boolean(new URL(toCheck));
-  } catch {
-    return false;
-  }
 }

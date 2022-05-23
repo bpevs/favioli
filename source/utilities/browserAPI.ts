@@ -13,6 +13,8 @@
  * "browser" for approx. firefox types.
  */
 
+export type BrowserName = 'CHROME' | 'FIREFOX';
+
 interface BrowserExtensionAPI {
   // See @todo:
   // deno-lint-ignore no-explicit-any
@@ -26,20 +28,15 @@ declare global {
 
 const CHROME = 'CHROME';
 const FIREFOX = 'FIREFOX';
-
-export type BrowserName = 'CHROME' | 'FIREFOX';
-
 const browserAPI = isBrowser(CHROME) ? chrome : browser; // Default to Chromium
 
 export default browserAPI;
-export const BROWSER: { [name: string]: BrowserName } = { CHROME, FIREFOX };
-export const broserName = isBrowser(CHROME) ? CHROME : FIREFOX;
 
 /**
  * What browser is this?
  * @param {string} toCheck to check
  */
-export function isBrowser(toCheck: BrowserName): boolean | string {
+export function isBrowser(toCheck: BrowserName): boolean {
   let currentBrowser = CHROME;
   try {
     // Use try block, since userAgent not guaranteed to exist.
@@ -57,4 +54,11 @@ export function isBrowser(toCheck: BrowserName): boolean | string {
   if (toCheck === CHROME && currentBrowser === CHROME) return true;
   if (toCheck === FIREFOX && currentBrowser === FIREFOX) return true;
   return false;
+}
+
+export function isChrome(): boolean {
+  return isBrowser(CHROME);
+}
+export function isFirefox(): boolean {
+  return isBrowser(FIREFOX);
 }

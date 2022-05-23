@@ -6,17 +6,19 @@
  * Override favicon if applicable
  */
 import browserAPI from './utilities/browserAPI.ts';
-import { appendFaviconLink, removeAllFaviconLinks } from "./utilities/faviconHelpers.js";
+import {
+  appendFaviconLink,
+  removeAllFaviconLinks,
+} from './utilities/faviconHelpers.js';
 
-console.log('hello!');
+interface Options {
+  siteList: string[];
+  ignoreList: string[];
+}
 
-browserAPI.storage.sync.get(['siteList', 'ignoreList'], (result: any) => {
-  const url = new URL(location.href)
-  console.log(url);
+browserAPI.storage.sync.get(['siteList', 'ignoreList'], (result: Options) => {
   if (result.siteList.some((site: string) => location.href.match(site))) {
-    console.log('replace!');
     removeAllFaviconLinks();
     appendFaviconLink('😀', true);
-    console.log('replaced with 😀');
   }
 });

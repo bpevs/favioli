@@ -26,15 +26,14 @@ interface ListInputProps {
 }
 
 export default function ListInput({
-    autoFocus = false,
-    addItem,
-    deleteItem,
-    updateItem = () => {},
-    placeholder = '',
-    value = '',
-    index,
-  }: ListInputProps) {
-
+  autoFocus = false,
+  addItem,
+  deleteItem,
+  updateItem = () => {},
+  placeholder = '',
+  value = '',
+  index,
+}: ListInputProps) {
   const onChange = useCallback((e: Event) => {
     const { value } = (e.target as HTMLInputElement);
     addItem ? addItem(value) : updateItem(index, value);
@@ -58,8 +57,8 @@ export default function ListInput({
 
       <Only if={Boolean(deleteItem)}>
         <button
-          aria-label="delete"
-          type="button"
+          aria-label='delete'
+          type='button'
           className='remove'
           onClick={onClickDelete}
           children='❌'

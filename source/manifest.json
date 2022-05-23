@@ -8,8 +8,8 @@
   },
   "content_scripts": [
     {
-      "matches": [ "*://*/*" ],
-      "js": [ "contentScript.js" ],
+      "matches": ["*://*/*"],
+      "js": ["contentScript.js"],
       "run_at": "document_end"
     }
   ],

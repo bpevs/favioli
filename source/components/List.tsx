@@ -12,13 +12,13 @@ export interface ListProps<Type> {
 }
 
 export default function List<Type,>({ type, state }: ListProps<Type>) {
-  const listRef = useRef<HTMLInputElement>(null)
+  const listRef = useRef<HTMLInputElement>(null);
   const listInputs = state.contents.map((listItem: string, index: number) => {
     return (
       <ListInput
         key={index}
         index={index}
-        value={state.contents[index] || ""}
+        value={state.contents[index] || ''}
         autoFocus={index === 0}
         updateItem={state.updateItem}
         deleteItem={(index) => {

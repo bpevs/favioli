@@ -1,6 +1,6 @@
 /* @jsx h */
 
-import { h, Fragment, render } from 'preact';
+import { Fragment, h, render } from 'preact';
 import { useCallback } from 'preact/hooks';
 
 import { Settings } from './types.ts';
@@ -24,10 +24,10 @@ const App = () => {
   const { error = '', loading, saveCacheToStorage } = storage;
   const { status, saveSettings } = useStatus(error || '', saveCacheToStorage);
 
-  const save = useCallback((e: any) => {
+  const save = useCallback((e: Event) => {
     e.preventDefault();
     saveSettings();
-  }, [saveSettings])
+  }, [saveSettings]);
 
   if (loading) return <div />;
 

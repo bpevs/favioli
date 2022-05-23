@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from 'preact/hooks';
 import browserAPI from '../utilities/browserAPI.ts';
-import { requestPermissionToSites, requestPermissionToAllSites } from '../utilities/permissions.ts';
-import { hasHttp } from '../utilities/predicates.ts';
+import {
+  requestPermissionToAllSites,
+  requestPermissionToSites,
+} from '../utilities/permissions.ts';
 
 const { storage, runtime } = browserAPI;
 
@@ -30,14 +32,12 @@ export default function useBrowserStorage<Type extends Storage>(
 ) {
   const [error, setError] = useState<string>();
   const [cache, setCache] = useState<Type>();
-  const [savedCache, setSavedCache] = useState<Type>();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     storage.sync.get(keys, (result: Type) => {
       if (runtime.lastError) setError(runtime.lastError);
       setCache(result);
-      setSavedCache(result);
       setLoading(false);
     });
   }, []);
@@ -53,15 +53,13 @@ export default function useBrowserStorage<Type extends Storage>(
     }, [cache, setCache]),
 
     async saveCacheToStorage(): Promise<void> {
-
-      const currStorage = savedCache;
       const nextStorage = cache;
       if (!nextStorage) return;
 
       const origins = nextStorage.siteList
         .map(function validateUrl(site: string) {
           try {
-            return new URL(site).origin + "/";
+            return new URL(site).origin + '/';
           } catch (e) {
             console.error(e);
             return false;
@@ -74,11 +72,10 @@ export default function useBrowserStorage<Type extends Storage>(
         ? await requestPermissionToSites(origins)
         : await requestPermissionToAllSites();
 
-      if (!hasPermission) return Promise.reject("No Permission Given");
+      if (!hasPermission) return Promise.reject('No Permission Given');
 
       return new Promise((resolve, reject) =>
         storage.sync.set(nextStorage, () => {
-          // setSavedCache(nextStorage);
           if (runtime.lastError) {
             setError(runtime.lastError);
             reject(runtime.lastError);

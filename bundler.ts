@@ -70,7 +70,7 @@ Object.keys(browsers).forEach(async (browserId) => {
 
   console.log(`Initializing ${colorizedBrowserName} build...`);
 
-  const jsFiles = await Promise.all([
+  await Promise.all([
     loadFile(browserId, 'background.ts'),
     loadFile(browserId, 'options.tsx'),
     loadFile(browserId, 'contentScript.ts'),
@@ -96,7 +96,11 @@ async function loadFile(browserId: string, name: string) {
   buildFiles(browserId, name, await Deno.emit(`source/${name}`, emitOptions));
 }
 
-function buildFiles(browserId: string, name: string, emitResult: any) {
+function buildFiles(
+  browserId: string,
+  name: string,
+  emitResult: Deno.EmitResult,
+) {
   const { diagnostics, files } = emitResult;
   const bundleCode: string = files['deno:///bundle.js'];
   const outputFileName = name.replace(/(t|j)sx?$/, 'js');

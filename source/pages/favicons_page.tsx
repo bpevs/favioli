@@ -14,7 +14,7 @@ export interface FaviconsPageProps {
   default?: boolean;
   path?: string;
   storage?: BrowserStorage<Settings>;
-  save?: (...args: any[]) => void;
+  save?: (e: Event) => void;
 }
 
 export default function FaviconsPage({ save, storage }: FaviconsPageProps) {
@@ -48,7 +48,7 @@ export default function FaviconsPage({ save, storage }: FaviconsPageProps) {
           <h1>
             Ignore These Sites
             <Only if={!enableSiteIgnore}>
-              <span style={{ opacity: 0.5 }}> (Disabled)</span>
+              <span style={{ opacity: 0.5 }}>(Disabled)</span>
             </Only>
           </h1>
 
@@ -56,7 +56,7 @@ export default function FaviconsPage({ save, storage }: FaviconsPageProps) {
         </Fragment>
       </Only>
 
-      <button type="submit" children={t('saveLabel')} className='save' />
+      <button type='submit' children={t('saveLabel')} className='save' />
     </form>
   );
 }
