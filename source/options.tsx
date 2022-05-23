@@ -20,7 +20,11 @@ import { t } from './utilities/i18n.ts';
 
 const App = () => {
   const route = useRoute();
-  const storage = useBrowserStorage<Settings>(['siteList', 'ignoreList']);
+  const storage = useBrowserStorage<Settings>([
+    'siteList',
+    'ignoreList',
+    'features',
+  ]);
   const { error = '', loading, saveCacheToStorage } = storage;
   const { status, saveSettings } = useStatus(error || '', saveCacheToStorage);
 
@@ -29,7 +33,7 @@ const App = () => {
     saveSettings();
   }, [saveSettings]);
 
-  if (loading) return <div />;
+  if (loading || !storage) return <div />;
 
   return (
     <Fragment>
@@ -39,7 +43,7 @@ const App = () => {
           value={route}
           defaultCase={<FaviconsPage save={save} storage={storage} />}
           cases={{
-            '#settings': <SettingsPage storage={storage} />,
+            '#settings': <SettingsPage save={save} storage={storage} />,
             '#about': <AboutPage />,
           }}
         />

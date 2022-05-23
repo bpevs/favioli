@@ -6,16 +6,20 @@ export interface Settings {
   siteList: UrlFaviconPair[];
   ignoreList: IgnoreItem[];
 
-  enableFaviconActiveFlag: boolean;
-  enableFaviconAutofill: boolean;
-  enableSiteIgnore: boolean;
+  features: {
+    enableFaviconActiveFlag?: boolean;
+    enableFaviconAutofill?: boolean;
+    enableSiteIgnore?: boolean;
+  };
 }
 
 export const defaultSettings: Settings = {
   siteList: [],
   ignoreList: [],
 
-  enableFaviconActiveFlag: false,
-  enableFaviconAutofill: false,
-  enableSiteIgnore: false,
+  features: {
+    enableFaviconActiveFlag: false,
+    enableFaviconAutofill: false,
+    enableSiteIgnore: false,
+  },
 };

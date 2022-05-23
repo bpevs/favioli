@@ -14,7 +14,7 @@ const en: { [name: string]: string } = {
   enableFaviconActiveFlagLabel: 'Enable Icon Replacement',
   enableAutofillFaviconDesc:
     'If a website doesn\'t have a favicon, Favioli will automatically create one for it using an emoji.',
-  enableAutofillFaviconLabel: 'Enable Favicon Autofill',
+  enableAutofillFaviconLabel: 'Enable Autofill',
   enableAutofillFaviconPopup: broadPermissionsWarning,
   enableSiteIgnoreDesc: 'Select sites that autofill should ignore',
   enableSiteIgnoreLabel: 'Enable Ignore List',

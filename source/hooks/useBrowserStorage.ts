@@ -55,6 +55,7 @@ export default function useBrowserStorage<Type extends Storage>(
     async saveCacheToStorage(): Promise<void> {
       const nextStorage = cache;
       if (!nextStorage) return;
+      console.log(nextStorage);
 
       const origins = nextStorage.siteList
         .map(function validateUrl(site: string) {

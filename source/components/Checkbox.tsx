@@ -4,14 +4,13 @@ import { h } from 'preact';
 import { useCallback, useState } from 'preact/hooks';
 
 export type Target = { [name: string]: boolean };
+export type CheckboxOnChange = (target: Target) => void;
 
 export interface CheckboxProps {
   name: string;
   checked?: boolean;
   label: string;
-
-  // deno-lint-ignore no-explicit-any
-  onChange?: (...args: any[]) => void;
+  onChange?: CheckboxOnChange;
 }
 
 export default function Checkbox({

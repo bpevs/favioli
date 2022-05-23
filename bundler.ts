@@ -27,10 +27,6 @@ const browsers: BrowserManifests = {
     color: '\x1b[91m',
     overrides: {
       manifest_version: 2,
-      // @todo this is not elegant
-      background: {
-        scripts: ['background.js'],
-      },
     },
     omits: ['options_page'],
   },
@@ -71,7 +67,6 @@ Object.keys(browsers).forEach(async (browserId) => {
   console.log(`Initializing ${colorizedBrowserName} build...`);
 
   await Promise.all([
-    loadFile(browserId, 'background.ts'),
     loadFile(browserId, 'options.tsx'),
     loadFile(browserId, 'contentScript.ts'),
     loadFile(browserId, 'popup.tsx'),

@@ -2,47 +2,61 @@
 import type { BrowserStorage } from '../hooks/useBrowserStorage.ts';
 
 import { Fragment, h } from 'preact';
+import { useCallback } from 'preact/hooks';
 
 import { defaultSettings, Settings } from '../types.ts';
-import Checkbox from '../components/Checkbox.tsx';
+import Checkbox, { Target } from '../components/Checkbox.tsx';
 import { t } from '../utilities/i18n.ts';
 
 export interface SettingsProps {
   default?: boolean;
   path?: string;
+  save?: (e: Event) => void;
   storage?: BrowserStorage<Settings>;
 }
 
-const SettingsPage = ({ storage }: SettingsProps) => {
+const SettingsPage = ({ save, storage }: SettingsProps) => {
   const { cache = defaultSettings, setCache } = storage || {};
   const {
     enableFaviconActiveFlag,
     enableFaviconAutofill,
     enableSiteIgnore,
-  } = cache;
+  } = cache.features || {};
+
+  const setFeature = useCallback((feature: Target) => {
+    if (storage) {
+      storage.setCache({
+        features: {
+          ...cache.features,
+          ...feature,
+        },
+      });
+    }
+  }, [cache.features]);
 
   return (
-    <Fragment>
+    <form onSubmit={save}>
       <h1>Settings</h1>
       <Checkbox
         name='enableFaviconActiveFlag'
         label={t('enableFaviconActiveFlagLabel')}
         checked={enableFaviconActiveFlag}
-        onChange={setCache}
+        onChange={setFeature}
       />
       <Checkbox
         name='enableSiteIgnore'
         label={t('enableSiteIgnoreLabel')}
         checked={enableSiteIgnore}
-        onChange={setCache}
+        onChange={setFeature}
       />
       <Checkbox
         name='enableAutofillFavicon'
         label={t('enableAutofillFaviconLabel')}
         checked={enableFaviconAutofill}
-        onChange={setCache}
+        onChange={setFeature}
       />
-    </Fragment>
+      <button type='submit' children={t('saveLabel')} className='save' />
+    </form>
   );
 };
 
