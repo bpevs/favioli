@@ -1,17 +1,13 @@
 # Favioli 🤯
 
-<p align="center">
-Favioli adds emoji FavIcons for websites that lack one. This README is for Favioli contribution information. Read the <a href="https://bpev.me/favioli">Favioli introduction blog post</a> for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
-</p>
+<a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
+  <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg" />
+</a>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
+  <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg" />
+</a>
 
-<p align="center">
-  <a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
-    <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for-the-badge" />
-  </a>
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
-    <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg?style=for-the-badge" />
-  </a>
-</p>
+Favioli adds emoji FavIcons for websites that lack one. This README is for Favioli contribution information. Read the <a href="https://bpev.me/favioli">Favioli introduction blog post</a> for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
 
 # Development
 
@@ -42,9 +38,6 @@ directory. To load Favioli, point to each browser's respective directory.
 [Google](https://developer.chrome.com/extensions) and
 [Mozilla](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons) each have
 resources about developing for their respective platforms.
-
-![Load in Chrome](./resources/screenshots/load-chrome-favioli.png)
-![Load in Firefox](./resources/screenshots/load-ff-favioli.png)
 
 # Inspiration
 
