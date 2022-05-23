@@ -21,6 +21,9 @@ if (ctx) {
  *  2. Avoid any legal complications from packaging emoji images.
  *
  * This function is expected to be used primarily for favicon autofill.
+ *
+ * Heavily inspired by emoji-favicon-toolkit
+ * @source https://github.com/eligrey/emoji-favicon-toolkit/blob/master/src/emoji-favicon-toolkit.ts
  */
 export function createEmojiFaviconURL(char: string): string {
   if (!char || !ctx) return '';
