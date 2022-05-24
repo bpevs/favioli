@@ -1,11 +1,11 @@
 /* @jsx h */
-import type { BrowserStorage } from '../hooks/useBrowserStorage.ts';
+import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
 
 import { Fragment, h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
 import { defaultSettings, Settings } from '../types.ts';
-import Checkbox, { Target } from '../components/Checkbox.tsx';
+import Checkbox, { Target } from '../components/checkbox.tsx';
 import { t } from '../utilities/i18n.ts';
 
 export interface SettingsProps {

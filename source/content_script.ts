@@ -5,11 +5,11 @@
  * Use those to determine if we should override favicon
  * Override favicon if applicable
  */
-import browserAPI from './utilities/browserAPI.ts';
+import browserAPI from './utilities/browser_api.ts';
 import {
   appendFaviconLink,
   removeAllFaviconLinks,
-} from './utilities/faviconHelpers.js';
+} from './utilities/favicon_helpers.ts';
 
 interface Options {
   siteList: string[];

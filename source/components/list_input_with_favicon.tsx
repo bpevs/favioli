@@ -4,8 +4,8 @@ import { h } from 'preact';
 import { useCallback, useState } from 'preact/hooks';
 
 import { isRegexString } from '../utilities/predicates.ts';
-import EmojiPicker from './EmojiPicker.tsx';
-import Only from './Only.tsx';
+import EmojiPicker from './emoji_picker.tsx';
+import Only from './only.tsx';
 
 type Favicon = {
   colons: string;

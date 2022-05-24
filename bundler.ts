@@ -68,7 +68,7 @@ Object.keys(browsers).forEach(async (browserId) => {
 
   await Promise.all([
     loadFile(browserId, 'options.tsx'),
-    loadFile(browserId, 'contentScript.ts'),
+    loadFile(browserId, 'content_script.ts'),
     loadFile(browserId, 'popup.tsx'),
   ]);
 

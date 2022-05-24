@@ -4,7 +4,7 @@ import { h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
 import { isRegexString } from '../utilities/predicates.ts';
-import Only from './Only.tsx';
+import Only from './only.tsx';
 
 type Target = {
   textValue?: string;

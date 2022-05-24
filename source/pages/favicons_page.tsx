@@ -1,12 +1,12 @@
 /* @jsx h */
-import type { BrowserStorage } from '../hooks/useBrowserStorage.ts';
+import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
 
 import { Fragment, h } from 'preact';
 import { useEffect } from 'preact/hooks';
 
 import { defaultSettings, Settings } from '../types.ts';
-import List from '../components/List.tsx';
-import Only from '../components/Only.tsx';
+import List from '../components/list.tsx';
+import Only from '../components/only.tsx';
 import useListState from '../hooks/use_list_state.ts';
 import { t } from '../utilities/i18n.ts';
 

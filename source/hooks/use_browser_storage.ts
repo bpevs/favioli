@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'preact/hooks';
-import browserAPI from '../utilities/browserAPI.ts';
+import browserAPI from '../utilities/browser_api.ts';
 import {
   requestPermissionToAllSites,
   requestPermissionToSites,

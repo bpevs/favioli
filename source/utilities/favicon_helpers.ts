@@ -1,20 +1,18 @@
-import { isFirefox } from './browserAPI.ts';
-import { createEmojiFaviconURL, ICON_SIZE } from './createEmojiFaviconURL.ts';
+import { isFirefox } from './browser_api.ts';
+import {
+  createEmojiFaviconURL,
+  ICON_SIZE,
+} from './create_emoji_favicon_url.ts';
 import { isIconLink } from './predicates.ts';
 
 // Append new favicon links to the document head
 const documentHead = document.getElementsByTagName('head')[0];
 const hasFavicon = Boolean(isFirefox() && getAllIconLinks().length);
 
-/** @type {?HTMLElement} */
-let existingFavicon = null;
+let existingFavicon: HTMLElement | null = null;
 
-/**
- * Given an emoji string, append it to the document head
- * @param {string} name
- * @param {boolean} shouldOverride
- */
-export function appendFaviconLink(name, shouldOverride) {
+// Given an emoji string, append it to the document head
+export function appendFaviconLink(name: string, shouldOverride: boolean) {
   const href = createEmojiFaviconURL(name || '');
   if (!href) return;
 
@@ -31,32 +29,25 @@ export function appendFaviconLink(name, shouldOverride) {
   }
 }
 
-/**
- * Return an array of link tags that have an icon rel
- * @returns {Array.<HTMLElement>}
- */
-export function getAllIconLinks() {
+// Return an array of link tags that have an icon rel
+export function getAllIconLinks(): HTMLElement[] {
   return Array.prototype
     .slice.call(document.getElementsByTagName('link'))
     .filter(isIconLink);
 }
 
-/**
- * Removes all icon link tags
- */
-export function removeAllFaviconLinks() {
+// Removes all icon link tags
+export function removeAllFaviconLinks(): void {
   getAllIconLinks().forEach((link) => link.remove());
   existingFavicon = null;
 }
 
-/**
- * Given a url, create a favicon link
- * @param {string} href
- * @param {number=} size
- * @param {string=} type
- * @returns {HTMLLinkElement}
- */
-function createLink(href, size, type) {
+// Given a url, create a favicon link
+function createLink(
+  href: string,
+  size?: number,
+  type?: string,
+): HTMLLinkElement {
   const link = document.createElement('link');
   link.rel = 'icon';
   link.href = href;

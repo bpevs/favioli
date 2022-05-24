@@ -4,6 +4,7 @@ import type { ListState } from '../hooks/use_list_state.ts';
 
 import { h } from 'preact';
 import { useRef } from 'preact/hooks';
+
 import ListInput from './list_input.tsx';
 
 export interface ListProps<Type> {

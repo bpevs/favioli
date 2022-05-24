@@ -4,14 +4,14 @@ import { Fragment, h, render } from 'preact';
 import { useCallback } from 'preact/hooks';
 
 import { Settings } from './types.ts';
-import Header from './components/Header.tsx';
+import Header from './components/header.tsx';
 import Switch from './components/switch.tsx';
 
 import useBrowserStorage, {
   BrowserStorage,
-} from './hooks/useBrowserStorage.ts';
-import useStatus from './hooks/useStatus.ts';
-import useRoute from './hooks/useRoute.ts';
+} from './hooks/use_browser_storage.ts';
+import useStatus from './hooks/use_status.ts';
+import useRoute from './hooks/use_route.ts';
 
 import AboutPage from './pages/about_page.tsx';
 import FaviconsPage from './pages/favicons_page.tsx';
