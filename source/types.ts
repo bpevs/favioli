@@ -7,7 +7,6 @@ export interface Settings {
   ignoreList: IgnoreItem[];
 
   features: {
-    enableFaviconActiveFlag?: boolean;
     enableFaviconAutofill?: boolean;
     enableSiteIgnore?: boolean;
   };
@@ -18,7 +17,6 @@ export const defaultSettings: Settings = {
   ignoreList: [],
 
   features: {
-    enableFaviconActiveFlag: false,
     enableFaviconAutofill: false,
     enableSiteIgnore: false,
   },

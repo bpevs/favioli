@@ -17,11 +17,7 @@ export interface SettingsProps {
 
 const SettingsPage = ({ save, storage }: SettingsProps) => {
   const { cache = defaultSettings, setCache } = storage || {};
-  const {
-    enableFaviconActiveFlag,
-    enableFaviconAutofill,
-    enableSiteIgnore,
-  } = cache.features || {};
+  const { enableFaviconAutofill, enableSiteIgnore } = cache.features || {};
 
   const setFeature = useCallback((feature: Target) => {
     if (storage) {
@@ -38,20 +34,14 @@ const SettingsPage = ({ save, storage }: SettingsProps) => {
     <form onSubmit={save}>
       <h1>Settings</h1>
       <Checkbox
-        name='enableFaviconActiveFlag'
-        label={t('enableFaviconActiveFlagLabel')}
-        checked={enableFaviconActiveFlag}
-        onChange={setFeature}
-      />
-      <Checkbox
         name='enableSiteIgnore'
         label={t('enableSiteIgnoreLabel')}
         checked={enableSiteIgnore}
         onChange={setFeature}
       />
       <Checkbox
-        name='enableAutofillFavicon'
-        label={t('enableAutofillFaviconLabel')}
+        name='enableFaviconAutofill'
+        label={t('enableFaviconAutofillLabel')}
         checked={enableFaviconAutofill}
         onChange={setFeature}
       />

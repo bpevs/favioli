@@ -9,13 +9,10 @@ This permission is used to:
 Favioli does NOT collect or store any of this data, and does NOT use these permissions for anything besides what is stated here.`;
 
 const en: { [name: string]: string } = {
-  enableFaviconActiveFlagDesc:
-    'Show an icon when using a favicon that Favioli has replaced',
-  enableFaviconActiveFlagLabel: 'Enable Icon Replacement',
-  enableAutofillFaviconDesc:
+  enableFaviconAutofillDesc:
     'If a website doesn\'t have a favicon, Favioli will automatically create one for it using an emoji.',
-  enableAutofillFaviconLabel: 'Enable Autofill',
-  enableAutofillFaviconPopup: broadPermissionsWarning,
+  enableFaviconAutofillLabel: 'Enable Autofill',
+  enableFaviconAutofillPopup: broadPermissionsWarning,
   enableSiteIgnoreDesc: 'Select sites that autofill should ignore',
   enableSiteIgnoreLabel: 'Enable Ignore List',
   saveLabel: 'Save',
