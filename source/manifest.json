@@ -6,8 +6,7 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["content_script.js"],
-      "run_at": "document_end"
+      "js": ["content_script.js"]
     }
   ],
   "options_page": "options.html",

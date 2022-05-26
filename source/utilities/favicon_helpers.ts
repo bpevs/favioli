@@ -11,6 +11,10 @@ const hasFavicon = Boolean(isFirefox() && getAllIconLinks().length);
 
 let existingFavicon: HTMLElement | null = null;
 
+if (getAllIconLinks().length) {
+  existingFavicon = getAllIconLinks()[0];
+}
+
 interface Options {
   shouldOverride?: boolean;
 }
