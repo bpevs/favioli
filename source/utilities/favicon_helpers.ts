@@ -11,8 +11,13 @@ const hasFavicon = Boolean(isFirefox() && getAllIconLinks().length);
 
 let existingFavicon: HTMLElement | null = null;
 
+interface Options {
+  shouldOverride?: boolean;
+}
+
 // Given an emoji string, append it to the document head
-export function appendFaviconLink(name: string, shouldOverride: boolean) {
+export function appendFaviconLink(name: string, options?: Options | void) {
+  const { shouldOverride = false } = options || {};
   const href = createEmojiFaviconURL(name || '');
   if (!href) return;
 

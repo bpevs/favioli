@@ -3,7 +3,7 @@
 import { Fragment, h, render } from 'preact';
 import { useCallback } from 'preact/hooks';
 
-import { Settings } from './types.ts';
+import { Settings, STORAGE_KEYS } from './types.ts';
 import Header from './components/header.tsx';
 import Switch from './components/switch.tsx';
 
@@ -20,11 +20,7 @@ import { t } from './utilities/i18n.ts';
 
 const App = () => {
   const route = useRoute();
-  const storage = useBrowserStorage<Settings>([
-    'siteList',
-    'ignoreList',
-    'features',
-  ]);
+  const storage = useBrowserStorage<Settings>(STORAGE_KEYS);
   const { error = '', loading, saveCacheToStorage } = storage;
   const { status, saveSettings } = useStatus(error || '', saveCacheToStorage);
 

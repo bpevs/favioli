@@ -28,7 +28,7 @@ export interface BrowserStorage<Type extends Storage> {
  *   - `saveCacheToStorage` saves that local data into browserStorage on a separate interaction
  */
 export default function useBrowserStorage<Type extends Storage>(
-  keys: string[],
+  keys: readonly string[],
 ) {
   const [error, setError] = useState<string>();
   const [cache, setCache] = useState<Type>();
@@ -55,7 +55,6 @@ export default function useBrowserStorage<Type extends Storage>(
     async saveCacheToStorage(): Promise<void> {
       const nextStorage = cache;
       if (!nextStorage) return;
-      console.log(nextStorage);
 
       const origins = nextStorage.siteList
         .map(function validateUrl(site: string) {

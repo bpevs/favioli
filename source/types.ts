@@ -3,7 +3,7 @@ type IgnoreItem = string;
 type UrlFaviconPair = [string, Favicon];
 
 export interface Settings {
-  siteList: UrlFaviconPair[];
+  siteList: IgnoreItem[];
   ignoreList: IgnoreItem[];
 
   features: {
@@ -21,3 +21,9 @@ export const defaultSettings: Settings = {
     enableSiteIgnore: false,
   },
 };
+
+export const STORAGE_KEYS = Object.freeze([
+  'siteList',
+  'ignoreList',
+  'features',
+]);
