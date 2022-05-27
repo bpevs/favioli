@@ -17,9 +17,12 @@ export async function appendFaviconLink(
   const faviconURL = createFaviconURLFromChar(name || '');
   if (!faviconURL) return;
 
+  if (shouldOverride) removeAllFaviconLinks();
+
+  // Already appended favicon; just update
   if (appendedFavicon) {
     appendedFavicon.setAttribute('href', faviconURL);
-  } else if (shouldOverride || !(await faviconIsAvailable())) {
+  } else if (await isFaviconMissing()) {
     appendedFavicon = head.appendChild(
       createLink(faviconURL, ICON_SIZE, 'image/png'),
     );
@@ -27,13 +30,13 @@ export async function appendFaviconLink(
 }
 
 // Return an array of link tags that have an icon rel
-export function getAllIconLinks(): HTMLLinkElement[] {
+function getAllIconLinks(): HTMLLinkElement[] {
   return Array.prototype.slice
     .call(document.getElementsByTagName('link'))
     .filter(isIconLink);
 }
 
-export async function faviconIsAvailable() {
+async function isFaviconMissing() {
   const iconLinkFound = getAllIconLinks()
     .concat(createLink('/favicon.ico')) // Browsers fallback to favicon.ico
     .map(async ({ href }: HTMLLinkElement) => {
@@ -41,14 +44,14 @@ export async function faviconIsAvailable() {
       throw new Error('not found');
     });
   try {
-    return await Promise.any(iconLinkFound);
+    return !(await Promise.any(iconLinkFound));
   } catch {
-    return false;
+    return true;
   }
 }
 
 // Removes all icon link tags
-export function removeAllFaviconLinks(): void {
+function removeAllFaviconLinks(): void {
   getAllIconLinks().forEach((link) => link.remove());
   appendedFavicon = null;
 }

@@ -9,10 +9,7 @@ import type { Settings } from './types.ts';
 import { defaultSettings, STORAGE_KEYS } from './types.ts';
 import Autoselector from './utilities/autoselector.ts';
 import browserAPI from './utilities/browser_api.ts';
-import {
-  appendFaviconLink,
-  removeAllFaviconLinks,
-} from './utilities/favicon_helpers.ts';
+import { appendFaviconLink } from './utilities/favicon_helpers.ts';
 const autoselector = new Autoselector();
 
 browserAPI.storage.sync.get(
@@ -20,18 +17,13 @@ browserAPI.storage.sync.get(
   (result: Settings = defaultSettings) => {
     const urlToCheck = location.href;
 
-    const hasOverride = result.siteList.some(
+    const shouldOverride = result.siteList.some(
       (site: string) => urlToCheck.match(site),
     );
 
     if (result.features.enableFaviconAutofill) {
       const autoselected = autoselector.selectFavicon(location.host);
-      appendFaviconLink(autoselected.emoji || '😀');
-    }
-
-    if (hasOverride) {
-      removeAllFaviconLinks();
-      appendFaviconLink('😀', { shouldOverride: true });
+      appendFaviconLink(autoselected.emoji || '😀', { shouldOverride });
     }
   },
 );
