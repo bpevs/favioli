@@ -21,14 +21,14 @@ interface BrowserManifests {
 const browsers: BrowserManifests = {
   chrome: {
     color: '\x1b[32m',
-    omits: ['applications', 'options_ui'],
+    omits: ['applications', 'options_ui', 'browser_action'],
   },
   firefox: {
     color: '\x1b[91m',
     overrides: {
       manifest_version: 2,
     },
-    omits: ['options_page'],
+    omits: ['options_page', 'host_permissions', 'action'],
   },
 };
 

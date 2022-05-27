@@ -35,6 +35,10 @@
       "256": "icons/256.png"
     }
   },
+  "browser_action": {
+    "default_icon": "icons/32.png",
+    "default_popup": "popup.html"
+  },
   "icons": {
     "32": "icons/32.png",
     "48": "icons/48.png",
