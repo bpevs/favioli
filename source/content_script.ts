@@ -18,8 +18,11 @@ const autoselector = new Autoselector();
 browserAPI.storage.sync.get(
   STORAGE_KEYS,
   (result: Settings = defaultSettings) => {
-    const hasOverride = (result?.siteList || [])
-      .some((site: string) => location.href.match(site));
+    const urlToCheck = location.href;
+
+    const hasOverride = result.siteList.some(
+      (site: string) => urlToCheck.match(site),
+    );
 
     if (result.features.enableFaviconAutofill) {
       const autoselected = autoselector.selectFavicon(location.host);

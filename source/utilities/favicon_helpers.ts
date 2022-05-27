@@ -1,19 +1,10 @@
-import { isFirefox } from './browser_api.ts';
-import {
-  createEmojiFaviconURL,
-  ICON_SIZE,
-} from './create_emoji_favicon_url.ts';
+import { createFaviconURLFromChar, ICON_SIZE } from './create_favicon_url.ts';
 import { isIconLink } from './predicates.ts';
 
-// Append new favicon links to the document head
-const documentHead = document.getElementsByTagName('head')[0];
-const hasFavicon = Boolean(isFirefox() && getAllIconLinks().length);
+const head = document.getElementsByTagName('head')[0];
+const siteHasFavicon = Boolean(getAllIconLinks().length);
 
-let existingFavicon: HTMLElement | null = null;
-
-if (getAllIconLinks().length) {
-  existingFavicon = getAllIconLinks()[0];
-}
+let appendedFavicon: HTMLElement | null = null;
 
 interface Options {
   shouldOverride?: boolean;
@@ -22,19 +13,16 @@ interface Options {
 // Given an emoji string, append it to the document head
 export function appendFaviconLink(name: string, options?: Options | void) {
   const { shouldOverride = false } = options || {};
-  const href = createEmojiFaviconURL(name || '');
-  if (!href) return;
+  const faviconURL = createFaviconURLFromChar(name || '');
+  if (!faviconURL) return;
 
-  if (existingFavicon) {
-    existingFavicon.setAttribute('href', href);
-  } else if (!hasFavicon || shouldOverride) {
-    const link = createLink(href, ICON_SIZE, 'image/png');
-    existingFavicon = documentHead.appendChild(link);
-
-    if (!shouldOverride) {
-      const defaultLink = createLink('/favicon.ico');
-      documentHead.appendChild(defaultLink);
-    }
+  if (appendedFavicon) {
+    appendedFavicon.setAttribute('href', faviconURL);
+  } else if (!siteHasFavicon || shouldOverride) {
+    appendedFavicon = head.appendChild(
+      createLink(faviconURL, ICON_SIZE, 'image/png'),
+    );
+    head.appendChild(createLink('/favicon.ico'));
   }
 }
 
@@ -48,7 +36,7 @@ export function getAllIconLinks(): HTMLElement[] {
 // Removes all icon link tags
 export function removeAllFaviconLinks(): void {
   getAllIconLinks().forEach((link) => link.remove());
-  existingFavicon = null;
+  appendedFavicon = null;
 }
 
 // Given a url, create a favicon link

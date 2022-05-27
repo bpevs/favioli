@@ -25,7 +25,7 @@ if (ctx) {
  * Heavily inspired by emoji-favicon-toolkit
  * @source https://github.com/eligrey/emoji-favicon-toolkit/blob/master/src/emoji-favicon-toolkit.ts
  */
-export function createEmojiFaviconURL(char: string): string {
+export function createFaviconURLFromChar(char: string): string {
   if (!char || !ctx) return '';
 
   // Calculate sizing
