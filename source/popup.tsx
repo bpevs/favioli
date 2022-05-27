@@ -4,12 +4,17 @@ import { h, render } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
 import browserAPI from './utilities/browser_api.ts';
 
+interface Tab {
+  favIconUrl?: string;
+  url?: string;
+}
+
 const App = () => {
-  const [ url, setUrl ] = useState("");
+  const [url, setUrl] = useState<string | void>();
 
   useEffect(() => {
-    browserAPI.tabs.query({active: true})
-      .then(([currTab]: any) => {
+    browserAPI.tabs.query({ active: true })
+      .then(([currTab]: Tab[]) => {
         setUrl(currTab.favIconUrl);
       });
   }, []);
@@ -19,12 +24,11 @@ const App = () => {
   }, []);
 
   const addToOverrides = useCallback(() => {
-    browserAPI.tabs.query({active: true})
-      .then(([currTab]: any) => {
+    browserAPI.tabs.query({ active: true })
+      .then(([currTab]: Tab[]) => {
         setUrl(currTab.url);
       });
-  }, [])
-
+  }, []);
 
   return (
     <div className='page'>
@@ -36,11 +40,10 @@ const App = () => {
       <button onClick={addToOverrides}>
         Change Favicon
       </button>
-      <div>{url}</div>
+      <div>{url || ''}</div>
     </div>
   );
 };
-
 
 const mountPoint = document.getElementById('mount');
 if (mountPoint) render(<App />, mountPoint);
