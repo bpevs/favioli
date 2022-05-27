@@ -2,8 +2,6 @@ import { createFaviconURLFromChar, ICON_SIZE } from './create_favicon_url.ts';
 import { isIconLink } from './predicates.ts';
 
 const head = document.getElementsByTagName('head')[0];
-const siteHasFavicon = Boolean(getAllIconLinks().length);
-
 let appendedFavicon: HTMLElement | null = null;
 
 interface Options {
@@ -11,26 +9,42 @@ interface Options {
 }
 
 // Given an emoji string, append it to the document head
-export function appendFaviconLink(name: string, options?: Options | void) {
+export async function appendFaviconLink(
+  name: string,
+  options?: Options | void,
+) {
   const { shouldOverride = false } = options || {};
   const faviconURL = createFaviconURLFromChar(name || '');
   if (!faviconURL) return;
 
   if (appendedFavicon) {
     appendedFavicon.setAttribute('href', faviconURL);
-  } else if (!siteHasFavicon || shouldOverride) {
+  } else if (shouldOverride || !(await faviconIsAvailable())) {
     appendedFavicon = head.appendChild(
       createLink(faviconURL, ICON_SIZE, 'image/png'),
     );
-    head.appendChild(createLink('/favicon.ico'));
   }
 }
 
 // Return an array of link tags that have an icon rel
-export function getAllIconLinks(): HTMLElement[] {
-  return Array.prototype
-    .slice.call(document.getElementsByTagName('link'))
+export function getAllIconLinks(): HTMLLinkElement[] {
+  return Array.prototype.slice
+    .call(document.getElementsByTagName('link'))
     .filter(isIconLink);
+}
+
+export async function faviconIsAvailable() {
+  const iconLinkFound = getAllIconLinks()
+    .concat(createLink('/favicon.ico')) // Browsers fallback to favicon.ico
+    .map(async ({ href }: HTMLLinkElement) => {
+      if ((await fetch(href)).status < 400) return true;
+      throw new Error('not found');
+    });
+  try {
+    return await Promise.any(iconLinkFound);
+  } catch {
+    return false;
+  }
 }
 
 // Removes all icon link tags
