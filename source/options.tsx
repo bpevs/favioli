@@ -7,9 +7,7 @@ import { Settings, STORAGE_KEYS } from './types.ts';
 import Header from './components/header.tsx';
 import Switch from './components/switch.tsx';
 
-import useBrowserStorage, {
-  BrowserStorage,
-} from './hooks/use_browser_storage.ts';
+import useBrowserStorage from './hooks/use_browser_storage.ts';
 import useStatus from './hooks/use_status.ts';
 import useRoute from './hooks/use_route.ts';
 
@@ -29,7 +27,7 @@ const App = () => {
     saveSettings();
   }, [saveSettings]);
 
-  if (loading || !storage) return <div />;
+  if (loading || error) return <div />;
 
   return (
     <Fragment>

@@ -27,6 +27,9 @@ const browsers: BrowserManifests = {
     color: '\x1b[91m',
     overrides: {
       manifest_version: 2,
+      background: {
+        scripts: ['background.js'],
+      },
     },
     omits: ['options_page', 'host_permissions', 'action'],
   },
@@ -69,6 +72,7 @@ Object.keys(browsers).forEach(async (browserId) => {
   await Promise.all([
     loadFile(browserId, 'options.tsx'),
     loadFile(browserId, 'content_script.ts'),
+    loadFile(browserId, 'background.ts'),
     loadFile(browserId, 'popup.tsx'),
   ]);
 

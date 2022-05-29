@@ -5,25 +5,18 @@
  * Use those to determine if we should override favicon
  * Override favicon if applicable
  */
-import type { Settings } from './types.ts';
-import { defaultSettings, STORAGE_KEYS } from './types.ts';
-import Autoselector from './utilities/autoselector.ts';
-import browserAPI from './utilities/browser_api.ts';
+import type { Favicon } from './utilities/database.ts';
 import { appendFaviconLink } from './utilities/favicon_helpers.ts';
-const autoselector = new Autoselector();
+import browserAPI from './utilities/browser_api.ts';
 
-browserAPI.storage.sync.get(
-  STORAGE_KEYS,
-  (result: Settings = defaultSettings) => {
-    const urlToCheck = location.href;
-
-    const shouldOverride = result.siteList.some(
-      (site: string) => urlToCheck.match(site),
-    );
-
-    if (result.features.enableFaviconAutofill) {
-      const autoselected = autoselector.selectFavicon(location.host);
-      appendFaviconLink(autoselected.emoji || '😀', { shouldOverride });
-    }
-  },
-);
+browserAPI.runtime.onMessage.addListener(({
+  favicon,
+  shouldOverride,
+}: {
+  favicon: Favicon;
+  shouldOverride: boolean;
+}) => {
+  if (favicon.emoji) {
+    appendFaviconLink(favicon.emoji, { shouldOverride });
+  }
+});

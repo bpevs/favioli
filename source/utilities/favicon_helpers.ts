@@ -22,7 +22,7 @@ export async function appendFaviconLink(
   // Already appended favicon; just update
   if (appendedFavicon) {
     appendedFavicon.setAttribute('href', faviconURL);
-  } else if (await isFaviconMissing()) {
+  } else if (await doesSiteHaveFavicon() === false) {
     appendedFavicon = head.appendChild(
       createLink(faviconURL, ICON_SIZE, 'image/png'),
     );
@@ -36,7 +36,7 @@ function getAllIconLinks(): HTMLLinkElement[] {
     .filter(isIconLink);
 }
 
-async function isFaviconMissing() {
+export async function doesSiteHaveFavicon() {
   const iconLinkFound = getAllIconLinks()
     .concat(createLink('/favicon.ico')) // Browsers fallback to favicon.ico
     .map(async ({ href }: HTMLLinkElement) => {
@@ -44,9 +44,9 @@ async function isFaviconMissing() {
       throw new Error('not found');
     });
   try {
-    return !(await Promise.any(iconLinkFound));
+    return await Promise.any(iconLinkFound);
   } catch {
-    return true;
+    return false;
   }
 }
 

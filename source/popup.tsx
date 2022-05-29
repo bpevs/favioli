@@ -2,45 +2,47 @@
 
 import { h, render } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
+import useBrowserStorage from './hooks/use_browser_storage.ts';
 import browserAPI from './utilities/browser_api.ts';
+import useStatus from './hooks/use_status.ts';
+import { Settings, STORAGE_KEYS, Tab } from './types.ts';
 
-interface Tab {
-  favIconUrl?: string;
-  url?: string;
-}
+const queryOptions = { active: true };
 
 const App = () => {
-  const [url, setUrl] = useState<string | void>();
+  const storage = useBrowserStorage<Settings>(STORAGE_KEYS);
+  const { cache, error = '', loading, setCache, saveCacheToStorage } = storage;
+  const { status, saveSettings } = useStatus(error || '', saveCacheToStorage);
 
-  useEffect(() => {
-    browserAPI.tabs.query({ active: true })
-      .then(([currTab]: Tab[]) => {
-        setUrl(currTab.favIconUrl);
+  const addToOverrides = useCallback(() => {
+    const siteList = cache?.siteList || [];
+    browserAPI.tabs.query(queryOptions)
+      .then(([{ url }]: Tab[]) => {
+        if (url) {
+          const origin = (new URL(url)).origin;
+          const nextList = siteList
+            .filter((filter) => filter !== origin)
+            .concat(origin);
+          setCache({ siteList: nextList });
+          saveSettings();
+        }
       });
-  }, []);
+  }, [storage]);
 
   const goToOptions = useCallback(() => {
     browserAPI.runtime.openOptionsPage();
   }, []);
 
-  const addToOverrides = useCallback(() => {
-    browserAPI.tabs.query({ active: true })
-      .then(([currTab]: Tab[]) => {
-        setUrl(currTab.url);
-      });
-  }, []);
-
   return (
     <div className='page'>
       <h1>Favioli</h1>
-      <button onClick={goToOptions}>
-        Options
-      </button>
-
       <button onClick={addToOverrides}>
         Change Favicon
       </button>
-      <div>{url || ''}</div>
+      <button onClick={goToOptions}>
+        Options
+      </button>
+      <div id='status'>{status}</div>
     </div>
   );
 };
