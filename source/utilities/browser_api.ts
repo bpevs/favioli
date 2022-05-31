@@ -1,3 +1,5 @@
+// deno-lint-ignore-file
+
 /**
  * API for more platform-agnostic access to browser extension apis.
  * Since browers ext API is kind of shifting sands, let's not do too much
@@ -8,57 +10,15 @@
  * @reference https://developer.chrome.com/docs/extensions/reference
  * @reference https://docs.microsoft.com/en-us/microsoft-edge/extensions-chromium/developer-guide/api-support
  *
- * @todo figure out how to properly import/declare/export global type from definitelyTyped.
- * Also looks like definitelyTyped is only for "chrome" global, so would need to map to
- * "browser" for approx. firefox types.
+ * @todo Borrows heavily from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/chrome
  */
+import { isChrome } from './predicates.ts';
+import { BrowserAPI } from './browser_api_interface/mod.ts';
 
-export type BrowserName = 'CHROME' | 'FIREFOX';
-
-interface BrowserExtensionAPI {
-  // See @todo:
+const browserAPI: BrowserAPI = isChrome()
   // deno-lint-ignore no-explicit-any
-  [name: string]: any;
-}
-
-declare global {
-  const browser: BrowserExtensionAPI;
-  const chrome: BrowserExtensionAPI;
-}
-
-const CHROME = 'CHROME';
-const FIREFOX = 'FIREFOX';
-const browserAPI = isBrowser(CHROME) ? chrome : browser; // Default to Chromium
+  ? (globalThis as any).chrome
+  : // deno-lint-ignore no-explicit-any
+    (globalThis as any).browser;
 
 export default browserAPI;
-
-/**
- * What browser is this?
- * @param {string} toCheck to check
- */
-export function isBrowser(toCheck: BrowserName): boolean {
-  let currentBrowser = CHROME;
-  try {
-    // Use try block, since userAgent not guaranteed to exist.
-    // If fail, assume Chromium
-    // deno-lint-ignore no-explicit-any
-    const userAgent: string = (navigator as any)?.userAgent || '';
-    if (userAgent.indexOf('Firefox') > 0) {
-      currentBrowser = FIREFOX;
-    }
-  } catch (_) {
-    // Do nothing
-  }
-
-  if (!toCheck) currentBrowser;
-  if (toCheck === CHROME && currentBrowser === CHROME) return true;
-  if (toCheck === FIREFOX && currentBrowser === FIREFOX) return true;
-  return false;
-}
-
-export function isChrome(): boolean {
-  return isBrowser(CHROME);
-}
-export function isFirefox(): boolean {
-  return isBrowser(FIREFOX);
-}

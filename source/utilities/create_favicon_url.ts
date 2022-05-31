@@ -1,4 +1,4 @@
-import { isFirefox } from './browser_api.ts';
+import { isFirefox } from './predicates.ts';
 
 export const ICON_SIZE = 256; // Larger will causes problems in Google Chrome
 const VERTICAL_OFFSET = (isFirefox() ? 40 : 0); // ff is off-center

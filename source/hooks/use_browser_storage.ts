@@ -35,11 +35,12 @@ export default function useBrowserStorage<Type extends Storage>(
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    storage.sync.get(keys, (result: Type) => {
-      if (runtime.lastError) setError(runtime.lastError);
-      setCache(result);
-      setLoading(false);
-    });
+    storage.sync.get(keys)
+      .then((storage) => {
+        if (runtime?.lastError?.message) setError(runtime?.lastError?.message);
+        setCache(storage as Type);
+        setLoading(false);
+      });
   }, []);
 
   const result: BrowserStorage<Type> = {
@@ -75,14 +76,15 @@ export default function useBrowserStorage<Type extends Storage>(
       if (!hasPermission) return Promise.reject('No Permission Given');
 
       return new Promise((resolve, reject) =>
-        storage.sync.set(nextStorage, () => {
-          if (runtime.lastError) {
-            setError(runtime.lastError);
-            reject(runtime.lastError);
-          } else {
-            resolve();
-          }
-        })
+        storage.sync.set(nextStorage)
+          .then(() => {
+            if (runtime?.lastError?.message) {
+              setError(runtime?.lastError?.message);
+              reject(runtime?.lastError?.message);
+            } else {
+              resolve();
+            }
+          })
       );
     },
   };
