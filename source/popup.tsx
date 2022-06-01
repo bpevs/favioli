@@ -17,13 +17,14 @@ const App = () => {
   const { favIconUrl = '', url = '' } = currTab || {};
 
   useEffect(() => {
-    browserAPI.tabs.query(queryOptions)
-      .then(([tab]: Tab[]) => setCurrTab(tab));
+    async function setup() {
+      const [ activeTab ] = await browserAPI.tabs.query(queryOptions);
+      setCurrTab(activeTab);
+    }
+    browserAPI.storage.onChanged.addListener(setup);
+    browserAPI.tabs.onUpdated.addListener(setup);
 
-    browserAPI.storage.onChanged.addListener(async () => {
-      const [ tab ] = await browserAPI.tabs.query(queryOptions)
-      setCurrTab(tab);
-    });
+    setup().catch(console.error);
   }, [cache]);
 
   const { status, save } = useStatus(
@@ -53,9 +54,16 @@ const App = () => {
   if (loading) return <div>loading...</div>
 
   return (
-    <div className='page'>
-      <h1>Favioli</h1>
-      <p>Current Favicon: {favIconUrl ? <img className="favicon-icon" src={favIconUrl} width={20} height={20} /> : null}</p>
+    <div className='popup-wrapper'>
+      <p>
+        Current Favicon:
+        <img
+          className="favicon-icon"
+          src={favIconUrl}
+          width={20}
+          height={20}
+        />
+      </p>
       <button onClick={addToOverrides}>
         Override Favicon
       </button>

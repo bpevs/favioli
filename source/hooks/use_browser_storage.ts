@@ -36,6 +36,10 @@ export default function useBrowserStorage<Type extends Storage>(
         setCache(storage as Type);
         setLoading(false);
       });
+
+    browserAPI.storage.onChanged.addListener(async (changes) => {
+      setCache(await storage.sync.get(keys) as Type);
+    });
   }, []);
 
   const saveToStorage = useCallback(

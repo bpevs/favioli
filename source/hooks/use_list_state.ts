@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'preact/hooks';
+import { useCallback, useEffect, useState } from 'preact/hooks';
 
 // deno-lint-ignore no-explicit-any
 type ListItem = any;
@@ -12,6 +12,8 @@ export interface ListState<Type> {
 
 export default (initialValue: ListItem[]) => {
   const [contents, setContents] = useState(initialValue);
+
+  useEffect(() => setContents(initialValue) , [ initialValue ]);
 
   return {
     contents,

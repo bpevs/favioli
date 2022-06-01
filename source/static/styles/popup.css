@@ -1,4 +1,25 @@
+/** RESET **/
+html, body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  font-family: BlinkMacSystemFont, Avenir, "Avenir Next", "Roboto", "Ubuntu", "Helvetica Neue", sans-serif;
+  color: var(--text-color);
+  background: var(--background-color);
+}
+
 .favicon-icon {
   vertical-align: middle;
   padding-left: 5px;
+}
+
+.popup-wrapper {
+  width: 300px;
+  display: flex;
+  flex-flow: column;
+}
+
+button {
+  padding: 5px;
+  margin:  5px;
 }

@@ -1,4 +1,4 @@
-import type { Favicon } from './database.ts';
+import type { Favicon } from '../types.ts';
 
 import * as emoji from 'https://deno.land/x/emoji/mod.ts';
 import LEGACY_EMOJI_SET from '../config/legacy_autoselect_set.ts';

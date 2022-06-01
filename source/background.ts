@@ -2,7 +2,7 @@
  * Serves as bridge point between popup and content_script.
  */
 
-import type { Settings } from './types.ts';
+import type { Favicon, Settings } from './types.ts';
 import type {
   Tab,
   TabChangeInfo,
@@ -17,25 +17,40 @@ let settings: Settings = defaultSettings;
 
 await updateCache()
 
+function selectFavicon(url: string | void, settings: Settings): [Favicon | void, boolean] {
+  const { ignoreList = [], siteList = [], features = {} } = settings;
+
+  if (url) {
+    const listItemMatchesUrl = (site: string) => (new RegExp(site)).test(url);
+
+    if (
+      features.enableSiteIgnore &&
+      ignoreList.some(listItemMatchesUrl)
+    ) {
+      return [undefined, false];
+    }
+
+    const shouldOverride = siteList.some(listItemMatchesUrl);
+
+    if (shouldOverride) {
+      return [{ id: 'smile', emoji: '😀' }, shouldOverride];
+    } else if (features.enableFaviconAutofill) {
+      const { host } = new URL(url);
+      return [autoselector.selectFavicon(host), shouldOverride];
+    }
+  }
+
+  return [undefined, false];
+}
+
 browserAPI.storage.onChanged.addListener(async () => {
   await updateCache();
 });
 
 browserAPI.tabs.onUpdated.addListener(
   (tabId: number, _: TabChangeInfo, tab: Tab) => {
-    const { siteList = [], features = {} } = settings;
-
-    if (!tab.url) return;
-
-    const shouldOverride = (siteList || []).some(
-      (site: string) => (new RegExp(site)).test(tab.url || ''),
-    );
-
-    if (shouldOverride) {
-      const favicon = { id: 'smile', emoji: '😀' };
-      browserAPI.tabs.sendMessage(tabId, { favicon, shouldOverride: true });
-    } else if (features.enableFaviconAutofill) {
-      const favicon = autoselector.selectFavicon(new URL(tab.url).host);
+    const [favicon, shouldOverride] = selectFavicon(tab.url, settings) || [];
+    if (favicon) {
       browserAPI.tabs.sendMessage(tabId, { favicon, shouldOverride });
     }
   },
