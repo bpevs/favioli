@@ -12,14 +12,19 @@ import Autoselector from './utilities/autoselector.ts';
 import browserAPI from './utilities/browser_api.ts';
 
 const autoselector = new Autoselector();
-const settings: Settings =
-  (await browserAPI.storage.sync.get(STORAGE_KEYS) as Settings | void) ||
-  defaultSettings;
+let settings: Settings = defaultSettings;
 
-const { siteList = [], features = {} } = settings || defaultSettings;
+
+await updateCache()
+
+browserAPI.storage.onChanged.addListener(async () => {
+  await updateCache();
+});
 
 browserAPI.tabs.onUpdated.addListener(
   (tabId: number, _: TabChangeInfo, tab: Tab) => {
+    const { siteList = [], features = {} } = settings;
+
     if (!tab.url) return;
 
     const shouldOverride = (siteList || []).some(
@@ -35,3 +40,10 @@ browserAPI.tabs.onUpdated.addListener(
     }
   },
 );
+
+async function updateCache() {
+  try {
+    const storedSettings: Settings = await browserAPI.storage.sync.get(STORAGE_KEYS) as Settings;
+    if (storedSettings) settings = storedSettings;
+  } catch {}
+}

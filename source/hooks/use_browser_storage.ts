@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useState } from 'preact/hooks';
 import browserAPI from '../utilities/browser_api.ts';
-import {
-  requestPermissionToAllSites,
-  requestPermissionToSites,
-} from '../utilities/permissions.ts';
-
 const { storage, runtime } = browserAPI;
 
 // deno-lint-ignore no-explicit-any
@@ -14,7 +9,7 @@ export interface BrowserStorage<Type extends Storage> {
   error?: string;
   cache?: Type;
   loading: boolean;
-  setCache: (nextCache: Partial<Type>) => void;
+  setCache: (nextCache: Partial<Type>, saveImmediately?: boolean) => void;
   saveCacheToStorage: () => Promise<void>;
 }
 
@@ -43,50 +38,38 @@ export default function useBrowserStorage<Type extends Storage>(
       });
   }, []);
 
+  const saveToStorage = useCallback(
+    (next: Partial<Type> | void): Promise<void> => {
+      if (!next) return Promise.resolve();
+
+      return storage.sync.set(next)
+        .then(() => {
+          if (runtime?.lastError?.message) {
+            setError(runtime?.lastError?.message);
+            throw new Error(runtime?.lastError?.message);
+          }
+        });
+    },
+    [],
+  );
+
   const result: BrowserStorage<Type> = {
     error,
     cache,
     loading,
 
-    setCache: useCallback((nextCache: Partial<Type>): void => {
-      const nextStorage = { ...cache, ...nextCache };
-      setCache(nextStorage as Type);
-    }, [cache, setCache]),
+    setCache: useCallback(
+      (nextCache: Partial<Type>, saveImmediately: boolean = false): void => {
+        const nextStorage = { ...cache, ...nextCache };
+        setCache(nextStorage as Type);
+        if (saveImmediately) saveToStorage(nextStorage);
+      },
+      [cache, setCache],
+    ),
 
-    async saveCacheToStorage(): Promise<void> {
-      const nextStorage = cache;
-      if (!nextStorage) return;
-
-      const origins = nextStorage.siteList
-        .map(function validateUrl(site: string) {
-          try {
-            return new URL(site).origin + '/';
-          } catch (e) {
-            console.error(e);
-            return false;
-          } /* Not a URL */
-        })
-        .filter(Boolean);
-
-      const hasNonUrlPattern = origins.length === nextStorage.siteList.length;
-      const hasPermission = hasNonUrlPattern
-        ? await requestPermissionToSites(origins)
-        : await requestPermissionToAllSites();
-
-      if (!hasPermission) return Promise.reject('No Permission Given');
-
-      return new Promise((resolve, reject) =>
-        storage.sync.set(nextStorage)
-          .then(() => {
-            if (runtime?.lastError?.message) {
-              setError(runtime?.lastError?.message);
-              reject(runtime?.lastError?.message);
-            } else {
-              resolve();
-            }
-          })
-      );
-    },
+    saveCacheToStorage: useCallback((): Promise<void> => {
+      return saveToStorage(cache);
+    }, [cache]),
   };
 
   return result;

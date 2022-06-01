@@ -12,11 +12,6 @@ export interface Settings {
   };
 }
 
-export interface Tab {
-  favIconUrl?: string;
-  url?: string;
-}
-
 export const defaultSettings: Settings = {
   siteList: [],
   ignoreList: [],

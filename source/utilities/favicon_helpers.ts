@@ -22,7 +22,7 @@ export async function appendFaviconLink(
   // Already appended favicon; just update
   if (appendedFavicon) {
     appendedFavicon.setAttribute('href', faviconURL);
-  } else if (await doesSiteHaveFavicon() === false) {
+  } else if (shouldOverride || await doesSiteHaveFavicon() === false) {
     appendedFavicon = head.appendChild(
       createLink(faviconURL, ICON_SIZE, 'image/png'),
     );
