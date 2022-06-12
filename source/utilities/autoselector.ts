@@ -1,10 +1,10 @@
 import type { Favicon } from '../types.ts';
 
-import * as emoji from 'https://deno.land/x/emoji/mod.ts';
+import * as emoji from 'emoji';
 import LEGACY_EMOJI_SET from '../config/legacy_autoselect_set.ts';
 
 const emojis = emoji.all();
-
+console.log(emojis);
 type EmojiMap = { [alias: string]: emoji.Emoji };
 
 const NON_SPACING_MARK = String.fromCharCode(65039); // 65039 - '️' - 0xFE0F;
@@ -19,7 +19,7 @@ const byCode: EmojiMap = Object.fromEntries(
   }),
 );
 
-const legacySet = LEGACY_EMOJI_SET.map((emoji) => byCode[emoji]);
+const legacySet = LEGACY_EMOJI_SET.map((emoji: string) => byCode[emoji]);
 
 /**
  * For selecting random favicon from a set.  Currently, only select from

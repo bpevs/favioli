@@ -18,7 +18,7 @@ const App = () => {
 
   useEffect(() => {
     async function setup() {
-      const [ activeTab ] = await browserAPI.tabs.query(queryOptions);
+      const [activeTab] = await browserAPI.tabs.query(queryOptions);
       setCurrTab(activeTab);
     }
     browserAPI.storage.onChanged.addListener(setup);
@@ -51,14 +51,14 @@ const App = () => {
     browserAPI.runtime.openOptionsPage();
   }, []);
 
-  if (loading) return <div>loading...</div>
+  if (loading) return <div>loading...</div>;
 
   return (
     <div className='popup-wrapper'>
       <p>
         Current Favicon:
         <img
-          className="favicon-icon"
+          className='favicon-icon'
           src={favIconUrl}
           width={20}
           height={20}

@@ -13,7 +13,7 @@ export interface ListState<Type> {
 export default (initialValue: ListItem[]) => {
   const [contents, setContents] = useState(initialValue);
 
-  useEffect(() => setContents(initialValue) , [ initialValue ]);
+  useEffect(() => setContents(initialValue), [initialValue]);
 
   return {
     contents,

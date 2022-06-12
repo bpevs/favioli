@@ -14,10 +14,12 @@ import browserAPI from './utilities/browser_api.ts';
 const autoselector = new Autoselector();
 let settings: Settings = defaultSettings;
 
+updateCache();
 
-await updateCache()
-
-function selectFavicon(url: string | void, settings: Settings): [Favicon | void, boolean] {
+function selectFavicon(
+  url: string | void,
+  settings: Settings,
+): [Favicon | void, boolean] {
   const { ignoreList = [], siteList = [], features = {} } = settings;
 
   if (url) {
@@ -58,7 +60,9 @@ browserAPI.tabs.onUpdated.addListener(
 
 async function updateCache() {
   try {
-    const storedSettings: Settings = await browserAPI.storage.sync.get(STORAGE_KEYS) as Settings;
+    const storedSettings: Settings = await browserAPI.storage.sync.get(
+      STORAGE_KEYS,
+    ) as Settings;
     if (storedSettings) settings = storedSettings;
   } catch {}
 }

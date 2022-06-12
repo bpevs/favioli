@@ -25,7 +25,7 @@ browserAPI.storage.onChanged.addListener(async (changes) => {
   }
 });
 
-function includesCurrUrl(val:string) {
+function includesCurrUrl(val: string) {
   return (new RegExp(val)).test(location.href);
 }
 

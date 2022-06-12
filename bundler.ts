@@ -3,9 +3,17 @@
  *
  * Note: This file does NOT use deno.json as a config file for itself.
  * That config file is specifically for use in Deno.emit.
+ *
+ * Probably move to esbuild:
+ *   - https://deno.land/x/esbuild_deno_loader@0.5.0
  */
+import * as esbuild from 'https://deno.land/x/esbuild@v0.14.39/mod.js';
+import { denoPlugin } from 'https://raw.githubusercontent.com/ivebencrazy/esbuild_deno_loader/main/mod.ts';
 import { copySync, ensureDir } from 'fs';
+import { resolve } from 'https://deno.land/std@0.142.0/path/mod.ts';
 import importMap from './import_map.json' assert { type: 'json' };
+
+const importMapURL = new URL('file://' + resolve('./import_map.json'));
 
 interface BrowserManifestSettings {
   color: string;
@@ -69,44 +77,26 @@ Object.keys(browsers).forEach(async (browserId) => {
 
   console.log(`Initializing ${colorizedBrowserName} build...`);
 
-  await Promise.all([
-    loadFile(browserId, 'options.tsx'),
-    loadFile(browserId, 'content_script.ts'),
-    loadFile(browserId, 'background.ts'),
-    loadFile(browserId, 'popup.tsx'),
-  ]);
+  await esbuild.build({
+    plugins: [denoPlugin({ importMapURL })],
+    entryPoints: [
+      'source/options.tsx',
+      'source/content_script.ts',
+      'source/background.ts',
+      'source/popup.tsx',
+    ],
+    outdir: `dist/${browserId}/`,
+    bundle: true,
+    watch: {
+      onRebuild(error, result) {
+        if (error) {
+          console.error(`Rebuild for ${colorizedBrowserName} failed:`, error);
+        } else console.log(`Rebuilt for ${colorizedBrowserName}`);
+      },
+    },
+    format: 'esm',
+    logLevel: 'verbose',
+  });
 
   console.log(`Build complete for ${colorizedBrowserName}`);
 });
-
-async function loadFile(browserId: string, name: string) {
-  const emitOptions: Deno.EmitOptions = {
-    bundle: 'classic',
-    compilerOptions: {
-      lib: ['dom', 'dom.iterable', 'esnext'],
-      jsx: 'react',
-      jsxFactory: 'h',
-      jsxFragmentFactory: 'Fragment',
-    },
-    importMap,
-    importMapPath: './import_map.json',
-  };
-
-  buildFiles(browserId, name, await Deno.emit(`source/${name}`, emitOptions));
-}
-
-function buildFiles(
-  browserId: string,
-  name: string,
-  emitResult: Deno.EmitResult,
-) {
-  const { diagnostics, files } = emitResult;
-  const bundleCode: string = files['deno:///bundle.js'];
-  const outputFileName = name.replace(/(t|j)sx?$/, 'js');
-  const outputPath = `dist/${browserId}/${outputFileName}`;
-
-  console.info(`%c building ${name} > ${outputPath}...`, 'color: #bada55');
-  if (diagnostics.length) console.warn(Deno.formatDiagnostics(diagnostics));
-
-  Deno.writeTextFile(outputPath, bundleCode);
-}
