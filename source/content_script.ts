@@ -5,11 +5,12 @@
  * Use those to determine if we should override favicon
  * Override favicon if applicable
  */
+import browserAPI from 'browser';
+
 import type { Favicon } from './types.ts';
 import { appendFaviconLink } from './utilities/favicon_helpers.ts';
-import browserAPI from './utilities/browser_api.ts';
 
-browserAPI.storage.onChanged.addListener(async (changes) => {
+browserAPI.storage.onChanged.addListener((changes) => {
   if (changes?.siteList) {
     const { newValue = [], oldValue = [] } = changes?.siteList || {};
     const newDiff = newValue.filter(includesCurrUrl);

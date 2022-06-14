@@ -2,14 +2,12 @@
  * Serves as bridge point between popup and content_script.
  */
 
+import type { Tab, TabChangeInfo } from 'browser';
 import type { Favicon, Settings } from './types.ts';
-import type {
-  Tab,
-  TabChangeInfo,
-} from './utilities/browser_api_interface/mod.ts';
+
 import { defaultSettings, STORAGE_KEYS } from './types.ts';
 import Autoselector from './utilities/autoselector.ts';
-import browserAPI from './utilities/browser_api.ts';
+import browserAPI from 'browser';
 
 const autoselector = new Autoselector();
 let settings: Settings = defaultSettings;
@@ -59,10 +57,8 @@ browserAPI.tabs.onUpdated.addListener(
 );
 
 async function updateCache() {
-  try {
-    const storedSettings: Settings = await browserAPI.storage.sync.get(
-      STORAGE_KEYS,
-    ) as Settings;
-    if (storedSettings) settings = storedSettings;
-  } catch {}
+  const storedSettings: Settings = await browserAPI.storage.sync.get(
+    STORAGE_KEYS,
+  ) as Settings;
+  if (storedSettings) settings = storedSettings;
 }

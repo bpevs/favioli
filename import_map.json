@@ -2,7 +2,8 @@
   "imports": {
     "asserts": "https://deno.land/std@0.138.0/testing/asserts.ts",
     "bdd": "https://deno.land/std@0.138.0/testing/bdd.ts",
-    "emoji": "https://raw.githubusercontent.com/ivebencrazy/emoji/add-update-action/mod.ts",
+    "browser": "./source/browser_api/mod.ts",
+    "emoji": "https://deno.land/x/emoji@0.2.0/mod.ts",
     "fs": "https://deno.land/std@0.138.0/fs/mod.ts",
     "mock": "https://deno.land/std@0.138.0/testing/mock.ts",
     "preact": "https://esm.sh/preact?dev",

@@ -12,8 +12,20 @@
  *
  * @todo Borrows heavily from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/chrome
  */
-import { isChrome } from './predicates.ts';
-import { BrowserAPI } from './browser_api_interface/mod.ts';
+import { isChrome } from '../utilities/predicates.ts';
+
+import type { PermissionsModule } from './modules/permissions.ts';
+import type { RuntimeModule } from './modules/runtime.ts';
+import type { StorageModule } from './modules/storage.ts';
+import type { TabsModule } from './modules/tabs.ts';
+export * from './modules/tabs.ts';
+
+export interface BrowserAPI {
+  permissions: PermissionsModule;
+  runtime: RuntimeModule;
+  storage: StorageModule;
+  tabs: TabsModule;
+}
 
 const browserAPI: BrowserAPI = isChrome()
   // deno-lint-ignore no-explicit-any

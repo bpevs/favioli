@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'preact/hooks';
-import browserAPI from '../utilities/browser_api.ts';
+import browserAPI from 'browser';
 const { storage, runtime } = browserAPI;
 
 // deno-lint-ignore no-explicit-any
@@ -37,7 +37,7 @@ export default function useBrowserStorage<Type extends Storage>(
         setLoading(false);
       });
 
-    browserAPI.storage.onChanged.addListener(async (changes) => {
+    browserAPI.storage.onChanged.addListener(async () => {
       setCache(await storage.sync.get(keys) as Type);
     });
   }, []);
@@ -63,7 +63,7 @@ export default function useBrowserStorage<Type extends Storage>(
     loading,
 
     setCache: useCallback(
-      (nextCache: Partial<Type>, saveImmediately: boolean = false): void => {
+      (nextCache: Partial<Type>, saveImmediately = false): void => {
         const nextStorage = { ...cache, ...nextCache };
         setCache(nextStorage as Type);
         if (saveImmediately) saveToStorage(nextStorage);

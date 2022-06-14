@@ -11,7 +11,6 @@ import * as esbuild from 'https://deno.land/x/esbuild@v0.14.39/mod.js';
 import { denoPlugin } from 'https://raw.githubusercontent.com/ivebencrazy/esbuild_deno_loader/main/mod.ts';
 import { copySync, ensureDir } from 'fs';
 import { resolve } from 'https://deno.land/std@0.142.0/path/mod.ts';
-import importMap from './import_map.json' assert { type: 'json' };
 
 const importMapURL = new URL('file://' + resolve('./import_map.json'));
 
@@ -88,7 +87,7 @@ Object.keys(browsers).forEach(async (browserId) => {
     outdir: `dist/${browserId}/`,
     bundle: true,
     watch: {
-      onRebuild(error, result) {
+      onRebuild(error) {
         if (error) {
           console.error(`Rebuild for ${colorizedBrowserName} failed:`, error);
         } else console.log(`Rebuilt for ${colorizedBrowserName}`);

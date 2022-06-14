@@ -12,4 +12,6 @@ firefox:
 
 test:
 	deno fmt
+	deno lint
 	deno test
+	deno check source/background.ts source/content_script.ts source/options.tsx source/popup.tsx

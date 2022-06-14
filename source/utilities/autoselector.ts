@@ -4,7 +4,7 @@ import * as emoji from 'emoji';
 import LEGACY_EMOJI_SET from '../config/legacy_autoselect_set.ts';
 
 const emojis = emoji.all();
-console.log(emojis);
+
 type EmojiMap = { [alias: string]: emoji.Emoji };
 
 const NON_SPACING_MARK = String.fromCharCode(65039); // 65039 - '️' - 0xFE0F;

@@ -37,6 +37,7 @@ export function isBrowser(toCheck: 'CHROME' | 'FIREFOX'): boolean {
 export function isChrome(): boolean {
   return isBrowser('CHROME');
 }
+
 export function isFirefox(): boolean {
   return isBrowser('FIREFOX');
 }

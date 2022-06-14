@@ -1,10 +1,10 @@
 /* @jsx h */
-import type { Tab } from './utilities/browser_api_interface/mod.ts';
-
+import type { Tab } from 'browser';
 import { h, render } from 'preact';
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
+import browserAPI from 'browser';
+
 import useBrowserStorage from './hooks/use_browser_storage.ts';
-import browserAPI from './utilities/browser_api.ts';
 import useStatus from './hooks/use_status.ts';
 import { Settings, STORAGE_KEYS } from './types.ts';
 
@@ -27,25 +27,24 @@ const App = () => {
     setup().catch(console.error);
   }, [cache]);
 
-  const { status, save } = useStatus(
-    error || '',
-    useCallback(async (add: boolean) => {
-      if (!url) return;
-      const origin = (new URL(url)).origin;
-      const siteList = cache?.siteList || [];
-      const nextList = siteList.filter((filter) => filter !== origin);
-      if (add) nextList.push(origin);
-      setCache({ siteList: nextList }, true);
-    }, [url, cache, setCache]),
-  );
+  const addSite = useCallback((add: boolean) => {
+    if (!url) return;
+    const origin = (new URL(url)).origin;
+    const siteList = cache?.siteList || [];
+    const nextList = siteList.filter((filter) => filter !== origin);
+    if (add) nextList.push(origin);
+    setCache({ siteList: nextList }, true);
+  }, [url, cache, setCache]);
+
+  const { status, save } = useStatus(error || '', addSite);
 
   const addToOverrides = useCallback(() => {
     save(true);
-  }, [cache, url, setCache]);
+  }, [save]);
 
   const removeFromOverrides = useCallback(() => {
     save(false);
-  }, [cache, url, setCache]);
+  }, [save]);
 
   const goToOptions = useCallback(() => {
     browserAPI.runtime.openOptionsPage();
