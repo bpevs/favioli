@@ -41,13 +41,13 @@ export default function FaviconsPage({ save, storage }: FaviconsPageProps) {
 
   return (
     <form onSubmit={save}>
-      <h1>Override Favicons on these Sites</h1>
+      <h1>{t('faviconListTitle')}</h1>
       <List type='EMOJI' state={siteListState} />
 
       <Only if={Boolean(enableSiteIgnore || hasIgnores)}>
         <Fragment>
           <h1>
-            Ignore These Sites
+            {t('ignoreListTitle')}
             <Only if={!enableSiteIgnore}>
               <span style={{ opacity: 0.5 }}>(Disabled)</span>
             </Only>

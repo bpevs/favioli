@@ -165,11 +165,6 @@ nav li a:hover {
   -moz-user-select: none;
 }
 
-.checkbox.focused .checkmark {
-  outline-color: Highlight;
-  outline-style: auto;
-}
-
 .checkbox input {
   cursor: pointer;
   font-size: 24px;

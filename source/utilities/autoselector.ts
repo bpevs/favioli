@@ -1,11 +1,12 @@
 import type { Favicon } from '../types.ts';
 
 import * as emoji from 'emoji';
+import type { Emoji } from 'https://deno.land/x/emoji@0.2.0/types.ts';
 import LEGACY_EMOJI_SET from '../config/legacy_autoselect_set.ts';
 
 const emojis = emoji.all();
 
-type EmojiMap = { [alias: string]: emoji.Emoji };
+type EmojiMap = { [alias: string]: Emoji };
 
 const NON_SPACING_MARK = String.fromCharCode(65039); // 65039 - '️' - 0xFE0F;
 const reNonSpacing = new RegExp(NON_SPACING_MARK, 'g');

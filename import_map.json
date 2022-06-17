@@ -2,7 +2,7 @@
   "imports": {
     "asserts": "https://deno.land/std@0.138.0/testing/asserts.ts",
     "bdd": "https://deno.land/std@0.138.0/testing/bdd.ts",
-    "browser": "./source/browser_api/mod.ts",
+    "browser": "https://deno.land/x/bext/mod.ts",
     "emoji": "https://deno.land/x/emoji@0.2.0/mod.ts",
     "fs": "https://deno.land/std@0.138.0/fs/mod.ts",
     "mock": "https://deno.land/std@0.138.0/testing/mock.ts",

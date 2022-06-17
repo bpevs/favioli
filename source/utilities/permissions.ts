@@ -1,5 +1,5 @@
 // https://developer.chrome.com/docs/extensions/reference/permissions/
-import browserAPI from './browser_api.ts';
+import browserAPI from 'bext';
 const { contains, request } = browserAPI.permissions;
 
 const permissions = ['tabs'];

@@ -15,6 +15,8 @@ const en: { [name: string]: string } = {
   enableFaviconAutofillPopup: broadPermissionsWarning,
   enableSiteIgnoreDesc: 'Select sites that autofill should ignore',
   enableSiteIgnoreLabel: 'Enable Ignore List',
+  faviconListTitle: 'Override Favicons on these Sites',
+  ignoreListTitle: 'Ignore These Sites',
   saveLabel: 'Save',
 };
 

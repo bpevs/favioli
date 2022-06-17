@@ -18,24 +18,18 @@ Favioli is a tool for overriding Favicons for websites.
 
 You need to download [Deno](https://deno.land/) in order to build this app.
 
-> 1. Need to use Deno version PRE v1.22.0
->
-> - Deno.emit is not supported in v1.22.0
-> - We will transition to v1.22.0 when we can make a stable configuration for the userland [deno_emit](https://github.com/denoland/deno_emit) module
-> - To use unstable Deno v1.21.3: `deno upgrade --version 1.21.3`
->
-> 2. This application uses the unstable Deno api [`Deno.emit`](https://doc.deno.land/deno/unstable@v1.21.3/~/Deno.emit)
-> 3. `chrome` and `browser` globals are currently `any` type
+After, we want to install [bext](https://github.com/bpevs/bext):
 
-| Commands             | What they Do                               |
-| -------------------- | ------------------------------------------ |
-| `make`               | bundles extension                          |
-| `make chrome`        | bundles extension only for chrome          |
-| `make firefox`       | bundles extension only for firefox         |
-| `make watch`         | watch for js changes, and bundle on change |
-| `make watch-chrome`  | watch only for chrome                      |
-| `make watch-firefox` | watch only for firefox                     |
-| `make test`          | run code formatter, then unit tests        |
+```sh
+deno install --name=bext --allow-read --allow-write --allow-run --allow-env -f https://deno.land/x/bext/main.ts
+```
+
+| Commands         | What they Do                        |
+| ---------------- | ----------------------------------- |
+| `bext`           | bundles extension and watch code    |
+| `bext chrome`    | bundles extension only for chrome   |
+| `bext firefox`   | bundles extension only for firefox  |
+| `deno task test` | run code formatter, then unit tests |
 
 If you have bundled using make commands, you should be able to load your
 unpacked extension using a browser.

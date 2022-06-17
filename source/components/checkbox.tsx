@@ -19,16 +19,6 @@ export default function Checkbox({
   label,
   ...props
 }: CheckboxProps) {
-  const [isFocused, setFocused] = useState(false);
-
-  const onBlur = useCallback(() => {
-    setFocused(false);
-  }, [setFocused]);
-
-  const onFocus = useCallback(() => {
-    setFocused(true);
-  }, [setFocused]);
-
   const onChange = useCallback((e: Event) => {
     const { name, checked } = (e?.target as HTMLInputElement);
     if (props.onChange && name && typeof checked === 'boolean') {
@@ -37,7 +27,7 @@ export default function Checkbox({
   }, [props.onChange]);
 
   return (
-    <div className={`checkbox ${isFocused ? 'focused' : ''}`}>
+    <div className='checkbox'>
       <label className='help'>{label}</label>
       <input
         id='flag'
@@ -45,8 +35,6 @@ export default function Checkbox({
         tabIndex={0}
         name={name}
         checked={checked}
-        onBlur={onBlur}
-        onFocus={onFocus}
         onChange={onChange}
       />
       <div className='checkmark' />
