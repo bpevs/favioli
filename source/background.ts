@@ -21,7 +21,8 @@ function selectFavicon(
   const { ignoreList = [], siteList = [], features = {} } = settings;
 
   if (url) {
-    const listItemMatchesUrl = (site: string) => (new RegExp(site)).test(url);
+    const listItemMatchesUrl = ({ site }: { site: string; emoji: string }) =>
+      (new RegExp(site)).test(url);
 
     if (
       features.enableSiteIgnore &&
@@ -30,10 +31,12 @@ function selectFavicon(
       return [undefined, false];
     }
 
-    const shouldOverride = siteList.some(listItemMatchesUrl);
+    const overrides = siteList.filter(listItemMatchesUrl);
+    const shouldOverride = Boolean(siteList.length);
 
-    if (shouldOverride) {
-      return [{ id: 'smile', emoji: '😀' }, shouldOverride];
+    if (shouldOverride && overrides[0]) {
+      const [site, emoji] = overrides[0];
+      return [{ id: site, emoji }, shouldOverride];
     } else if (features.enableFaviconAutofill) {
       const { host } = new URL(url);
       return [autoselector.selectFavicon(host), shouldOverride];
@@ -48,10 +51,14 @@ browserAPI.storage.onChanged.addListener(async () => {
 });
 
 browserAPI.tabs.onUpdated.addListener(
-  (tabId: number, _: TabChangeInfo, tab: Tab) => {
-    const [favicon, shouldOverride] = selectFavicon(tab.url, settings) || [];
-    if (favicon) {
-      browserAPI.tabs.sendMessage(tabId, { favicon, shouldOverride });
+  async (tabId: number, _: TabChangeInfo, tab: Tab) => {
+    try {
+      const [favicon, shouldOverride] = selectFavicon(tab.url, settings) || [];
+      if (favicon && tabId) {
+        await browserAPI.tabs.sendMessage(tabId, { favicon, shouldOverride });
+      }
+    } catch (e) {
+      console.error(e);
     }
   },
 );

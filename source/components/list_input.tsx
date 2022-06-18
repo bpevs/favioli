@@ -4,6 +4,7 @@ import { h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
 import { isRegexString } from '../utilities/predicates.ts';
+import EmojiSelector from './emoji_selector.tsx';
 import Only from './only.tsx';
 
 type Target = {
@@ -15,6 +16,7 @@ type Target = {
 interface ListInputProps {
   autoFocus?: boolean;
   canDelete?: boolean;
+  type?: 'TEXT' | 'EMOJI';
   index: number;
   value?: string;
   placeholder?: string;
@@ -30,13 +32,20 @@ export default function ListInput({
   addItem,
   deleteItem,
   updateItem = () => {},
+  type = 'TEXT',
   placeholder = '',
-  value = '',
+  value = {},
   index,
 }: ListInputProps) {
-  const onChange = useCallback((e: Event) => {
-    const { value } = (e.target as HTMLInputElement);
-    addItem ? addItem(value) : updateItem(index, value);
+  const onChangeInput = useCallback((e: Event) => {
+    const site = (e.target as HTMLInputElement).value;
+    const nextValue = { emoji: value.emoji, site };
+    addItem ? addItem(nextValue) : updateItem(index, nextValue);
+  }, [index, value, updateItem, addItem]);
+
+  const onChangeEmoji = useCallback((emoji) => {
+    const nextValue = { emoji: emoji?.emoji, site: value.site };
+    addItem ? addItem(nextValue) : updateItem(index, nextValue);
   }, [index, value, updateItem, addItem]);
 
   const onClickDelete = useCallback(() => {
@@ -48,12 +57,19 @@ export default function ListInput({
       <input
         autoFocus={autoFocus}
         className='filter'
-        onInput={onChange}
-        onChange={onChange}
+        onInput={onChangeInput}
+        onChange={onChangeInput}
         placeholder={placeholder}
         style={{ color: isRegexString(value) ? 'green' : 'black' }}
-        value={value}
+        value={value?.site || ''}
       />
+
+      <Only if={type === 'EMOJI'}>
+        <EmojiSelector
+          value={value?.emoji}
+          onEmojiSelected={onChangeEmoji}
+        />
+      </Only>
 
       <Only if={Boolean(deleteItem)}>
         <button

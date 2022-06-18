@@ -5,7 +5,6 @@ import type { ListState } from '../hooks/use_list_state.ts';
 import { h } from 'preact';
 import { useRef } from 'preact/hooks';
 
-import EmojiSelector from './emoji_selector.tsx';
 import ListInput from './list_input.tsx';
 
 export interface ListProps<Type> {
@@ -18,6 +17,7 @@ export default function List<Type,>({ type, state }: ListProps<Type>) {
   const listInputs = state.contents.map((listItem: string, index: number) => {
     return (
       <ListInput
+        type={type}
         key={index}
         index={index}
         value={state.contents[index] || ''}
@@ -34,6 +34,7 @@ export default function List<Type,>({ type, state }: ListProps<Type>) {
 
   const newItemInput = (
     <ListInput
+      type={type}
       key={state.contents.length}
       index={state.contents.length}
       addItem={state.addItem}
@@ -43,7 +44,6 @@ export default function List<Type,>({ type, state }: ListProps<Type>) {
   return (
     <div className='list' ref={listRef}>
       {listInputs.concat(newItemInput)}
-      {/*<EmojiSelector onEmojiSelected={(emoji) => console.log(emoji)} />*/}
     </div>
   );
 }

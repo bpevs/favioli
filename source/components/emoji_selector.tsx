@@ -27,7 +27,9 @@ interface EmojiSelectorProps {
 export default function EmojiSelector(props: EmojiSelectorProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<Emoji>(
-    emoji.infoByAlias('grinning_face'),
+    typeof props.value === 'string'
+      ? emoji.infoByCode(props.value)
+      : emoji.infoByCode('😀'),
   );
   const onEmojiSelected = useCallback((emoji) => {
     if (isOpen) {
@@ -43,8 +45,6 @@ export default function EmojiSelector(props: EmojiSelectorProps) {
       <Selector isOpen={isOpen} onEmojiSelected={onEmojiSelected} />
     </Fragment>
   );
-
-  return;
 }
 
 function Button({ isOpen, setIsOpen, emoji }) {
@@ -54,6 +54,7 @@ function Button({ isOpen, setIsOpen, emoji }) {
 
   return (
     <button
+      className='emoji-selector-button'
       type='button'
       onClick={onClick}
     >
@@ -69,12 +70,13 @@ function Selector({ isOpen, onEmojiSelected }) {
   if (!isOpen) return null;
 
   return (
-    <div style='width: 500px; height: 500px; background-color: grey; z-index: 1000; overflow: scroll;' /* onlosefocus */>
+    <div className='emoji-selector-popup'>
       <input
         type='text'
         spellcheck={false}
         placeholder='smile'
         value={filter}
+        className='emoji-search'
         onChange={(e) => {
           setFilter(e.target.value);
         }}
@@ -82,7 +84,6 @@ function Selector({ isOpen, onEmojiSelected }) {
           setFilter(e.target.value);
         }}
       />
-      <ColorSelector />
       <GroupSelector
         emojiGroups={Object.keys(emojiGroups).map((name) => {
           const emojis = emojiGroups[name];
@@ -106,13 +107,16 @@ function Selector({ isOpen, onEmojiSelected }) {
             );
           })}
       />
+      <div className='emoji-footer'>
+        <ColorSelector />
+      </div>
     </div>
   );
 }
 
 function ColorSelector() {
   return (
-    <button type='button' className='color-selector'>
+    <button type='button' className='emoji-color-selector'>
       {'🤯'}
     </button>
   );
@@ -131,7 +135,11 @@ function GroupSelector(
   const groupButtons = useMemo(() =>
     emojiGroups.map((emojiGroup) => {
       return (
-        <button type='button' onClick={() => setGroup(emojiGroup.name)}>
+        <button
+          className='emoji-button'
+          type='button'
+          onClick={() => setGroup(emojiGroup.name)}
+        >
           {emojiGroup.representativeEmoji}
         </button>
       );
@@ -147,8 +155,11 @@ function GroupSelector(
 function Group({ name, emojis, onSelect }) {
   const selectionButtons = emojis.map((emoji) => (
     <button
+      className='emoji-button'
       type='button'
-      onClick={(e) => { onSelect(emoji) }}
+      onClick={(e) => {
+        onSelect(emoji);
+      }}
     >
       {emoji.emoji}
     </button>
@@ -156,9 +167,11 @@ function Group({ name, emojis, onSelect }) {
 
   return (
     <div>
-      <h1>{name}</h1>
+      <p>{name}</p>
       {selectionButtons}
-      <button type="button">add custom emoji</button>
+      <p>
+        <button type='button'>add custom emoji</button>
+      </p>
     </div>
   );
 }

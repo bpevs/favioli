@@ -37,6 +37,7 @@ browserAPI.runtime.onMessage.addListener(({
   favicon: Favicon;
   shouldOverride: boolean;
 }) => {
+  console.log('favicon', favicon.emoji);
   if (favicon.emoji) {
     appendFaviconLink(favicon.emoji, { shouldOverride });
   }

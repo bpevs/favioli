@@ -259,27 +259,3 @@ nav li a:hover {
 .list-item .remove:hover {
   color: rgba(0, 0, 0, 0.8);
 }
-
-/** Emoji Selector **/
-.list-item button.emoji {
-  background: #eee;
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-  font-size: 1rem;
-  height: 32px;
-  line-height: 1;
-  margin-top: 0;
-  margin-left: 10px;
-  padding: 4px 0;
-  transition: background ease 0.2s;
-  user-select: none;
-  vertical-align: middle;
-  width: 1.3rem;
-}
-
-.list-item button.emoji:hover,
-.list-item button.emoji:focus {
-  background: #ddd;
-}
-
