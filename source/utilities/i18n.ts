@@ -9,6 +9,7 @@ This permission is used to:
 Favioli does NOT collect or store any of this data, and does NOT use these permissions for anything besides what is stated here.`;
 
 const en: { [name: string]: string } = {
+  enableOverrideAllLabel: 'Override All Favicons',
   enableFaviconAutofillDesc:
     'If a website doesn\'t have a favicon, Favioli will automatically create one for it using an emoji.',
   enableFaviconAutofillLabel: 'Enable Autofill',

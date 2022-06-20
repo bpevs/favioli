@@ -1,30 +1,13 @@
-import type { Favicon } from '../types.ts';
-
 import * as emoji from 'emoji';
-import type { Emoji } from 'https://deno.land/x/emoji@0.2.0/types.ts';
 import LEGACY_EMOJI_SET from '../config/legacy_autoselect_set.ts';
+import FaviconData from '../utilities/favicon_data.ts';
 
-const emojis = emoji.all();
-
-type EmojiMap = { [alias: string]: Emoji };
-
-const NON_SPACING_MARK = String.fromCharCode(65039); // 65039 - '️' - 0xFE0F;
-const reNonSpacing = new RegExp(NON_SPACING_MARK, 'g');
-function stripNSB(code: string): string {
-  return code.replace(reNonSpacing, '');
-}
-
-const byCode: EmojiMap = Object.fromEntries(
-  emojis.map((emoji) => {
-    return [stripNSB(emoji.emoji), emoji];
-  }),
-);
-
-const legacySet = LEGACY_EMOJI_SET.map((emoji: string) => byCode[emoji]);
+const legacySet = LEGACY_EMOJI_SET
+  .map((emojiStr: string) => emoji.infoByCode(emojiStr));
 
 /**
- * For selecting random favicon from a set.  Currently, only select from
- * Emoji set, so it remains more static.
+ * For selecting random favicon from a set. Currently, only select from
+ * Emoji set, so it remains more static (read: CUSTOM EMOJIS ARE NOT AUTOGEN'd)
  *
  * @property version
  * Generally this means unicode version. Used to sandbox to a specific set of
@@ -45,12 +28,20 @@ export default class AutoSelector {
     return legacySet;
   }
 
-  selectFavicon(hostname: string): Favicon {
-    const index = Math.abs(sdbm(hostname)) % this.favicons.length;
+  selectFavicon(url: string): FaviconData {
+    let hostname = '';
+    try {
+      hostname = (new URL(url)).host;
+    } catch {
+      // Use URL
+    }
+
+    const index = Math.abs(sdbm(hostname || url)) % this.favicons.length;
     const favicon = this.favicons[index] || this.favicons[0];
     return {
-      id: favicon.aliases[0],
-      emoji: favicon.emoji,
+      id: favicon?.description || `autoselected-${index}`,
+      matcher: url,
+      emoji: favicon, // Always emoji; custom emojis are not in autoset
     };
   }
 }

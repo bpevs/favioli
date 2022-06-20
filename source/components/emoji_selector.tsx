@@ -1,17 +1,19 @@
 /* @jsx h */
 
 import { Fragment, h } from 'preact';
-import { useCallback, useMemo, useState } from 'preact/hooks';
+import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
 import * as emoji from 'emoji';
 import type { Emoji } from 'https://deno.land/x/emoji@0.2.0/types.ts';
 
 const emojis = emoji.all();
-const emojiGroups = {};
 
 // create emojiGroups
-emojiGroups.All = emojis;
-// emojiGroups.frequentlyUsed = [];
-// emojiGroups.custom = [];
+const emojiGroups: { [groupName: string]: Emoji[] } = {
+  All: emojis,
+  // frequentlyUsed: [],
+  // custom: [],
+};
+
 emojis.forEach((emoji) => {
   if (!emojiGroups[emoji.group]) {
     emojiGroups[emoji.group] = [];
@@ -19,35 +21,50 @@ emojis.forEach((emoji) => {
   emojiGroups[emoji.group].push(emoji);
 });
 
+type OnEmojiSelected = (emoji: Emoji) => void;
 interface EmojiSelectorProps {
-  // deno-lint-ignore no-explicit-any
-  [name: string]: any;
+  value?: string;
+  onEmojiSelected: OnEmojiSelected;
 }
+
+const defaultEmoji = emoji.infoByCode('😀') as Emoji;
 
 export default function EmojiSelector(props: EmojiSelectorProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selected, setSelected] = useState<Emoji>(
-    typeof props.value === 'string'
-      ? emoji.infoByCode(props.value)
-      : emoji.infoByCode('😀'),
-  );
-  const onEmojiSelected = useCallback((emoji) => {
+  const [selectedEmoji, setSelectedEmoji] = useState<Emoji>(defaultEmoji);
+  const onEmojiSelected = useCallback((emoji: Emoji) => {
     if (isOpen) {
       props.onEmojiSelected(emoji);
-      setSelected(emoji);
+      setSelectedEmoji(emoji);
       setIsOpen(false);
     }
   }, [isOpen, setIsOpen]);
 
+  useEffect(() => {
+    try {
+      if (!props.value) return;
+      const initialEmoji = emoji.infoByCode(props.value);
+      if (initialEmoji) {
+        setSelectedEmoji(initialEmoji);
+      }
+    } catch {
+      // Emoji doesn't exist
+    }
+  }, [props.value]);
+
   return (
     <Fragment>
-      <Button isOpen={isOpen} setIsOpen={setIsOpen} emoji={selected} />
+      <Button isOpen={isOpen} setIsOpen={setIsOpen} emoji={selectedEmoji} />
       <Selector isOpen={isOpen} onEmojiSelected={onEmojiSelected} />
     </Fragment>
   );
 }
 
-function Button({ isOpen, setIsOpen, emoji }) {
+function Button({ isOpen, setIsOpen, emoji }: {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  emoji: Emoji;
+}) {
   const onClick = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen]);
@@ -63,9 +80,16 @@ function Button({ isOpen, setIsOpen, emoji }) {
   );
 }
 
-function Selector({ isOpen, onEmojiSelected }) {
+function Selector({ isOpen, onEmojiSelected }: {
+  isOpen: boolean;
+  onEmojiSelected: OnEmojiSelected;
+}) {
   const [currGroup, setCurrGroup] = useState(Object.keys(emojiGroups)[0]);
   const [filter, setFilter] = useState('');
+  const updateFilter = useCallback((e: Event) => {
+    const filter = (e?.target as HTMLInputElement)?.value || '';
+    setFilter(filter);
+  }, []);
 
   if (!isOpen) return null;
 
@@ -77,12 +101,8 @@ function Selector({ isOpen, onEmojiSelected }) {
         placeholder='smile'
         value={filter}
         className='emoji-search'
-        onChange={(e) => {
-          setFilter(e.target.value);
-        }}
-        onInput={(e) => {
-          setFilter(e.target.value);
-        }}
+        onChange={updateFilter}
+        onInput={updateFilter}
       />
       <GroupSelector
         emojiGroups={Object.keys(emojiGroups).map((name) => {
@@ -130,7 +150,10 @@ interface EmojiGroup {
 
 // Group Name + Representative
 function GroupSelector(
-  { emojiGroups = [], setGroup }: { emojiGroups: EmojiGroup[]; setGroup: any },
+  { emojiGroups = [], setGroup }: {
+    emojiGroups: EmojiGroup[];
+    setGroup: (name: string) => void;
+  },
 ) {
   const groupButtons = useMemo(() =>
     emojiGroups.map((emojiGroup) => {
@@ -152,12 +175,16 @@ function GroupSelector(
   );
 }
 
-function Group({ name, emojis, onSelect }) {
+function Group({ name, emojis, onSelect }: {
+  name: string;
+  emojis: Emoji[];
+  onSelect: (emoji: Emoji) => void;
+}) {
   const selectionButtons = emojis.map((emoji) => (
     <button
       className='emoji-button'
       type='button'
-      onClick={(e) => {
+      onClick={() => {
         onSelect(emoji);
       }}
     >

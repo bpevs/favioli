@@ -3,12 +3,15 @@
 import { h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
+import FaviconData from '../utilities/favicon_data.ts';
 import { isRegexString } from '../utilities/predicates.ts';
 import EmojiSelector from './emoji_selector.tsx';
 import Only from './only.tsx';
+import * as emoji from 'emoji';
+import type { Emoji } from 'https://deno.land/x/emoji@0.2.0/types.ts';
 
 type Target = {
-  textValue?: string;
+  matcher?: string;
   index: number;
   toDelete: boolean;
 };
@@ -16,15 +19,13 @@ type Target = {
 interface ListInputProps {
   autoFocus?: boolean;
   canDelete?: boolean;
-  type?: 'TEXT' | 'EMOJI';
+  type: 'IGNORE' | 'FAVICON';
   index: number;
-  value?: string;
+  value?: FaviconData;
   placeholder?: string;
   deleteItem?: (index: number) => void;
-  // deno-lint-ignore no-explicit-any
-  addItem?: (listitem: any) => void;
-  // deno-lint-ignore no-explicit-any
-  updateItem?: (index: number, listItem: any) => void;
+  addItem?: (listitem: FaviconData) => void;
+  updateItem?: (index: number, listItem: FaviconData) => void;
 }
 
 export default function ListInput({
@@ -32,25 +33,27 @@ export default function ListInput({
   addItem,
   deleteItem,
   updateItem = () => {},
-  type = 'TEXT',
+  type,
   placeholder = '',
-  value = {},
+  value,
   index,
 }: ListInputProps) {
   const onChangeInput = useCallback((e: Event) => {
-    const site = (e.target as HTMLInputElement).value;
-    const nextValue = { emoji: value.emoji, site };
-    addItem ? addItem(nextValue) : updateItem(index, nextValue);
+    const matcher = (e.target as HTMLInputElement).value;
+    const next = new FaviconData(value?.emoji, matcher);
+    addItem ? addItem(next) : updateItem(index, next);
   }, [index, value, updateItem, addItem]);
 
-  const onChangeEmoji = useCallback((emoji) => {
-    const nextValue = { emoji: emoji?.emoji, site: value.site };
-    addItem ? addItem(nextValue) : updateItem(index, nextValue);
+  const onChangeEmoji = useCallback((selectedEmoji: Emoji) => {
+    const next = new FaviconData(selectedEmoji, value?.matcher);
+    addItem ? addItem(next) : updateItem(index, next);
   }, [index, value, updateItem, addItem]);
 
   const onClickDelete = useCallback(() => {
     if (deleteItem) deleteItem(index);
   }, [index, deleteItem]);
+
+  const color = isRegexString(value?.matcher || '') ? 'green' : 'black';
 
   return (
     <div className='list-item'>
@@ -60,13 +63,13 @@ export default function ListInput({
         onInput={onChangeInput}
         onChange={onChangeInput}
         placeholder={placeholder}
-        style={{ color: isRegexString(value) ? 'green' : 'black' }}
-        value={value?.site || ''}
+        style={{ color }}
+        value={value?.matcher || ''}
       />
 
-      <Only if={type === 'EMOJI'}>
+      <Only if={type === 'FAVICON'}>
         <EmojiSelector
-          value={value?.emoji}
+          value={value?.emoji?.emoji}
           onEmojiSelected={onChangeEmoji}
         />
       </Only>

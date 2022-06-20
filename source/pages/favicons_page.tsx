@@ -42,7 +42,7 @@ export default function FaviconsPage({ save, storage }: FaviconsPageProps) {
   return (
     <form onSubmit={save}>
       <h1>{t('faviconListTitle')}</h1>
-      <List type='EMOJI' state={siteListState} />
+      <List type='FAVICON' state={siteListState} />
 
       <Only if={Boolean(enableSiteIgnore || hasIgnores)}>
         <Fragment>
@@ -53,7 +53,7 @@ export default function FaviconsPage({ save, storage }: FaviconsPageProps) {
             </Only>
           </h1>
 
-          <List type='TEXT' state={ignoreListState} />
+          <List type='IGNORE' state={ignoreListState} />
         </Fragment>
       </Only>
 

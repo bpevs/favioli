@@ -6,6 +6,7 @@ import { useCallback } from 'preact/hooks';
 
 import { defaultSettings, Settings } from '../types.ts';
 import Checkbox, { Target } from '../components/checkbox.tsx';
+import Only from '../components/only.tsx';
 import { t } from '../utilities/i18n.ts';
 
 export interface SettingsProps {
@@ -17,7 +18,8 @@ export interface SettingsProps {
 
 const SettingsPage = ({ save, storage }: SettingsProps) => {
   const { cache = defaultSettings, setCache } = storage || {};
-  const { enableFaviconAutofill, enableSiteIgnore } = cache.features || {};
+  const { enableFaviconAutofill, enableSiteIgnore, enableOverrideAll } =
+    cache.features || {};
 
   const setFeature = useCallback((feature: Target) => {
     if (storage) {
@@ -45,6 +47,16 @@ const SettingsPage = ({ save, storage }: SettingsProps) => {
         checked={enableFaviconAutofill}
         onChange={setFeature}
       />
+      <Only if={Boolean(enableFaviconAutofill)}>
+        <div style='padding-left: 2em'>
+          <Checkbox
+            name='enableOverrideAll'
+            label={t('enableOverrideAllLabel')}
+            checked={enableOverrideAll}
+            onChange={setFeature}
+          />
+        </div>
+      </Only>
       <button type='submit' children={t('saveLabel')} className='save' />
     </form>
   );

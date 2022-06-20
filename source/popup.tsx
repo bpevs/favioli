@@ -4,6 +4,7 @@ import { h, render } from 'preact';
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
 import browserAPI from 'browser';
 
+import FaviconData from './utilities/favicon_data.ts';
 import useBrowserStorage from './hooks/use_browser_storage.ts';
 import useStatus from './hooks/use_status.ts';
 import { Settings, STORAGE_KEYS } from './types.ts';
@@ -27,16 +28,16 @@ const App = () => {
     setup().catch(console.error);
   }, [cache]);
 
-  const addSite = useCallback((add: boolean) => {
+  const updateSite = useCallback((shouldAdd: boolean) => {
     if (!url) return;
     const origin = (new URL(url)).origin;
     const siteList = cache?.siteList || [];
-    const nextList = siteList.filter((filter) => filter !== origin);
-    if (add) nextList.push(origin);
+    const nextList = siteList.filter((filter) => filter.matcher !== origin);
+    if (shouldAdd) nextList.push(new FaviconData(undefined, origin));
     setCache({ siteList: nextList }, true);
   }, [url, cache, setCache]);
 
-  const { status, save } = useStatus(error || '', addSite);
+  const { status, save } = useStatus(error || '', updateSite);
 
   const addToOverrides = useCallback(() => {
     save(true);

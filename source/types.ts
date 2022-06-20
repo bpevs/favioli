@@ -1,24 +1,14 @@
-type IgnoreItem = string;
+import FaviconData from './utilities/favicon_data.ts';
 
 export interface Settings {
-  siteList: IgnoreItem[];
-  ignoreList: IgnoreItem[];
+  siteList: FaviconData[];
+  ignoreList: FaviconData[];
 
   features: {
     enableFaviconAutofill?: boolean;
     enableSiteIgnore?: boolean;
+    enableOverrideAll?: boolean;
   };
-}
-
-/**
- * Local Icon Database
- * Used to store favicons for later usage.
- */
-export interface Favicon {
-  id: string; // ID representing favicon (nickname, etc)
-  video?: string; // Priority 1: Optional multiframe favicon
-  image?: string; // Priority 2: Optional singleframe favicon
-  emoji?: string; // Priority 3: Optional emoji favicon
 }
 
 /**
@@ -37,6 +27,7 @@ export const defaultSettings: Settings = {
   features: {
     enableFaviconAutofill: false,
     enableSiteIgnore: false,
+    enableOverrideAll: false,
   },
 };
 
