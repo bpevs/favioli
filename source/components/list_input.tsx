@@ -5,7 +5,7 @@ import { useCallback } from 'preact/hooks';
 
 import FaviconData from '../utilities/favicon_data.ts';
 import { isRegexString } from '../utilities/predicates.ts';
-import EmojiSelector from './emoji_selector.tsx';
+import EmojiSelector from './emoji_selector/mod.tsx';
 import Only from './only.tsx';
 import * as emoji from 'emoji';
 import type { Emoji } from 'https://deno.land/x/emoji@0.2.0/types.ts';
@@ -70,7 +70,7 @@ export default function ListInput({
       <Only if={type === 'FAVICON'}>
         <EmojiSelector
           value={value?.emoji?.emoji}
-          onEmojiSelected={onChangeEmoji}
+          onSelected={onChangeEmoji}
         />
       </Only>
 

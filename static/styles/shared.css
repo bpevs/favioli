@@ -23,6 +23,9 @@ button.emoji-selector-button:focus {
 
 /** Emoji Selector **/
 .emoji-selector-popup {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
   width: 400px;
   height: 400px;
   border: 2px solid black;
@@ -30,7 +33,6 @@ button.emoji-selector-button:focus {
   background-color: white;
   z-index: 1000;
   overflow: scroll;
-  padding: 10px;
   line-height: 1em;
 }
 
@@ -54,6 +56,14 @@ p {
 
 .emoji-button:hover {
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+.emoji-header {
+  position: sticky;
+  background-color: white;
+
+  top: 0;
+  height: 3em;
 }
 
 .emoji-footer {
