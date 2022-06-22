@@ -4,7 +4,7 @@ import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
 import { Fragment, h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
-import { DEFAULT_SETTINGS, Settings } from '../settings.ts';
+import { DEFAULT_SETTINGS, Settings } from '../utilities/settings.ts';
 import Checkbox, { Target } from '../components/checkbox.tsx';
 import Only from '../components/only.tsx';
 import { t } from '../utilities/i18n.ts';

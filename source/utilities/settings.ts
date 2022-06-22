@@ -1,6 +1,6 @@
-import FaviconData from './utilities/favicon_data.ts';
-import manifest from './manifest.json' assert { type: 'json' };
 import * as emoji from 'emoji';
+import manifest from '../manifest.json' assert { type: 'json' };
+import FaviconData from './favicon_data.ts';
 
 export interface Settings {
   version: string;
@@ -65,19 +65,21 @@ export function parseVersion(version: string): {
   major: number;
   minor: number;
   patch: number;
+  descriptor: string;
 } {
   if (!version) throw new Error('No Version Detected');
 
-  const [major, minor, patch] = version.split('.');
+  const [major, minor, patch, ...descriptors] = version.split(/\.|-/);
 
   if (major == null || minor == null || patch == null) {
-    throw new Error(`error parsing version ${version} `);
+    throw new Error(`Error Parsing Version ${version}`);
   }
 
   return {
     major: Number(major),
     minor: Number(minor),
     patch: Number(patch),
+    descriptor: descriptors.join('-') || '',
   };
 }
 

@@ -4,7 +4,7 @@ import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
 import { Fragment, h } from 'preact';
 import { useEffect } from 'preact/hooks';
 
-import { DEFAULT_SETTINGS, Settings } from '../settings.ts';
+import { DEFAULT_SETTINGS, Settings } from '../utilities/settings.ts';
 import List from '../components/list.tsx';
 import Only from '../components/only.tsx';
 import useListState from '../hooks/use_list_state.ts';

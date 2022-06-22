@@ -3,7 +3,7 @@
  */
 
 import type { Tab, TabChangeInfo } from 'browser';
-import type { Settings, SettingsV1 } from './settings.ts';
+import type { Settings, SettingsV1 } from './utilities/settings.ts';
 
 import browserAPI from 'browser';
 import {
@@ -12,7 +12,7 @@ import {
   LEGACY_STORAGE_KEYS,
   migrateFromV1,
   STORAGE_KEYS,
-} from './settings.ts';
+} from './utilities/settings.ts';
 import FaviconData from './utilities/favicon_data.ts';
 import Autoselector from './utilities/autoselector.ts';
 
