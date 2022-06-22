@@ -23,36 +23,33 @@ export default function Popup({ isOpen, onSelected, setIsOpen, popupRef }: {
   return (
     <div className='emoji-selector-popup' ref={popupRef}>
       <div className='emoji-header'>
+        <div className='emoji-group-selector'>
+          {emojiGroupsArray
+            .map((emojiGroup: EmojiGroup) => {
+              const isSelected = emojiGroup.name === groupFilter;
+              return (
+                <div
+                  className={`emoji-group-selector-button ${isSelected ? 'selected' : ''}`}
+                  onClick={() =>
+                    setGroupFilter(
+                      emojiGroup.name === groupFilter ? '' : emojiGroup.name,
+                    )}
+                >
+                  {emojiGroup.representativeEmoji}
+                </div>
+              );
+            })}
+        </div>
         <input
-          className='emoji-search'
+          className='emoji-filter-input'
           autoFocus
           type='text'
           spellcheck={false}
-          placeholder='smile'
+          placeholder='Search'
           value={filter}
           onChange={setFilter}
           onInput={setFilter}
         />
-        <div className='group-selector'>
-          {emojiGroupsArray
-            .concat({
-              name: '',
-              representativeEmoji: 'All',
-              emojis: [],
-            })
-            .map((emojiGroup: EmojiGroup) => {
-              const isSelected = emojiGroup.name === groupFilter;
-              return (
-                <button
-                  className={`emoji-button ${isSelected ? 'selected' : ''}`}
-                  type='button'
-                  onClick={() => setGroupFilter(emojiGroup.name)}
-                >
-                  {emojiGroup.representativeEmoji}
-                </button>
-              );
-            })}
-        </div>
       </div>
 
       <Groups

@@ -30,13 +30,17 @@ export default function Groups(
   }, [emojiGroups, groupFilter, filter]);
 
   const emojiGroupComponents = filteredEmojiGroups
-    .filter((emojiGroup: EmojiGroup) => emojiGroup?.emojis?.length)
+    .filter((emojiGroup: EmojiGroup) => {
+      if (emojiGroup?.emojis?.length) return true;
+      if (emojiGroup.name === groupFilter) return true;
+      return false;
+    })
     .map((emojiGroup: EmojiGroup) => (
       <div className='emoji-group'>
-        <p>{emojiGroup.name}</p>
+        <p className="emoji-group-title">{emojiGroup.name}</p>
         {emojiGroup.emojis.map((emoji) => (
           <button
-            className='emoji-button'
+            className='emoji-group-button'
             type='button'
             onClick={() => onSelected(emoji)}
           >
@@ -46,9 +50,13 @@ export default function Groups(
       </div>
     ));
 
+  // If groupFilter, still show group, just for the title
+  const shouldNotShowGroups = !groupFilter && !emojiGroupComponents.length;
+
   return (
     <Fragment>
-      {emojiGroupComponents.length ? emojiGroupComponents : 'No Matches'}
+      {shouldNotShowGroups ? '' : emojiGroupComponents}
+      {!emojiGroupComponents.length ? 'No Matches' : ''}
     </Fragment>
   );
 }

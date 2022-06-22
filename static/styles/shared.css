@@ -26,7 +26,7 @@ button.emoji-selector-button:focus {
   position: fixed;
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 350px;
   height: 400px;
   border: 2px solid black;
   border-radius:  5px;
@@ -34,6 +34,7 @@ button.emoji-selector-button:focus {
   z-index: 1000;
   overflow: scroll;
   line-height: 1em;
+  padding: 0 10px 10px 10px;
 }
 
 p {
@@ -41,20 +42,43 @@ p {
   margin-bottom: 0;
 }
 
-.emoji-search {
-
+.emoji-filter-input {
+  width: 100%;
+  font-size:  0.8em;
+  margin:  10px auto 10px auto;
+  box-sizing: border-box;
 }
 
-.emoji-button {
+.emoji-group {
+  display: flex;
+  flex-wrap:  wrap;
+  justify-content: space-between;
+}
+
+.emoji-group::after {
+  content: "";
+  flex: auto;
+}
+
+.emoji-group-title {
+  text-align: left;
+  font-size: 0.6em;
+  font-weight: bold;
+  width: 100%;
+}
+
+.emoji-group-button {
   cursor: pointer;
   border: 0;
   font-size: 1em;
   margin: 0;
   width: 1.5em;
   height: 1.5em;
+  background-color: white;
+  border-radius: 4px;
 }
 
-.emoji-button:hover {
+.emoji-group-button:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -64,6 +88,9 @@ p {
 
   top: 0;
   height: 3em;
+  margin: 0 auto 0 auto;
+  width: 100%;
+  text-align: center;
 }
 
 .emoji-footer {
@@ -72,5 +99,30 @@ p {
   height: 15px;
 }
 
-.emoji-color-selector {
+.emoji-group-selector {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-content: flex-end;
+  text-align: center;
+}
+
+.emoji-group-selector-button {
+  cursor: pointer;
+  border: 0;
+  font-size: 0.8em;
+  margin: 0;
+  width: 1.3em;
+  height: 1.3em;
+  background-color: white;
+  padding: 5px;
+}
+
+.emoji-group-selector-button.selected,
+.emoji-group-selector-button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.emoji-group-selector-button.selected {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.6);
 }

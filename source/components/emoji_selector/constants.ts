@@ -18,10 +18,10 @@ emojis.forEach((emoji) => {
   }
 });
 
-emojiGroups.custom = {
+emojiGroups["Custom Emojis"] = {
   name: 'Custom Emojis',
   emojis: [],
-  representativeEmoji: '©',
+  representativeEmoji: '*',
 };
 
 export const emojiGroupsArray = Object.keys(emojiGroups).map((name) =>
