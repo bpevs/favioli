@@ -29,7 +29,9 @@ export default function Popup({ isOpen, onSelected, setIsOpen, popupRef }: {
               const isSelected = emojiGroup.name === groupFilter;
               return (
                 <div
-                  className={`emoji-group-selector-button ${isSelected ? 'selected' : ''}`}
+                  className={`emoji-group-selector-button ${
+                    isSelected ? 'selected' : ''
+                  }`}
                   onClick={() =>
                     setGroupFilter(
                       emojiGroup.name === groupFilter ? '' : emojiGroup.name,

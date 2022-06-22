@@ -18,7 +18,7 @@ emojis.forEach((emoji) => {
   }
 });
 
-emojiGroups["Custom Emojis"] = {
+emojiGroups['Custom Emojis'] = {
   name: 'Custom Emojis',
   emojis: [],
   representativeEmoji: '*',

@@ -37,7 +37,7 @@ export default function Groups(
     })
     .map((emojiGroup: EmojiGroup) => (
       <div className='emoji-group'>
-        <p className="emoji-group-title">{emojiGroup.name}</p>
+        <p className='emoji-group-title'>{emojiGroup.name}</p>
         {emojiGroup.emojis.map((emoji) => (
           <button
             className='emoji-group-button'
@@ -57,6 +57,20 @@ export default function Groups(
     <Fragment>
       {shouldNotShowGroups ? '' : emojiGroupComponents}
       {!emojiGroupComponents.length ? 'No Matches' : ''}
+      {groupFilter === '' || groupFilter === 'Custom Emojis'
+        ? (
+          <button
+            type='button'
+            onClick={() => {
+              const name = prompt('Emoji Name?');
+              const url = prompt('Image URL?');
+              console.log(name, url);
+            }}
+          >
+            Add Custom Emoji
+          </button>
+        )
+        : ''}
     </Fragment>
   );
 }
