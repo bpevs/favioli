@@ -3,15 +3,21 @@
  */
 
 import type { Tab, TabChangeInfo } from 'browser';
-import type { Settings } from './types.ts';
+import type { Settings, SettingsV1 } from './settings.ts';
 
-import FaviconData from './utilities/favicon_data.ts';
-import { defaultSettings, STORAGE_KEYS } from './types.ts';
-import Autoselector from './utilities/autoselector.ts';
 import browserAPI from 'browser';
+import {
+  DEFAULT_SETTINGS,
+  isV1Settings,
+  LEGACY_STORAGE_KEYS,
+  migrateFromV1,
+  STORAGE_KEYS,
+} from './settings.ts';
+import FaviconData from './utilities/favicon_data.ts';
+import Autoselector from './utilities/autoselector.ts';
 
 const autoselector = new Autoselector();
-let settings: Settings = defaultSettings;
+let settings: Settings = DEFAULT_SETTINGS;
 
 syncSettings();
 browserAPI.storage.onChanged.addListener(syncSettings);
@@ -33,10 +39,18 @@ browserAPI.tabs.onUpdated.addListener(
 );
 
 async function syncSettings() {
-  const storedSettings: Settings = await browserAPI.storage.sync.get(
-    STORAGE_KEYS,
-  ) as Settings;
-  if (storedSettings) settings = storedSettings;
+  const storedSettings: Settings | SettingsV1 = await browserAPI.storage.sync
+    .get(STORAGE_KEYS) as Settings | SettingsV1;
+
+  if (!storedSettings) return;
+
+  if (isV1Settings(storedSettings)) {
+    settings = migrateFromV1(storedSettings);
+    await browserAPI.storage.sync.remove(LEGACY_STORAGE_KEYS);
+    await browserAPI.storage.sync.set(settings);
+  } else {
+    settings = storedSettings;
+  }
 }
 
 function listItemMatchesUrl(favicon: FaviconData, url: string) {

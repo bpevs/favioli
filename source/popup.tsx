@@ -7,7 +7,7 @@ import browserAPI from 'browser';
 import FaviconData from './utilities/favicon_data.ts';
 import useBrowserStorage from './hooks/use_browser_storage.ts';
 import useStatus from './hooks/use_status.ts';
-import { Settings, STORAGE_KEYS } from './types.ts';
+import { Settings, STORAGE_KEYS } from './settings.ts';
 
 const queryOptions = { active: true };
 

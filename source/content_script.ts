@@ -7,7 +7,7 @@
  */
 import browserAPI from 'browser';
 
-import type { Favicon } from './types.ts';
+import type FaviconData from './utilities/favicon_data.ts';
 import { appendFaviconLink } from './utilities/favicon_helpers.ts';
 
 browserAPI.storage.onChanged.addListener((changes) => {
@@ -34,7 +34,7 @@ browserAPI.runtime.onMessage.addListener(({
   favicon,
   shouldOverride,
 }: {
-  favicon: Favicon;
+  favicon: FaviconData;
   shouldOverride: boolean;
 }) => {
   if (favicon.emoji) {

@@ -4,7 +4,7 @@ import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
 import { Fragment, h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
-import { defaultSettings, Settings } from '../types.ts';
+import { DEFAULT_SETTINGS, Settings } from '../settings.ts';
 import Checkbox, { Target } from '../components/checkbox.tsx';
 import Only from '../components/only.tsx';
 import { t } from '../utilities/i18n.ts';
@@ -17,7 +17,7 @@ export interface SettingsProps {
 }
 
 const SettingsPage = ({ save, storage }: SettingsProps) => {
-  const { cache = defaultSettings, setCache } = storage || {};
+  const { cache = DEFAULT_SETTINGS, setCache } = storage || {};
   const { enableFaviconAutofill, enableSiteIgnore, enableOverrideAll } =
     cache.features || {};
 

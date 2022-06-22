@@ -3,7 +3,7 @@
 import { Fragment, h, render } from 'preact';
 import { useCallback } from 'preact/hooks';
 
-import { Settings, STORAGE_KEYS } from './types.ts';
+import { Settings, STORAGE_KEYS } from './settings.ts';
 import Header from './components/header.tsx';
 import Switch from './components/switch.tsx';
 
