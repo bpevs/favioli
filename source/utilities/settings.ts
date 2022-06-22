@@ -33,6 +33,7 @@ export type EmojiMartEmojiV1 = {
   id: string;
   name: string;
   native: string;
+  short_names: string[];
   skin: null;
   unified: string;
 };
