@@ -85,7 +85,13 @@ export const v1: SettingsV1 = {
 };
 
 export const v2: Settings = {
+  'autoselectorVersion': 'FAVIOLI_LEGACY',
+  'emojiDatabase': {
+    'customEmojis': {},
+    'frequentlyUsed': [],
+  },
   'features': {
+    'enableAutoselectorIncludeCountryFlags': false,
     'enableFaviconAutofill': true,
     'enableOverrideAll': false,
     'enableSiteIgnore': true,

@@ -4,6 +4,7 @@ import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
 import { Fragment, h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
+import { AUTOSELECTOR_VERSION } from '../utilities/autoselector.ts';
 import { DEFAULT_SETTINGS, Settings } from '../utilities/settings.ts';
 import Checkbox, { Target } from '../components/checkbox.tsx';
 import Only from '../components/only.tsx';
@@ -18,8 +19,13 @@ export interface SettingsProps {
 
 const SettingsPage = ({ save, storage }: SettingsProps) => {
   const { cache = DEFAULT_SETTINGS, setCache } = storage || {};
-  const { enableFaviconAutofill, enableSiteIgnore, enableOverrideAll } =
-    cache.features || {};
+  const { autoselectorVersion } = cache;
+  const {
+    enableAutoselectorIncludeCountryFlags,
+    enableFaviconAutofill,
+    enableSiteIgnore,
+    enableOverrideAll,
+  } = cache.features;
 
   const setFeature = useCallback((feature: Target) => {
     if (storage) {
@@ -31,6 +37,11 @@ const SettingsPage = ({ save, storage }: SettingsProps) => {
       });
     }
   }, [cache.features]);
+
+  const setAutoselectorVersion = useCallback((e: Event) => {
+    const autoselectorVersion = (e.target as HTMLInputElement).value;
+    if (storage) storage.setCache({ autoselectorVersion });
+  }, [storage]);
 
   return (
     <form onSubmit={save}>
@@ -55,6 +66,24 @@ const SettingsPage = ({ save, storage }: SettingsProps) => {
             checked={enableOverrideAll}
             onChange={setFeature}
           />
+          <Checkbox
+            name='enableAutoselectorIncludeCountryFlags'
+            label={'Include Country Flags as autoselectable options'}
+            checked={enableAutoselectorIncludeCountryFlags}
+            onChange={setFeature}
+          />
+          <div className='version-selector'>
+            <label className='select-label'>Autoselector Version</label>
+            <select
+              name='autoselectorVersion'
+              id='autoselectorVersion'
+              onChange={setAutoselectorVersion}
+              value={autoselectorVersion}
+            >
+              {Object.keys(AUTOSELECTOR_VERSION)
+                .map((version) => <option value={version}>{version}</option>)}
+            </select>
+          </div>
         </div>
       </Only>
       <button type='submit' children={t('saveLabel')} className='save' />

@@ -1,16 +1,29 @@
 import * as emoji from 'emoji';
 import manifest from '../manifest.json' assert { type: 'json' };
 import FaviconData from './favicon_data.ts';
+import { Emoji } from './emoji.ts';
+
+import { AUTOSELECTOR_VERSION } from './autoselector.ts';
 
 export interface Settings {
   version: string;
+  autoselectorVersion: string;
+
   siteList: FaviconData[];
   ignoreList: FaviconData[];
 
+  emojiDatabase: {
+    customEmojis: {
+      [description: string]: Emoji;
+    };
+    frequentlyUsed: Emoji[];
+  };
+
   features: {
-    enableFaviconAutofill?: boolean;
-    enableSiteIgnore?: boolean;
-    enableOverrideAll?: boolean;
+    enableAutoselectorIncludeCountryFlags: boolean;
+    enableFaviconAutofill: boolean;
+    enableSiteIgnore: boolean;
+    enableOverrideAll: boolean;
   };
 }
 
@@ -40,10 +53,18 @@ export type EmojiMartEmojiV1 = {
 
 export const DEFAULT_SETTINGS: Settings = {
   version: manifest.version,
+  autoselectorVersion: AUTOSELECTOR_VERSION.UNICODE_12,
+
   siteList: [],
   ignoreList: [],
 
+  emojiDatabase: {
+    customEmojis: {},
+    frequentlyUsed: [],
+  },
+
   features: {
+    enableAutoselectorIncludeCountryFlags: false,
     enableFaviconAutofill: false,
     enableSiteIgnore: false,
     enableOverrideAll: false,
@@ -101,6 +122,7 @@ export function migrateFromV1(legacySettings: SettingsV1): Settings {
   const settings = { ...DEFAULT_SETTINGS };
 
   settings.features = {
+    enableAutoselectorIncludeCountryFlags: false,
     enableFaviconAutofill: true,
     enableOverrideAll: legacySettings.overrideAll,
     enableSiteIgnore: Boolean(legacySettings?.skips?.length),
@@ -116,6 +138,8 @@ export function migrateFromV1(legacySettings: SettingsV1): Settings {
 
   settings.ignoreList = (legacySettings?.skips || [])
     .map((skip) => new FaviconData(undefined, skip));
+
+  settings.autoselectorVersion = AUTOSELECTOR_VERSION.FAVIOLI_LEGACY;
 
   return settings;
 }

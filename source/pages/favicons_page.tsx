@@ -18,11 +18,7 @@ export interface FaviconsPageProps {
 }
 
 export default function FaviconsPage({ save, storage }: FaviconsPageProps) {
-  const {
-    siteList = [],
-    ignoreList = [],
-    features = {},
-  } = storage?.cache || DEFAULT_SETTINGS;
+  const { siteList, ignoreList, features } = storage?.cache || DEFAULT_SETTINGS;
   const { enableSiteIgnore } = features;
   const siteListState = useListState(siteList);
   const ignoreListState = useListState(ignoreList);

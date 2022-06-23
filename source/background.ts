@@ -16,8 +16,8 @@ import {
 import FaviconData from './utilities/favicon_data.ts';
 import Autoselector from './utilities/autoselector.ts';
 
-const autoselector = new Autoselector();
 let settings: Settings = DEFAULT_SETTINGS;
+let autoselector: Autoselector | void;
 
 syncSettings();
 browserAPI.storage.onChanged.addListener(syncSettings);
@@ -39,8 +39,10 @@ browserAPI.tabs.onUpdated.addListener(
 );
 
 async function syncSettings() {
+  autoselector = undefined;
   const storedSettings: Settings | SettingsV1 = await browserAPI.storage.sync
     .get(STORAGE_KEYS) as Settings | SettingsV1;
+
   if (!storedSettings) return;
 
   if (isV1Settings(storedSettings)) {
@@ -71,7 +73,7 @@ function selectFavicon(
   url: string | void,
   settings: Settings,
 ): [FaviconData | void, boolean] {
-  const { ignoreList = [], siteList = [], features = {} } = settings;
+  const { ignoreList, siteList, features } = settings;
   if (!url) return [undefined, false]; // Should never happen...
 
   const shouldIgnore = features.enableSiteIgnore &&
@@ -83,6 +85,9 @@ function selectFavicon(
   if (isInSiteList) {
     return [favicons[0], true];
   } else if (features.enableFaviconAutofill) {
+    if (!autoselector) {
+      autoselector = new Autoselector(settings.autoselectorVersion);
+    }
     return [autoselector.selectFavicon(url), !!features.enableOverrideAll];
   }
 

@@ -243,7 +243,6 @@ nav li a:hover {
     background: #ddd;
 }
 
-
 .list-item .remove {
   background-color: transparent;
   border: none;
@@ -258,4 +257,23 @@ nav li a:hover {
 
 .list-item .remove:hover {
   color: rgba(0, 0, 0, 0.8);
+}
+
+.version-selector {
+  color: rgba(0, 0, 0, 0.8);
+  display: block;
+  font-size: 24px;
+  font-weight: 200;
+  padding-left: 1.5em;
+  position: relative;
+  margin-bottom: 12px;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.version-selector select {
+  font-size: 16px;
+  font-weight: 200;
+  margin-left: 0.5em;
+  vertical-align: middle;
 }

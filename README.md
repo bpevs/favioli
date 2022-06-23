@@ -18,7 +18,7 @@ Favioli is a tool for overriding Favicons for websites.
 
 You need to download [Deno](https://deno.land/) in order to build this app.
 
-After, we want to install [bext](https://github.com/bpevs/bext):
+After, we want to install [bext](https://github.com/bpevs/bext) (a set of browser extension build tools, types, and utilities for deno):
 
 ```sh
 deno install --name=bext --allow-read --allow-write --allow-run --allow-env -f https://deno.land/x/bext/main.ts
