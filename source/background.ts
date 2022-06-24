@@ -76,7 +76,9 @@ function selectFavicon(
   url: string | void,
   settings: Settings,
 ): [FaviconData | void, boolean] {
-  const { ignoreList, siteList, features } = settings;
+  const { autoselectorVersion, ignoreList, siteList, features } = settings;
+  const includeFlags = features.enableAutoselectorIncludeCountryFlags;
+
   if (!url) return [undefined, false]; // Should never happen...
 
   const shouldIgnore = features.enableSiteIgnore &&
@@ -89,7 +91,7 @@ function selectFavicon(
     return [favicons[0], true];
   } else if (features.enableFaviconAutofill) {
     if (!autoselector) {
-      autoselector = new Autoselector(settings.autoselectorVersion);
+      autoselector = new Autoselector(autoselectorVersion, { includeFlags });
     }
     return [autoselector.selectFavicon(url), !!features.enableOverrideAll];
   }

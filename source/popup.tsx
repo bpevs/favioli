@@ -26,7 +26,8 @@ const App = () => {
 
   const autoselector = useMemo(() => {
     if (!cache?.autoselectorVersion) return null;
-    return new Autoselector(cache?.autoselectorVersion);
+    const includeFlags = cache?.features?.enableAutoselectorIncludeCountryFlags;
+    return new Autoselector(cache?.autoselectorVersion, { includeFlags });
   }, [cache?.autoselectorVersion]);
 
   const [autoselectedEmoji, autoselectedURL] = useMemo(() => {
@@ -36,38 +37,36 @@ const App = () => {
     return [emoji, faviconURL];
   }, [autoselector, url]);
 
-  useEffect(() => {
+  useEffect(function updateCurrTab() {
     async function setup() {
       const [activeTab] = await browserAPI.tabs.query(queryOptions);
       setCurrTab(activeTab);
     }
     browserAPI.storage.onChanged.addListener(setup);
     browserAPI.tabs.onUpdated.addListener(setup);
-
     setup().catch(console.error);
+    (() => {
+      browserAPI.storage.onChanged.removeListener(setup);
+      browserAPI.tabs.onUpdated.removeListener(setup);
+    });
   }, [cache]);
 
-  const updateSite = useCallback((shouldAdd: boolean) => {
+  const updateSiteList = useCallback((shouldOverride: boolean) => {
     if (!url) return;
-    const origin = (new URL(url)).origin;
-    const siteList = cache?.siteList || [];
-    const nextList = siteList.filter((filter) => filter.matcher !== origin);
-    if (shouldAdd && autoselectedEmoji) {
-      nextList.push(new FaviconData(autoselectedEmoji, origin));
+    const { origin } = new URL(url);
+    const siteList = (cache?.siteList || [])
+      .filter(({ matcher }) => matcher !== origin); // Remove dupes
+
+    if (shouldOverride && autoselectedEmoji) {
+      siteList.push(new FaviconData(autoselectedEmoji, origin));
     }
-    setCache({ siteList: nextList }, true);
+
+    setCache({ siteList }, true);
   }, [url, cache, setCache]);
 
-  const { status, save } = useStatus(error || '', updateSite);
-
-  const addToOverrides = useCallback(() => {
-    save(true);
-  }, [save]);
-
-  const removeFromOverrides = useCallback(() => {
-    save(false);
-  }, [save]);
-
+  const { status, save } = useStatus(error || '', updateSiteList);
+  const addToOverrides = useCallback(() => save(true), [save]);
+  const removeFromOverrides = useCallback(() => save(false), [save]);
   const goToOptions = useCallback(() => {
     browserAPI.runtime.openOptionsPage();
   }, []);

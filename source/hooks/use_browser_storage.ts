@@ -30,35 +30,30 @@ export default function useBrowserStorage<Type extends Storage>(
   const [cache, setCache] = useState<Type>(defaultState);
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    storage.sync.get(keys)
-      .then((storage) => {
-        if (runtime?.lastError?.message) setError(runtime?.lastError?.message);
-        if (Object.keys(storage).length === Object.keys(defaultState).length) {
-          setCache(storage as Type);
-        }
-        setLoading(false);
-      });
+  useEffect(function setupStorageFetcher() {
+    updateState();
+    browserAPI.storage.onChanged.addListener(updateState);
 
-    browserAPI.storage.onChanged.addListener(async () => {
+    async function updateState() {
       const nextState = await storage.sync.get(keys) as Type;
+      if (runtime?.lastError?.message) setError(runtime?.lastError?.message);
+
       if (Object.keys(nextState).length === Object.keys(defaultState).length) {
         setCache(nextState);
       }
-    });
+      setLoading(false);
+    }
+
+    return () => {
+      browserAPI.storage.onChanged.removeListener(updateState);
+    };
   }, []);
 
   const saveToStorage = useCallback(
-    (next: Partial<Type> | void): Promise<void> => {
-      if (!next) return Promise.resolve();
-
-      return storage.sync.set(next)
-        .then(() => {
-          if (runtime?.lastError?.message) {
-            setError(runtime?.lastError?.message);
-            throw new Error(runtime?.lastError?.message);
-          }
-        });
+    async (next: Partial<Type> | void): Promise<void> => {
+      if (!next) return;
+      await storage.sync.set(next);
+      if (runtime?.lastError?.message) setError(runtime?.lastError?.message);
     },
     [],
   );
