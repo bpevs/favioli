@@ -22,6 +22,10 @@ body {
   padding: 0;
 }
 
+#mount {
+  width: 100%;
+}
+
 h1 {
   font-size: 1.5em;
   margin-bottom: 0.5em;
@@ -38,15 +42,15 @@ h2, p {
 }
 
 .page {
-  display: block;
-  left: 50%;
-  max-width: 600px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
   padding-top: 2em;
-  position: absolute;
-  top: 0;
-  transform: translateX(-50%);
+}
+
+.page-content {
+  max-width: 600px;
   width: 100%;
-  z-index: -1;
 }
 
 #status {
@@ -153,6 +157,10 @@ nav li a:hover {
 }
 
 /** List **/
+.list-item {
+  position: relative;
+}
+
 .list-item .filter {
   background-color: #eee;
   border: none;

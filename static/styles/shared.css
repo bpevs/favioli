@@ -63,7 +63,6 @@
   transform: rotate(45deg);
 }
 
-
 /** Emoji Selector Button **/
 button.emoji-selector-button {
   background: #eee;
@@ -89,7 +88,8 @@ button.emoji-selector-button:focus {
 
 /** Emoji Selector **/
 .emoji-selector-popup {
-  position: fixed;
+  position: absolute;
+  right:  17%;
   display: flex;
   flex-direction: column;
   width: 350px;

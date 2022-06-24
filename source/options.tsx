@@ -37,14 +37,21 @@ const App = () => {
     <Fragment>
       <Header route={route} />
       <div className='page'>
-        <Switch
-          value={route}
-          defaultCase={<FaviconsPage save={saveOptions} storage={storage} />}
-          cases={{
-            '#settings': <SettingsPage save={saveOptions} storage={storage} />,
-            '#about': <AboutPage />,
-          }}
-        />
+        <div className='page-content'>
+          <Switch
+            value={route}
+            defaultCase={<FaviconsPage save={saveOptions} storage={storage} />}
+            cases={{
+              '#settings': (
+                <SettingsPage
+                  save={saveOptions}
+                  storage={storage}
+                />
+              ),
+              '#about': <AboutPage />,
+            }}
+          />
+        </div>
       </div>
       <div id='status'>{status}</div>
     </Fragment>

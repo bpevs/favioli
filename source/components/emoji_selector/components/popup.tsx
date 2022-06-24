@@ -8,18 +8,22 @@ import { EmojiGroup, OnSelected, SetIsOpen } from '../types.ts';
 import { emojiGroups, emojiGroupsArray } from '../constants.ts';
 import Groups from './groups.tsx';
 
-export default function Popup({ isOpen, onSelected, setIsOpen, popupRef }: {
-  isOpen: boolean;
-  onSelected: OnSelected;
-  setIsOpen: SetIsOpen;
-  // deno-lint-ignore no-explicit-any
-  popupRef: any;
-}) {
+const POPUP_WIDTH = 350;
+const BUTTON_HEIGHT = 32;
+
+export default function Popup(
+  { isOpen, onSelected, setIsOpen, popupRef }: {
+    isOpen: boolean;
+    onSelected: OnSelected;
+    setIsOpen: SetIsOpen;
+    // deno-lint-ignore no-explicit-any
+    popupRef: any;
+  },
+) {
   const [groupFilter, setGroupFilter] = useState('');
   const [filter, setFilter] = useFilterState('');
 
   if (!isOpen) return null;
-
   return (
     <div className='emoji-selector-popup' ref={popupRef}>
       <div className='emoji-header'>

@@ -1,7 +1,7 @@
 /* @jsx h */
 
 import { Fragment, h } from 'preact';
-import { useCallback, useEffect, useState } from 'preact/hooks';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 import * as emoji from 'emoji';
 
 import useFocusObserver from '../../hooks/use_focus_observer.ts';
@@ -14,6 +14,8 @@ export default function EmojiSelector({ onSelected, value }: {
   value?: string;
   onSelected: OnSelected;
 }) {
+  // deno-lint-ignore no-explicit-any
+  const buttonRef = useRef<any>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedEmoji, setSelectedEmoji] = useState<Emoji>(DEFAULT_EMOJI);
 
@@ -34,6 +36,7 @@ export default function EmojiSelector({ onSelected, value }: {
       <button
         type='button'
         className='emoji-selector-button'
+        ref={buttonRef}
         onClick={useCallback(() => setIsOpen(!isOpen), [isOpen])}
       >
         {selectedEmoji?.emoji}
@@ -41,6 +44,7 @@ export default function EmojiSelector({ onSelected, value }: {
       <Popup
         popupRef={useFocusObserver(
           useCallback(() => setIsOpen(false), [setIsOpen]),
+          [buttonRef],
         )}
         isOpen={isOpen}
         setIsOpen={setIsOpen}

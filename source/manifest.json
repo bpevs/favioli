@@ -19,9 +19,7 @@
     "browser_style": false
   },
   "permissions": [
-    "storage"
-  ],
-  "optional_permissions": [
+    "storage",
     "tabs"
   ],
   "host_permissions": [
