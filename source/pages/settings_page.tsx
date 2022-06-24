@@ -68,7 +68,7 @@ const SettingsPage = ({ save, storage }: SettingsProps) => {
           />
           <Checkbox
             name='enableAutoselectorIncludeCountryFlags'
-            label={'Include Country Flags as autoselectable options'}
+            label={'Include Country Flags in autofill'}
             checked={enableAutoselectorIncludeCountryFlags}
             onChange={setFeature}
           />
