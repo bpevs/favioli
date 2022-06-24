@@ -43,9 +43,12 @@ async function syncSettings() {
   const storedSettings: Settings | SettingsV1 = await browserAPI.storage.sync
     .get(STORAGE_KEYS) as Settings | SettingsV1;
 
-  if (!storedSettings) return;
-
-  if (isV1Settings(storedSettings)) {
+  if (
+    !storedSettings ||
+    Object.keys(storedSettings).length !== Object.keys(DEFAULT_SETTINGS).length
+  ) {
+    return;
+  } else if (isV1Settings(storedSettings)) {
     console.info('Version < 2 versions found', storedSettings);
     settings = migrateFromV1(storedSettings);
     console.info('Migrating to', settings);

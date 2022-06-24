@@ -24,21 +24,27 @@ export interface BrowserStorage<Type extends Storage> {
  */
 export default function useBrowserStorage<Type extends Storage>(
   keys: readonly string[],
+  defaultState: Type,
 ) {
   const [error, setError] = useState<string>();
-  const [cache, setCache] = useState<Type>();
+  const [cache, setCache] = useState<Type>(defaultState);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     storage.sync.get(keys)
       .then((storage) => {
         if (runtime?.lastError?.message) setError(runtime?.lastError?.message);
-        setCache(storage as Type);
+        if (Object.keys(storage).length === Object.keys(defaultState).length) {
+          setCache(storage as Type);
+        }
         setLoading(false);
       });
 
     browserAPI.storage.onChanged.addListener(async () => {
-      setCache(await storage.sync.get(keys) as Type);
+      const nextState = await storage.sync.get(keys) as Type;
+      if (Object.keys(nextState).length === Object.keys(defaultState).length) {
+        setCache(nextState);
+      }
     });
   }, []);
 

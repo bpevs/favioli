@@ -1,7 +1,7 @@
 import { isFirefox } from './predicates.ts';
 
 export const ICON_SIZE = 256; // Larger will causes problems in Google Chrome
-const VERTICAL_OFFSET = (isFirefox() ? 40 : 0); // ff is off-center
+const VERTICAL_OFFSET = (isFirefox() ? 20 : 0); // ff is off-center
 
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');

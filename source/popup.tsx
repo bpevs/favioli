@@ -8,30 +8,33 @@ import Autoselector from './utilities/autoselector.ts';
 import FaviconData from './utilities/favicon_data.ts';
 import useBrowserStorage from './hooks/use_browser_storage.ts';
 import useStatus from './hooks/use_status.ts';
-import { Settings, STORAGE_KEYS } from './utilities/settings.ts';
+import {
+  DEFAULT_SETTINGS,
+  Settings,
+  STORAGE_KEYS,
+} from './utilities/settings.ts';
 import { createFaviconURLFromChar } from './utilities/create_favicon_url.ts';
 
 let autoselector: Autoselector | void;
 const queryOptions = { active: true };
 
 const App = () => {
-  const storage = useBrowserStorage<Settings>(STORAGE_KEYS);
+  const storage = useBrowserStorage<Settings>(STORAGE_KEYS, DEFAULT_SETTINGS);
   const { cache, error = '', loading, setCache } = storage;
   const [currTab, setCurrTab] = useState<Tab | void>();
   const { favIconUrl = '', url = '' } = currTab || {};
 
-  const autoselectedEmoji = useMemo(() => {
-    if (!autoselector && cache?.autoselectorVersion) {
-      autoselector = new Autoselector(cache.autoselectorVersion);
-    }
-    if (!autoselector) return null;
-    return autoselector.selectFavicon(url);
-  }, [cache, url]);
+  const autoselector = useMemo(() => {
+    if (!cache?.autoselectorVersion) return null;
+    return new Autoselector(cache?.autoselectorVersion);
+  }, [cache?.autoselectorVersion]);
 
-  const autoselectedFaviconURL = useMemo(() => {
-    if (!autoselectedEmoji?.emoji?.emoji) return null;
-    return createFaviconURLFromChar(autoselectedEmoji.emoji.emoji);
-  }, [autoselectedEmoji]);
+  const [autoselectedEmoji, autoselectedURL] = useMemo(() => {
+    if (!autoselector) return [];
+    const emoji = autoselector.selectFavicon(url).emoji;
+    const faviconURL = createFaviconURLFromChar(emoji?.emoji || '');
+    return [emoji, faviconURL];
+  }, [autoselector, url]);
 
   useEffect(() => {
     async function setup() {
@@ -50,7 +53,7 @@ const App = () => {
     const siteList = cache?.siteList || [];
     const nextList = siteList.filter((filter) => filter.matcher !== origin);
     if (shouldAdd && autoselectedEmoji) {
-      nextList.push(new FaviconData(autoselectedEmoji.emoji, origin));
+      nextList.push(new FaviconData(autoselectedEmoji, origin));
     }
     setCache({ siteList: nextList }, true);
   }, [url, cache, setCache]);
@@ -87,7 +90,7 @@ const App = () => {
           Autofill Favicon:
           <img
             className='favicon-icon'
-            src={autoselectedFaviconURL || ''}
+            src={autoselectedURL || ''}
             width={20}
             height={20}
           />
@@ -96,7 +99,7 @@ const App = () => {
       <div style='padding-top: 10px; text-align: center;'>
         Is Autofilled?{' '}
         <span style='font-weight: bold;'>
-          {autoselectedFaviconURL === favIconUrl ? 'Yes!' : 'No!'}
+          {autoselectedURL === favIconUrl ? 'Yes!' : 'No!'}
         </span>
       </div>
       <button onClick={addToOverrides}>Override Favicon</button>
