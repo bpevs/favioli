@@ -1,7 +1,7 @@
 import type { Settings, SettingsV1 } from '../../settings.ts';
 
 import * as emoji from 'emoji';
-import FaviconData from '../../favicon_data.ts';
+import { createFaviconDataFromEmoji } from '../../favicon_data.ts';
 
 export const v0: SettingsV1 = {
   'flagReplaced': true,
@@ -97,12 +97,12 @@ export const v2: Settings = {
     'enableSiteIgnore': true,
   },
   'ignoreList': [
-    new FaviconData(undefined, 'hahahahh'),
+    createFaviconDataFromEmoji('hahahahh'),
   ],
   'siteList': [
-    new FaviconData(emoji.infoByCode('😍'), 'hello'),
-    new FaviconData(emoji.infoByCode('😃'), 'goodbye'),
-    new FaviconData(emoji.infoByCode('🤩'), 'sweet lahd'),
+    createFaviconDataFromEmoji('hello', emoji.infoByCode('😍')),
+    createFaviconDataFromEmoji('goodbye', emoji.infoByCode('😃')),
+    createFaviconDataFromEmoji('sweet lahd', emoji.infoByCode('🤩')),
   ],
   'version': '2.0.0',
 };

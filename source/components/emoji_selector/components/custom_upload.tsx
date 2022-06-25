@@ -6,7 +6,7 @@ import * as emoji from 'emoji';
 
 import Only from '../../only.tsx';
 import { createFaviconURLFromImage } from '../../../utilities/create_favicon_url.ts';
-import { SetSwitch } from '../types.ts';
+import type { SetSwitch } from '../types.ts';
 
 export default function CustomUpload(
   { setIsCustom, submitCustomEmoji }: {

@@ -5,7 +5,7 @@ import type { ListState } from '../hooks/use_list_state.ts';
 import { h } from 'preact';
 import { useRef } from 'preact/hooks';
 
-import FaviconData from '../utilities/favicon_data.ts';
+import { FaviconData } from '../utilities/favicon_data.ts';
 import ListInput from './list_input.tsx';
 
 export interface ListProps<Type> {

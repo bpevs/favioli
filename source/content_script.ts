@@ -7,7 +7,7 @@
  */
 import browserAPI from 'browser';
 
-import type FaviconData from './utilities/favicon_data.ts';
+import type { Emoji } from './utilities/emoji.ts';
 import { appendFaviconLink } from './utilities/favicon_helpers.ts';
 
 /**
@@ -57,14 +57,11 @@ function includesCurrUrl(val: string) {
   return (new RegExp(val)).test(location.href);
 }
 
-browserAPI.runtime.onMessage.addListener(({
-  favicon,
-  shouldOverride,
-}: {
-  favicon: FaviconData;
+browserAPI.runtime.onMessage.addListener(({ emoji, shouldOverride }: {
+  emoji: Emoji;
   shouldOverride: boolean;
 }) => {
-  if (favicon.emoji) {
-    appendFaviconLink(favicon.emoji, { shouldOverride });
+  if (emoji) {
+    appendFaviconLink(emoji, { shouldOverride });
   }
 });

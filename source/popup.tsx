@@ -5,7 +5,10 @@ import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
 import browserAPI from 'browser';
 
 import Autoselector from './utilities/autoselector.ts';
-import FaviconData from './utilities/favicon_data.ts';
+import {
+  createFaviconDataFromEmoji,
+  getEmojiFromFavicon,
+} from './utilities/favicon_data.ts';
 import useBrowserStorage from './hooks/use_browser_storage.ts';
 import useStatus from './hooks/use_status.ts';
 import {
@@ -32,7 +35,8 @@ const App = () => {
 
   const [autoselectedEmoji, autoselectedURL] = useMemo(() => {
     if (!autoselector) return [];
-    const emoji = autoselector.selectFavicon(url).emoji;
+    const favicon = autoselector.selectFavicon(url);
+    const emoji = getEmojiFromFavicon(favicon);
     const faviconURL = createFaviconURLFromChar(emoji?.emoji || '');
     return [emoji, faviconURL];
   }, [autoselector, url]);
@@ -58,7 +62,7 @@ const App = () => {
       .filter(({ matcher }) => matcher !== origin); // Remove dupes
 
     if (shouldOverride && autoselectedEmoji) {
-      siteList.push(new FaviconData(autoselectedEmoji, origin));
+      siteList.push(createFaviconDataFromEmoji(origin, autoselectedEmoji));
     }
 
     setCache({ siteList }, true);

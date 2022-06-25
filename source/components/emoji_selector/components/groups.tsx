@@ -1,9 +1,14 @@
 /* @jsx h */
+import type { OnSelected, SetSwitch } from '../types.ts';
+import type { Emoji } from '../../../utilities/emoji.ts';
+import type {
+  EmojiGroup,
+  EmojiGroups,
+} from '../../../utilities/favicon_data.ts';
+
 import { Fragment, h } from 'preact';
 import { useCallback, useMemo } from 'preact/hooks';
 
-import { Emoji } from '../../../utilities/emoji.ts';
-import { EmojiGroup, EmojiGroups, OnSelected, SetSwitch } from '../types.ts';
 import EmojiButton from './emoji_button.tsx';
 
 export default function Groups(

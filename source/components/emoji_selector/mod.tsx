@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 import * as emoji from 'emoji';
 
 import useFocusObserver from '../../hooks/use_focus_observer.ts';
-import { DEFAULT_EMOJI } from './constants.ts';
+import { DEFAULT_EMOJI } from '../../utilities/favicon_data.ts';
 import { OnSelected } from './types.ts';
 import { createCustomEmoji, Emoji } from '../../utilities/emoji.ts';
 

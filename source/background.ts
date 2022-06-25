@@ -13,7 +13,7 @@ import {
   migrateFromV1,
   STORAGE_KEYS,
 } from './utilities/settings.ts';
-import FaviconData from './utilities/favicon_data.ts';
+import { FaviconData, getEmojiFromFavicon } from './utilities/favicon_data.ts';
 import Autoselector from './utilities/autoselector.ts';
 
 let settings: Settings = DEFAULT_SETTINGS;
@@ -28,9 +28,13 @@ browserAPI.tabs.onUpdated.addListener(
     try {
       const [favicon, shouldOverride] = selectFavicon(tab.url, settings) || [];
       const overrideText = shouldOverride ? 'Override' : 'Append';
-      console.log(`${overrideText} favicon, tab ${tabId}:`, favicon);
+      console.info(`${overrideText} favicon, tab ${tabId}:`, favicon);
       if (favicon && tabId) {
-        await browserAPI.tabs.sendMessage(tabId, { favicon, shouldOverride });
+        const customEmojis = settings?.emojiDatabase?.customEmojis || [];
+        const emoji = getEmojiFromFavicon(favicon, { customEmojis });
+        if (emoji) {
+          await browserAPI.tabs.sendMessage(tabId, { emoji, shouldOverride });
+        }
       }
     } catch (e) {
       console.log(e);

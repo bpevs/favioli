@@ -1,6 +1,9 @@
 import * as emoji from 'emoji';
 import LEGACY_EMOJI_SET from '../config/legacy_autoselect_set.ts';
-import FaviconData from '../utilities/favicon_data.ts';
+import {
+  createFaviconDataFromEmoji,
+  FaviconData,
+} from '../utilities/favicon_data.ts';
 import { Emoji } from './emoji.ts';
 
 export const AUTOSELECTOR_VERSION = Object.freeze({
@@ -76,12 +79,8 @@ export default class Autoselector {
     }
 
     const index = Math.abs(sdbm(hostname || url)) % this.favicons.length;
-    const favicon = this.favicons[index] || this.favicons[0];
-    return {
-      id: favicon?.description || `autoselected-${index}`,
-      matcher: url,
-      emoji: favicon, // Always emoji; custom emojis are not in autoset
-    };
+    const emoji = this.favicons[index] || this.favicons[0];
+    return createFaviconDataFromEmoji(url, emoji);
   }
 }
 

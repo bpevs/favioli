@@ -1,12 +1,16 @@
 /* @jsx h */
+import type { Emoji } from '../../../utilities/emoji.ts';
+import type { EmojiGroup } from '../../../utilities/favicon_data.ts';
 
 import { Fragment, h } from 'preact';
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
 import * as emoji from 'emoji';
 
-import { Emoji } from '../../../utilities/emoji.ts';
-import { EmojiGroup, OnSelected, SetSwitch } from '../types.ts';
-import { emojiGroups, emojiGroupsArray } from '../constants.ts';
+import { OnSelected, SetSwitch } from '../types.ts';
+import {
+  emojiGroups,
+  emojiGroupsArray,
+} from '../../../utilities/favicon_data.ts';
 import Groups from './groups.tsx';
 import CustomUpload from './custom_upload.tsx';
 

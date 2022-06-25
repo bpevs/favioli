@@ -1,6 +1,6 @@
 import * as emoji from 'emoji';
 import manifest from '../manifest.json' assert { type: 'json' };
-import FaviconData from './favicon_data.ts';
+import { createFaviconDataFromEmoji, FaviconData } from './favicon_data.ts';
 import { Emoji } from './emoji.ts';
 
 import { AUTOSELECTOR_VERSION } from './autoselector.ts';
@@ -133,11 +133,11 @@ export function migrateFromV1(legacySettings: SettingsV1): Settings {
       const emojiInput = typeof legacyFavicon.emoji === 'string'
         ? emoji.infoByCode(legacyFavicon.emoji)
         : emoji.infoByCode(legacyFavicon.emoji.native);
-      return new FaviconData(emojiInput, legacyFavicon.filter);
+      return createFaviconDataFromEmoji(legacyFavicon.filter, emojiInput);
     });
 
   settings.ignoreList = (legacySettings?.skips || [])
-    .map((skip) => new FaviconData(undefined, skip));
+    .map((skip) => createFaviconDataFromEmoji(skip));
 
   settings.autoselectorVersion = AUTOSELECTOR_VERSION.FAVIOLI_LEGACY;
 

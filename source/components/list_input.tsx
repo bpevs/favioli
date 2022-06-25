@@ -8,7 +8,7 @@ import { useCallback, useContext } from 'preact/hooks';
 
 import { StorageContext } from '../hooks/use_browser_storage.ts';
 import { createCustomEmoji, Emoji } from '../utilities/emoji.ts';
-import FaviconData from '../utilities/favicon_data.ts';
+import { FaviconData, getEmojiFromFavicon } from '../utilities/favicon_data.ts';
 import { isRegexString } from '../utilities/predicates.ts';
 import EmojiSelector from './emoji_selector/mod.tsx';
 import Only from './only.tsx';
@@ -45,14 +45,17 @@ export default function ListInput({
   const { cache, saveToStorage } = storage;
   const { customEmojis = {}, frequentlyUsed = [] } = cache?.emojiDatabase || {};
 
-  const onChangeInput = useCallback((e: Event) => {
+  const onChangeMatcher = useCallback((e: Event) => {
     const matcher = (e.target as HTMLInputElement).value;
-    const next = new FaviconData(value?.emoji, matcher);
+    const next = { id: value?.id || '', matcher };
     addItem ? addItem(next) : updateItem(index, next);
   }, [index, value, updateItem, addItem]);
 
   const onChangeEmoji = useCallback((selectedEmoji: Emoji) => {
-    const next = new FaviconData(selectedEmoji, value?.matcher);
+    const next = {
+      id: selectedEmoji.description,
+      matcher: value?.matcher || '',
+    };
     addItem ? addItem(next) : updateItem(index, next);
   }, [index, value, updateItem, addItem]);
 
@@ -67,8 +70,8 @@ export default function ListInput({
       <input
         autoFocus={autoFocus}
         className='filter'
-        onInput={onChangeInput}
-        onChange={onChangeInput}
+        onInput={onChangeMatcher}
+        onChange={onChangeMatcher}
         placeholder={placeholder}
         style={{ color }}
         value={value?.matcher || ''}
@@ -76,7 +79,7 @@ export default function ListInput({
 
       <Only if={type === 'FAVICON'}>
         <EmojiSelector
-          value={value?.emoji}
+          value={getEmojiFromFavicon(value, { customEmojis })}
           onSelected={onChangeEmoji}
           customEmojis={customEmojis}
           frequentlyUsed={frequentlyUsed}

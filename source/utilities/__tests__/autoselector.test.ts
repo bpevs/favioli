@@ -1,6 +1,10 @@
 import { assertEquals } from 'asserts';
 import { it } from 'bdd';
 
+import {
+  createFaviconDataFromEmoji,
+  getEmojiFromFavicon,
+} from '../favicon_data.ts';
 import Autoselector, { AUTOSELECTOR_VERSION } from '../autoselector.ts';
 
 const { FAVIOLI_LEGACY, UNICODE_12, UNICODE_11, UNICODE_09 } =
@@ -9,25 +13,13 @@ const { FAVIOLI_LEGACY, UNICODE_12, UNICODE_11, UNICODE_09 } =
 it('Should select emoji', () => {
   const autoselector = new Autoselector(AUTOSELECTOR_VERSION.UNICODE_12);
   const emoji = autoselector.selectFavicon('https://favioli.com');
-  assertEquals(emoji, {
-    emoji: {
-      aliases: [
-        'tractor',
-      ],
-      description: 'tractor',
-      emoji: '🚜',
-      emojiVersion: 1,
-      group: 'Travel & Places',
-      subgroup: 'transport-ground',
-      tags: [
-        'tractor',
-        'vehicle',
-      ],
-      unicodeVersion: 8,
-    },
-    id: 'tractor',
-    matcher: 'https://favioli.com',
-  });
+  assertEquals(
+    emoji,
+    createFaviconDataFromEmoji(
+      'https://favioli.com',
+      getEmojiFromFavicon(emoji),
+    ),
+  );
 });
 
 it('Should select different emojis for different sets', () => {
@@ -40,9 +32,9 @@ it('Should select different emojis for different sets', () => {
   const unicode12Emoji = new Autoselector(UNICODE_12)
     .selectFavicon('https://favioli.com');
 
-  assertEquals(legacyEmoji.emoji?.emoji, '😥');
-  assertEquals(unicode12Emoji.emoji?.emoji, '🚜');
-  assertEquals(unicode11Emoji.emoji?.emoji, '👄');
+  assertEquals(getEmojiFromFavicon(legacyEmoji)?.emoji, '😥');
+  assertEquals(getEmojiFromFavicon(unicode12Emoji)?.emoji, '🚜');
+  assertEquals(getEmojiFromFavicon(unicode11Emoji)?.emoji, '👄');
 });
 
 it('Should default to no flags', () => {
@@ -52,14 +44,17 @@ it('Should default to no flags', () => {
   const withNoFlags = new Autoselector(UNICODE_09)
     .selectFavicon('http://bpev.me');
 
-  assertEquals(includingFlags.emoji?.emoji, '🇬🇲');
-  assertEquals(withNoFlags.emoji?.emoji, '🦆');
+  assertEquals(getEmojiFromFavicon(includingFlags)?.emoji, '🇬🇲');
+  assertEquals(getEmojiFromFavicon(withNoFlags)?.emoji, '🦆');
 });
 
 it('Should give the same emoji for the same domain', () => {
   const autoselector = new Autoselector(UNICODE_12);
   assertEquals(
-    autoselector.selectFavicon('https://favioli.com').emoji,
-    autoselector.selectFavicon('http://favioli.com/lala/blah?hehe=hoho').emoji,
+    getEmojiFromFavicon(autoselector.selectFavicon('https://favioli.com'))
+      ?.emoji,
+    getEmojiFromFavicon(
+      autoselector.selectFavicon('http://favioli.com/lala/blah?hehe=hoho'),
+    )?.emoji,
   );
 });
