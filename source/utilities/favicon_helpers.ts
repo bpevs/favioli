@@ -1,5 +1,6 @@
 import { createFaviconURLFromChar, ICON_SIZE } from './create_favicon_url.ts';
 import { isIconLink } from './predicates.ts';
+import { Emoji } from './emoji.ts';
 
 const head = document.getElementsByTagName('head')[0];
 let appendedFavicon: HTMLElement | null = null;
@@ -10,11 +11,14 @@ interface Options {
 
 // Given an emoji string, append it to the document head
 export async function appendFaviconLink(
-  name: string,
+  emoji: Emoji,
   options?: Options | void,
 ) {
   const { shouldOverride = false } = options || {};
-  const faviconURL = createFaviconURLFromChar(name || '');
+  const faviconURL = emoji.imageURL
+    ? emoji.imageURL
+    : createFaviconURLFromChar(emoji.emoji || '');
+
   if (!faviconURL) return;
 
   if (shouldOverride) removeAllFaviconLinks();

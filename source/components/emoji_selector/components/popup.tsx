@@ -1,54 +1,86 @@
 /* @jsx h */
 
 import { Fragment, h } from 'preact';
-import { useCallback, useEffect, useState } from 'preact/hooks';
+import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
 import * as emoji from 'emoji';
 
-import { EmojiGroup, OnSelected, SetIsOpen } from '../types.ts';
+import { Emoji } from '../../../utilities/emoji.ts';
+import { EmojiGroup, OnSelected, SetSwitch } from '../types.ts';
 import { emojiGroups, emojiGroupsArray } from '../constants.ts';
 import Groups from './groups.tsx';
+import CustomUpload from './custom_upload.tsx';
 
 const POPUP_WIDTH = 350;
 const BUTTON_HEIGHT = 32;
 
 export default function Popup(
-  { isOpen, onSelected, setIsOpen, popupRef }: {
+  {
+    isCustom,
+    isOpen,
+    onSelected,
+    popupRef,
+    setIsCustom,
+    setIsOpen,
+    submitCustomEmoji,
+    customEmojis,
+  }: {
     isOpen: boolean;
+    isCustom: boolean;
     onSelected: OnSelected;
-    setIsOpen: SetIsOpen;
     // deno-lint-ignore no-explicit-any
     popupRef: any;
+    setIsCustom: SetSwitch;
+    setIsOpen: SetSwitch;
+    customEmojis: { [name: string]: Emoji };
+    submitCustomEmoji: (
+      name: string,
+      image: string,
+      type: string,
+    ) => Promise<void>;
   },
 ) {
   const [groupFilter, setGroupFilter] = useState('');
   const [filter, setFilter] = useFilterState('');
+  useEffect(() => {
+    emojiGroups['Custom Emojis'].emojis = Object.keys(customEmojis).map((id) =>
+      customEmojis[id]
+    );
+  }, [customEmojis]);
 
   if (!isOpen) return null;
+
+  if (isCustom) {
+    return (
+      <div className='emoji-selector-popup' ref={popupRef}>
+        <CustomUpload
+          setIsCustom={setIsCustom}
+          submitCustomEmoji={submitCustomEmoji}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className='emoji-selector-popup' ref={popupRef}>
       <div className='emoji-header'>
         <div className='emoji-group-selector'>
           {emojiGroupsArray
             .map((emojiGroup: EmojiGroup) => {
-              const isSelected = emojiGroup.name === groupFilter;
+              const { name, representativeEmoji } = emojiGroup;
+              const isSelected = name === groupFilter;
+              const isSelectedClass = isSelected ? 'selected' : '';
               return (
                 <div
-                  className={`emoji-group-selector-button ${
-                    isSelected ? 'selected' : ''
-                  }`}
-                  onClick={() =>
-                    setGroupFilter(
-                      emojiGroup.name === groupFilter ? '' : emojiGroup.name,
-                    )}
+                  className={`emoji-group-selector-button ${isSelectedClass}`}
+                  onClick={() => setGroupFilter(isSelected ? '' : name)}
                 >
-                  {emojiGroup.representativeEmoji}
+                  {representativeEmoji}
                 </div>
               );
             })}
         </div>
         <input
           className='emoji-filter-input'
-          autoFocus
           type='text'
           spellcheck={false}
           placeholder='Search'
@@ -59,6 +91,7 @@ export default function Popup(
       </div>
 
       <Groups
+        setIsCustom={setIsCustom}
         emojiGroups={emojiGroups}
         filter={filter}
         groupFilter={groupFilter}

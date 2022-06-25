@@ -2,14 +2,17 @@
 import { Fragment, h } from 'preact';
 import { useCallback, useMemo } from 'preact/hooks';
 
-import { Emoji, EmojiGroup, EmojiGroups, OnSelected } from '../types.ts';
+import { Emoji } from '../../../utilities/emoji.ts';
+import { EmojiGroup, EmojiGroups, OnSelected, SetSwitch } from '../types.ts';
+import EmojiButton from './emoji_button.tsx';
 
 export default function Groups(
-  { groupFilter, filter, onSelected, emojiGroups }: {
+  { groupFilter, filter, onSelected, emojiGroups, setIsCustom }: {
     groupFilter: string;
     filter: string;
     onSelected: OnSelected;
     emojiGroups: EmojiGroups;
+    setIsCustom: SetSwitch;
   },
 ) {
   const emojiFilter = useCallback((emoji: Emoji) => {
@@ -39,13 +42,11 @@ export default function Groups(
       <div className='emoji-group'>
         <p className='emoji-group-title'>{emojiGroup.name}</p>
         {emojiGroup.emojis.map((emoji) => (
-          <button
+          <EmojiButton
             className='emoji-group-button'
-            type='button'
             onClick={() => onSelected(emoji)}
-          >
-            {emoji.emoji}
-          </button>
+            emoji={emoji}
+          />
         ))}
       </div>
     ));
@@ -59,14 +60,7 @@ export default function Groups(
       {!emojiGroupComponents.length ? 'No Matches' : ''}
       {groupFilter === '' || groupFilter === 'Custom Emojis'
         ? (
-          <button
-            type='button'
-            onClick={() => {
-              const name = prompt('Emoji Name?');
-              const url = prompt('Image URL?');
-              console.log(name, url);
-            }}
-          >
+          <button type='button' onClick={() => setIsCustom(true)}>
             Add Custom Emoji
           </button>
         )

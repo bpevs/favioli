@@ -1,14 +1,17 @@
 /* @jsx h */
+import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
+import type { Settings } from '../utilities/settings.ts';
 
+import * as emoji from 'emoji';
 import { h } from 'preact';
-import { useCallback } from 'preact/hooks';
+import { useCallback, useContext } from 'preact/hooks';
 
+import { StorageContext } from '../hooks/use_browser_storage.ts';
+import { createCustomEmoji, Emoji } from '../utilities/emoji.ts';
 import FaviconData from '../utilities/favicon_data.ts';
 import { isRegexString } from '../utilities/predicates.ts';
 import EmojiSelector from './emoji_selector/mod.tsx';
 import Only from './only.tsx';
-import * as emoji from 'emoji';
-import type { Emoji } from 'https://deno.land/x/emoji@0.2.0/types.ts';
 
 type Target = {
   matcher?: string;
@@ -38,6 +41,10 @@ export default function ListInput({
   value,
   index,
 }: ListInputProps) {
+  const storage = useContext<BrowserStorage<Settings>>(StorageContext);
+  const { cache, saveToStorage } = storage;
+  const { customEmojis = {}, frequentlyUsed = [] } = cache?.emojiDatabase || {};
+
   const onChangeInput = useCallback((e: Event) => {
     const matcher = (e.target as HTMLInputElement).value;
     const next = new FaviconData(value?.emoji, matcher);
@@ -69,8 +76,22 @@ export default function ListInput({
 
       <Only if={type === 'FAVICON'}>
         <EmojiSelector
-          value={value?.emoji?.emoji}
+          value={value?.emoji}
           onSelected={onChangeEmoji}
+          customEmojis={customEmojis}
+          frequentlyUsed={frequentlyUsed}
+          onAddedCustomEmoji={async (description: string, imageURL: string) => {
+            if (!cache?.emojiDatabase) return;
+            await saveToStorage({
+              emojiDatabase: {
+                ...cache.emojiDatabase,
+                customEmojis: {
+                  ...customEmojis,
+                  [description]: createCustomEmoji({ description, imageURL }),
+                },
+              },
+            });
+          }}
         />
       </Only>
 

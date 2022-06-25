@@ -1,4 +1,5 @@
-import type { Emoji, EmojiGroups } from './types.ts';
+import { Emoji } from '../../utilities/emoji.ts';
+import type { EmojiGroups } from './types.ts';
 
 import * as emoji from 'emoji';
 
@@ -27,4 +28,5 @@ emojiGroups['Custom Emojis'] = {
 export const emojiGroupsArray = Object.keys(emojiGroups).map((name) =>
   emojiGroups[name]
 );
+
 export const DEFAULT_EMOJI = Object.freeze(emoji.infoByCode('😀') as Emoji);

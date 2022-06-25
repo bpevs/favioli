@@ -1,5 +1,7 @@
+import { createContext } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
 import browserAPI from 'browser';
+
 const { storage, runtime } = browserAPI;
 
 // deno-lint-ignore no-explicit-any
@@ -11,7 +13,16 @@ export interface BrowserStorage<Type extends Storage> {
   loading: boolean;
   setCache: (nextCache: Partial<Type>, saveImmediately?: boolean) => void;
   saveCacheToStorage: () => Promise<void>;
+  saveToStorage: (next: Partial<Type>) => Promise<void>;
 }
+
+// deno-lint-ignore no-explicit-any
+export const StorageContext = createContext<BrowserStorage<any>>({
+  loading: true,
+  setCache: () => {},
+  saveCacheToStorage: async () => {},
+  saveToStorage: async () => {},
+});
 
 /**
  * Interact with BrowserStorage as little as possible.
@@ -75,6 +86,8 @@ export default function useBrowserStorage<Type extends Storage>(
     saveCacheToStorage: useCallback((): Promise<void> => {
       return saveToStorage(cache);
     }, [cache]),
+
+    saveToStorage,
   };
 
   return result;

@@ -1,6 +1,8 @@
 import { isFirefox } from './predicates.ts';
 
 export const ICON_SIZE = 256; // Larger will causes problems in Google Chrome
+export const STORED_IMAGE_SIZE = 50; // Larger exceeds QUOTA_BYTES_PER_ITEM
+
 const VERTICAL_OFFSET = (isFirefox() ? 20 : 0); // ff is off-center
 
 const canvas = document.createElement('canvas');
@@ -43,4 +45,20 @@ export function createFaviconURLFromChar(char: string): string {
 
   ctx.restore();
   return canvas.toDataURL('image/png');
+}
+
+export function createFaviconURLFromImage(url: string): Promise<string> {
+  const image = new Image();
+  image.src = url;
+  return new Promise((resolve) => {
+    image.onload = function () {
+      const canvas = document.createElement('canvas');
+      canvas.width = STORED_IMAGE_SIZE;
+      canvas.height = STORED_IMAGE_SIZE;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return '';
+      ctx.drawImage(image, 0, 0, STORED_IMAGE_SIZE, STORED_IMAGE_SIZE);
+      resolve(canvas.toDataURL('image/png'));
+    };
+  });
 }

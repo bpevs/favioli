@@ -1,8 +1,6 @@
-import type { Emoji } from 'https://deno.land/x/emoji@0.2.0/types.ts';
+import { Emoji } from '../../utilities/emoji.ts';
 
-export type { Emoji };
-
-export type SetIsOpen = (isOpen: boolean) => void;
+export type SetSwitch = (state: boolean) => void;
 
 export type OnSelected = (emoji: Emoji) => void;
 

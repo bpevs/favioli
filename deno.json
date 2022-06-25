@@ -23,7 +23,7 @@
     }
   },
   "tasks": {
-    "test": "deno fmt && deno lint && deno task check && deno test source",
+    "test": "deno fmt && deno task check && deno test source && deno lint",
     "check": "deno check source/background.ts && deno check source/content_script.ts && deno check source/options.tsx && deno check source/popup.tsx"
   }
 }
