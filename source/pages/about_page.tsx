@@ -1,10 +1,24 @@
 /* @jsx h */
+import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
+import type { Settings } from '../utilities/settings.ts';
+
 import { Fragment, h } from 'preact';
+import { useContext } from 'preact/hooks';
+
+import Only from '../components/only.tsx';
+import { StorageContext } from '../hooks/use_browser_storage.ts';
 
 export default function () {
+  const storage = useContext<BrowserStorage<Settings>>(StorageContext);
+  const { cache = { version: 0 } } = storage || {};
+
   return (
     <Fragment>
       <h1>About Favioli</h1>
+      <Only if={Boolean(cache?.version)}>
+        <p>Version {cache?.version}</p>
+      </Only>
+
       <h2>What is Favioli?</h2>
       <p>
         Favioli is a tool for modifying website favicons (icons that represent

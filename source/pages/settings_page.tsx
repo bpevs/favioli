@@ -15,7 +15,6 @@ export interface SettingsProps {
   default?: boolean;
   path?: string;
   save?: (e: Event) => void;
-  storage?: BrowserStorage<Settings>;
 }
 
 const SettingsPage = ({ save }: SettingsProps) => {

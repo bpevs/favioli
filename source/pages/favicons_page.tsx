@@ -14,7 +14,6 @@ import { t } from '../utilities/i18n.ts';
 export interface FaviconsPageProps {
   default?: boolean;
   path?: string;
-  storage?: BrowserStorage<Settings>;
   save?: (e: Event) => void;
 }
 
