@@ -1,10 +1,9 @@
-import * as emoji from 'emoji';
+import type { Favicon } from '../models/favicon.ts';
+import type { Emoji } from '../models/emoji.ts';
+
 import LEGACY_EMOJI_SET from '../config/legacy_autoselect_set.ts';
-import {
-  createFaviconDataFromEmoji,
-  FaviconData,
-} from '../utilities/favicon_data.ts';
-import { Emoji } from './emoji.ts';
+import { createFavicon } from '../models/favicon.ts';
+import { emoji, emojis } from '../models/emoji.ts';
 
 export const AUTOSELECTOR_VERSION = Object.freeze({
   UNICODE_12: 'UNICODE_12',
@@ -16,6 +15,10 @@ export const AUTOSELECTOR_VERSION = Object.freeze({
   UNICODE_06: 'UNICODE_06',
   FAVIOLI_LEGACY: 'FAVIOLI_LEGACY',
 });
+
+export type AutoselectorVersion = string;
+
+const { UNICODE_12, FAVIOLI_LEGACY } = AUTOSELECTOR_VERSION;
 
 /**
  * For selecting random favicon from a set. Currently, only select from
@@ -42,7 +45,7 @@ export default class Autoselector {
     [versionId: string]: Emoji[];
   } = {};
 
-  version = AUTOSELECTOR_VERSION.UNICODE_12;
+  version: AutoselectorVersion = UNICODE_12;
   includeFlags = false;
 
   get favicons() {
@@ -51,7 +54,7 @@ export default class Autoselector {
 
     let next;
 
-    if (this.version === AUTOSELECTOR_VERSION.FAVIOLI_LEGACY) {
+    if (this.version === FAVIOLI_LEGACY) {
       next = LEGACY_EMOJI_SET.map((str) => emoji.infoByCode(str));
     }
 
@@ -70,7 +73,7 @@ export default class Autoselector {
     throw new Error('Invalid Autoselector Version');
   }
 
-  selectFavicon(url: string): FaviconData {
+  selectFavicon(url: string): Favicon {
     let hostname = '';
     try {
       hostname = (new URL(url)).host;
@@ -80,7 +83,7 @@ export default class Autoselector {
 
     const index = Math.abs(sdbm(hostname || url)) % this.favicons.length;
     const emoji = this.favicons[index] || this.favicons[0];
-    return createFaviconDataFromEmoji(url, emoji);
+    return createFavicon(url, emoji);
   }
 }
 
@@ -88,7 +91,7 @@ function getFilteredFavicons(unicodeVersion: number, includeFlags: boolean) {
   if (!(unicodeVersion > 0)) {
     throw new Error(`invalid unicode version ${unicodeVersion}`);
   }
-  return emoji.all()
+  return emojis
     .filter((emoji: Emoji) => {
       if (!includeFlags && emoji.subgroup.includes('flag')) return false;
       return emoji.unicodeVersion <= unicodeVersion;

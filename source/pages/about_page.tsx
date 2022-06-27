@@ -1,15 +1,15 @@
 /* @jsx h */
 import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
-import type { Settings } from '../utilities/settings.ts';
+import type { Settings } from '../models/settings.ts';
 
 import { Fragment, h } from 'preact';
 import { useContext } from 'preact/hooks';
 
 import Only from '../components/only.tsx';
-import { StorageContext } from '../hooks/use_browser_storage.ts';
+import { SettingsContext } from '../models/settings.ts';
 
 export default function () {
-  const storage = useContext<BrowserStorage<Settings>>(StorageContext);
+  const storage = useContext<BrowserStorage<Settings>>(SettingsContext);
   const { cache = { version: 0 } } = storage || {};
 
   return (

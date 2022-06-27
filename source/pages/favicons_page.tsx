@@ -1,14 +1,14 @@
 /* @jsx h */
 import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
+import type { Settings } from '../models/settings.ts';
 
 import { Fragment, h } from 'preact';
 import { useContext, useEffect } from 'preact/hooks';
 
-import { DEFAULT_SETTINGS, Settings } from '../utilities/settings.ts';
 import List from '../components/list.tsx';
 import Only from '../components/only.tsx';
-import { StorageContext } from '../hooks/use_browser_storage.ts';
 import useListState from '../hooks/use_list_state.ts';
+import { DEFAULT_SETTINGS, SettingsContext } from '../models/settings.ts';
 import { t } from '../utilities/i18n.ts';
 
 export interface FaviconsPageProps {
@@ -18,7 +18,7 @@ export interface FaviconsPageProps {
 }
 
 export default function FaviconsPage({ save }: FaviconsPageProps) {
-  const storage = useContext<BrowserStorage<Settings>>(StorageContext);
+  const storage = useContext<BrowserStorage<Settings>>(SettingsContext);
   const { siteList, ignoreList, features } = storage?.cache || DEFAULT_SETTINGS;
   const { enableSiteIgnore } = features;
   const siteListState = useListState(siteList);

@@ -1,4 +1,3 @@
-import { createContext } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
 import browserAPI from 'browser';
 
@@ -13,16 +12,8 @@ export interface BrowserStorage<Type extends Storage> {
   loading: boolean;
   setCache: (nextCache: Partial<Type>, saveImmediately?: boolean) => void;
   saveCacheToStorage: () => Promise<void>;
-  saveToStorage: (next: Partial<Type>) => Promise<void>;
+  saveToStorageBypassCache: (next: Partial<Type>) => Promise<void>;
 }
-
-// deno-lint-ignore no-explicit-any
-export const StorageContext = createContext<BrowserStorage<any>>({
-  loading: true,
-  setCache: () => {},
-  saveCacheToStorage: async () => {},
-  saveToStorage: async () => {},
-});
 
 /**
  * Interact with BrowserStorage as little as possible.
@@ -34,36 +25,45 @@ export const StorageContext = createContext<BrowserStorage<any>>({
  *   - `saveCacheToStorage` saves that local data into browserStorage on a separate interaction
  */
 export default function useBrowserStorage<Type extends Storage>(
-  keys: readonly string[],
+  keys: string | readonly string[],
   defaultState: Type,
 ) {
   const [error, setError] = useState<string>();
   const [cache, setCache] = useState<Type>(defaultState);
   const [loading, setLoading] = useState<boolean>(true);
+  const keyArray = Array.isArray(keys) ? keys : [keys];
 
   useEffect(function setupStorageFetcher() {
     updateState();
-    browserAPI.storage.onChanged.addListener(updateState);
+    if (!storage.onChanged.hasListener(updateState)) {
+      storage.onChanged.addListener(updateState);
+    }
 
     async function updateState() {
-      const nextState = await storage.sync.get(keys) as Type;
+      if (Array.isArray(keys) && !keys.length) return;
+      const nextState = Array.isArray(keys)
+        ? await storage.sync.get(keyArray) as Type
+        : (await storage.sync.get(keyArray))[keys as string] as Type;
       if (runtime?.lastError?.message) setError(runtime?.lastError?.message);
-
-      if (Object.keys(nextState).length === Object.keys(defaultState).length) {
+      if (nextState) {
         setCache(nextState);
       }
       setLoading(false);
     }
 
     return () => {
-      browserAPI.storage.onChanged.removeListener(updateState);
+      storage.onChanged.removeListener(updateState);
     };
-  }, []);
+  }, [keys]);
 
   const saveToStorage = useCallback(
     async (next: Partial<Type> | void): Promise<void> => {
       if (!next) return;
-      await storage.sync.set(next);
+      if (Array.isArray(keys)) {
+        await storage.sync.set(next);
+      } else {
+        await storage.sync.set({ [keys as string]: next });
+      }
       if (runtime?.lastError?.message) setError(runtime?.lastError?.message);
     },
     [],
@@ -87,7 +87,15 @@ export default function useBrowserStorage<Type extends Storage>(
       return saveToStorage(cache);
     }, [cache]),
 
-    saveToStorage,
+    // Save new data; don't save pre-existing cache (set storage before cache)
+    saveToStorageBypassCache: useCallback(
+      async (next: Partial<Type>): Promise<void> => {
+        await saveToStorage(next);
+        const nextStorage = { ...cache, ...next };
+        setCache(nextStorage);
+      },
+      [cache, setCache],
+    ),
   };
 
   return result;

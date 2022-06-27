@@ -1,6 +1,7 @@
-import { createFaviconURLFromChar, ICON_SIZE } from './create_favicon_url.ts';
+import type { Emoji } from '../models/emoji.ts';
+
+import { createFaviconURLFromChar, ICON_SIZE } from './image_helpers.ts';
 import { isIconLink } from './predicates.ts';
-import { Emoji } from './emoji.ts';
 
 const head = document.getElementsByTagName('head')[0];
 let appendedFavicon: HTMLElement | null = null;
@@ -10,7 +11,7 @@ interface Options {
 }
 
 // Given an emoji string, append it to the document head
-export async function appendFaviconLink(
+export default async function appendFaviconLink(
   emoji: Emoji,
   options?: Options | void,
 ) {
@@ -40,7 +41,7 @@ function getAllIconLinks(): HTMLLinkElement[] {
     .filter(isIconLink);
 }
 
-export async function doesSiteHaveFavicon() {
+async function doesSiteHaveFavicon() {
   const iconLinkFound = getAllIconLinks()
     .concat(createLink('/favicon.ico')) // Browsers fallback to favicon.ico
     .map(async ({ href }: HTMLLinkElement) => {

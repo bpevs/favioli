@@ -1,6 +1,7 @@
 /* @jsx h */
+import type { Emoji } from '../../../models/emoji.ts';
+
 import { h } from 'preact';
-import { Emoji } from '../../../utilities/emoji.ts';
 
 export default function EmojiButton({
   emoji,
@@ -10,9 +11,7 @@ export default function EmojiButton({
   // deno-lint-ignore no-explicit-any
   [name: string]: any;
 }) {
-  const isCustom = Boolean(emoji?.imageURL?.length || emoji?.videoURL?.length);
-
-  if (isCustom) {
+  if (emoji?.imageURL) {
     return (
       <button type='button' {...props}>
         <img src={emoji?.imageURL} />

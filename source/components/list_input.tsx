@@ -1,17 +1,21 @@
 /* @jsx h */
 import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
-import type { Settings } from '../utilities/settings.ts';
+import type { Emoji } from '../models/emoji.ts';
+import type { Favicon } from '../models/favicon.ts';
+import type { Settings } from '../models/settings.ts';
 
-import * as emoji from 'emoji';
 import { h } from 'preact';
 import { useCallback, useContext } from 'preact/hooks';
 
-import { StorageContext } from '../hooks/use_browser_storage.ts';
-import { createCustomEmoji, Emoji } from '../utilities/emoji.ts';
-import { FaviconData, getEmojiFromFavicon } from '../utilities/favicon_data.ts';
+import { createEmoji, emoji, getEmoji, saveEmoji } from '../models/emoji.ts';
+import { SettingsContext } from '../models/settings.ts';
 import { isRegexString } from '../utilities/predicates.ts';
 import EmojiSelector from './emoji_selector/mod.tsx';
 import Only from './only.tsx';
+
+const IGNORE = 'IGNORE';
+const FAVICON = 'FAVICON';
+type ListType = typeof IGNORE | typeof FAVICON;
 
 type Target = {
   matcher?: string;
@@ -22,13 +26,13 @@ type Target = {
 interface ListInputProps {
   autoFocus?: boolean;
   canDelete?: boolean;
-  type: 'IGNORE' | 'FAVICON';
+  type: ListType;
   index: number;
-  value?: FaviconData;
+  value?: Favicon;
   placeholder?: string;
   deleteItem?: (index: number) => void;
-  addItem?: (listitem: FaviconData) => void;
-  updateItem?: (index: number, listItem: FaviconData) => void;
+  addItem?: (listitem: Favicon) => void;
+  updateItem?: (index: number, listItem: Favicon) => void;
 }
 
 export default function ListInput({
@@ -41,19 +45,18 @@ export default function ListInput({
   value,
   index,
 }: ListInputProps) {
-  const storage = useContext<BrowserStorage<Settings>>(StorageContext);
-  const { cache, saveToStorage } = storage;
-  const { customEmojis = {}, frequentlyUsed = [] } = cache?.emojiDatabase || {};
+  const settings = useContext<BrowserStorage<Settings>>(SettingsContext);
+  const { cache, saveToStorageBypassCache } = settings;
 
   const onChangeMatcher = useCallback((e: Event) => {
     const matcher = (e.target as HTMLInputElement).value;
-    const next = { id: value?.id || '', matcher };
+    const next = { emojiId: value?.emojiId || '', matcher };
     addItem ? addItem(next) : updateItem(index, next);
   }, [index, value, updateItem, addItem]);
 
   const onChangeEmoji = useCallback((selectedEmoji: Emoji) => {
     const next = {
-      id: selectedEmoji.description,
+      emojiId: selectedEmoji.description,
       matcher: value?.matcher || '',
     };
     addItem ? addItem(next) : updateItem(index, next);
@@ -77,24 +80,10 @@ export default function ListInput({
         value={value?.matcher || ''}
       />
 
-      <Only if={type === 'FAVICON'}>
+      <Only if={type === FAVICON}>
         <EmojiSelector
-          value={getEmojiFromFavicon(value, { customEmojis })}
+          emojiId={value?.emojiId}
           onSelected={onChangeEmoji}
-          customEmojis={customEmojis}
-          frequentlyUsed={frequentlyUsed}
-          onAddedCustomEmoji={async (description: string, imageURL: string) => {
-            if (!cache?.emojiDatabase) return;
-            await saveToStorage({
-              emojiDatabase: {
-                ...cache.emojiDatabase,
-                customEmojis: {
-                  ...customEmojis,
-                  [description]: createCustomEmoji({ description, imageURL }),
-                },
-              },
-            });
-          }}
         />
       </Only>
 

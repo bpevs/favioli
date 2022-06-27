@@ -5,7 +5,7 @@ import { useCallback, useState } from 'preact/hooks';
 import * as emoji from 'emoji';
 
 import Only from '../../only.tsx';
-import { createFaviconURLFromImage } from '../../../utilities/create_favicon_url.ts';
+import { createFaviconURLFromImage } from '../../../utilities/image_helpers.ts';
 import type { SetSwitch } from '../types.ts';
 
 export default function CustomUpload(

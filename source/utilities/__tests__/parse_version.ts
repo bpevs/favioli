@@ -1,8 +1,5 @@
-import { assertEquals } from 'asserts';
-import { describe, it } from 'bdd';
-
-import { isV1Settings, migrateFromV1, parseVersion } from '../settings.ts';
-import { v0, v1, v2 } from './fixtures/settings_data.ts';
+import { assertEquals } from 'std/asserts';
+import { describe, it } from 'std/bdd';
 
 describe('parseVersion', () => {
   it('should parse version with descriptor', () => {
@@ -37,17 +34,5 @@ describe('parseVersion', () => {
     } catch (e) {
       assertEquals(e.message, 'Error Parsing Version 51234');
     }
-  });
-});
-
-describe('migrateFromV1', () => {
-  it('should migrate from v0 to v2', () => {
-    assertEquals(isV1Settings(v0), true);
-    assertEquals(migrateFromV1(v0), v2);
-  });
-
-  it('should migrate from v1 to v2', () => {
-    assertEquals(isV1Settings(v1), true);
-    assertEquals(migrateFromV1(v1), v2);
   });
 });

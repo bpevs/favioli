@@ -1,5 +1,5 @@
-import { assertStrictEquals } from 'asserts';
-import { it } from 'bdd';
+import { assertStrictEquals } from 'std/asserts';
+import { it } from 'std/bdd';
 
 import { isRegexString } from '../predicates.ts';
 

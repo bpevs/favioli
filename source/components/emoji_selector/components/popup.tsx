@@ -1,16 +1,11 @@
 /* @jsx h */
-import type { Emoji } from '../../../utilities/emoji.ts';
-import type { EmojiGroup } from '../../../utilities/favicon_data.ts';
+import type { Emoji, EmojiGroup, EmojiMap } from '../../../models/emoji.ts';
+import type { OnSelected, SetSwitch } from '../types.ts';
 
 import { Fragment, h } from 'preact';
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
-import * as emoji from 'emoji';
 
-import { OnSelected, SetSwitch } from '../types.ts';
-import {
-  emojiGroups,
-  emojiGroupsArray,
-} from '../../../utilities/favicon_data.ts';
+import { emoji, emojiGroups, emojiGroupsArray } from '../../../models/emoji.ts';
 import Groups from './groups.tsx';
 import CustomUpload from './custom_upload.tsx';
 
@@ -35,7 +30,7 @@ export default function Popup(
     popupRef: any;
     setIsCustom: SetSwitch;
     setIsOpen: SetSwitch;
-    customEmojis: { [name: string]: Emoji };
+    customEmojis: EmojiMap;
     submitCustomEmoji: (
       name: string,
       image: string,
@@ -46,9 +41,8 @@ export default function Popup(
   const [groupFilter, setGroupFilter] = useState('');
   const [filter, setFilter] = useFilterState('');
   useEffect(() => {
-    emojiGroups['Custom Emojis'].emojis = Object.keys(customEmojis).map((id) =>
-      customEmojis[id]
-    );
+    emojiGroups['Custom Emojis'].emojis = Object.keys(customEmojis)
+      .map((id) => customEmojis[id]);
   }, [customEmojis]);
 
   if (!isOpen) return null;

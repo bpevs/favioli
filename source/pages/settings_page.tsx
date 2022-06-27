@@ -1,14 +1,14 @@
 /* @jsx h */
 import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
+import type { Settings } from '../models/settings.ts';
 
 import { Fragment, h } from 'preact';
 import { useCallback, useContext } from 'preact/hooks';
 
-import { StorageContext } from '../hooks/use_browser_storage.ts';
-import { AUTOSELECTOR_VERSION } from '../utilities/autoselector.ts';
-import { DEFAULT_SETTINGS, Settings } from '../utilities/settings.ts';
 import Checkbox, { Target } from '../components/checkbox.tsx';
 import Only from '../components/only.tsx';
+import { DEFAULT_SETTINGS, SettingsContext } from '../models/settings.ts';
+import { AUTOSELECTOR_VERSION } from '../utilities/favicon_autoselector.ts';
 import { t } from '../utilities/i18n.ts';
 
 export interface SettingsProps {
@@ -18,7 +18,7 @@ export interface SettingsProps {
 }
 
 const SettingsPage = ({ save }: SettingsProps) => {
-  const storage = useContext<BrowserStorage<Settings>>(StorageContext);
+  const storage = useContext<BrowserStorage<Settings>>(SettingsContext);
   const { cache = DEFAULT_SETTINGS, setCache } = storage || {};
   const { autoselectorVersion } = cache;
   const {

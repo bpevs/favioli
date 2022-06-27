@@ -1,12 +1,12 @@
 {
   "imports": {
-    "asserts": "https://deno.land/std@0.138.0/testing/asserts.ts",
-    "bdd": "https://deno.land/std@0.138.0/testing/bdd.ts",
-    "browser": "https://deno.land/x/bext/mod.ts",
+    "browser": "https://deno.land/x/bext@v0.1.2/mod.ts",
     "emoji": "https://deno.land/x/emoji@0.2.0/mod.ts",
-    "fs": "https://deno.land/std@0.138.0/fs/mod.ts",
-    "mock": "https://deno.land/std@0.138.0/testing/mock.ts",
     "preact": "https://esm.sh/preact?dev",
-    "preact/hooks": "https://esm.sh/preact/hooks?dev"
+    "preact/hooks": "https://esm.sh/preact/hooks?dev",
+    "std/asserts": "https://deno.land/std@0.138.0/testing/asserts.ts",
+    "std/bdd": "https://deno.land/std@0.138.0/testing/bdd.ts",
+    "std/mock": "https://deno.land/std@0.138.0/testing/mock.ts",
+    "std/snapshot": "https://deno.land/std@0.138.0/testing/snapshot.ts"
   }
 }

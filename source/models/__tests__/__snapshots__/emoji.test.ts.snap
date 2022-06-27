@@ -1,0 +1,18 @@
+export const snapshot = {};
+
+snapshot[`createEmoji 1`] = `
+{
+  aliases: [
+    "poro",
+  ],
+  description: "poro",
+  emoji: "",
+  emojiVersion: 0,
+  group: "Custom Emojis",
+  imageURL: "poro://poro-url",
+  subgroup: "custom-emojis",
+  tags: [
+  ],
+  unicodeVersion: 0,
+}
+`;

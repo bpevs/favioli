@@ -1,7 +1,7 @@
 import { isFirefox } from './predicates.ts';
 
 export const ICON_SIZE = 256; // Larger will causes problems in Google Chrome
-export const STORED_IMAGE_SIZE = 50; // Larger exceeds QUOTA_BYTES_PER_ITEM
+export const STORED_IMAGE_SIZE = 40; // Larger exceeds QUOTA_BYTES_PER_ITEM
 
 const VERTICAL_OFFSET = (isFirefox() ? 20 : 0); // ff is off-center
 
@@ -47,6 +47,12 @@ export function createFaviconURLFromChar(char: string): string {
   return canvas.toDataURL('image/png');
 }
 
+/**
+ * Create a favicon image using a png, for custom images. Primarily, this means:
+ *   1. Build into dataURL string to store in browser.storage.sync
+ *   2. Resize image, so it will fit in browser.storage.sync (<4kb)
+ * @reference QUOTA_BYPES_PER_ITEM
+ */
 export function createFaviconURLFromImage(url: string): Promise<string> {
   const image = new Image();
   image.src = url;

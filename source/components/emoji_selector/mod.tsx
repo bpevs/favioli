@@ -1,34 +1,47 @@
 /* @jsx h */
+import type { Emoji, EmojiMap } from '../../models/emoji.ts';
+import type { Settings } from '../../models/settings.ts';
+import type { BrowserStorage } from '../../hooks/use_browser_storage.ts';
 
 import { Fragment, h } from 'preact';
-import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
-import * as emoji from 'emoji';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'preact/hooks';
 
+import useBrowserStorage from '../../hooks/use_browser_storage.ts';
 import useFocusObserver from '../../hooks/use_focus_observer.ts';
-import { DEFAULT_EMOJI } from '../../utilities/favicon_data.ts';
-import { OnSelected } from './types.ts';
-import { createCustomEmoji, Emoji } from '../../utilities/emoji.ts';
-
+import {
+  areEqualEmojis,
+  createEmoji,
+  DEFAULT_EMOJI,
+  emoji,
+  getEmoji,
+  getEmojiStorageId,
+  saveEmoji,
+} from '../../models/emoji.ts';
+import { SettingsContext } from '../../models/settings.ts';
 import EmojiButton from './components/emoji_button.tsx';
 import Popup from './components/popup.tsx';
+import { OnSelected } from './types.ts';
 
-function areSameEmoji(emoji1: Emoji, emoji2: Emoji): boolean {
-  if (!emoji1 || !emoji2) return false;
-  if (emoji1.imageURL && (emoji1.imageURL === emoji2.imageURL)) return true;
-  if (emoji1.videoURL && (emoji1.videoURL === emoji2.videoURL)) return true;
-  if (emoji1.emoji && (emoji1.emoji === emoji2.emoji)) return true;
-  return false;
-}
+export default function EmojiSelector({ onSelected, emojiId }: {
+  emojiId?: string;
+  onSelected: OnSelected;
+}) {
+  const settings = useContext<BrowserStorage<Settings>>(SettingsContext);
+  const { cache, saveToStorageBypassCache } = settings;
+  const customEmojiIds = cache?.customEmojiIds || [];
+  const storageIds = useMemo(
+    () => customEmojiIds.map(getEmojiStorageId),
+    [customEmojiIds],
+  );
+  const customEmojis = useBrowserStorage<EmojiMap>(storageIds, {});
 
-export default function EmojiSelector(
-  { onAddedCustomEmoji, onSelected, value, customEmojis, frequentlyUsed }: {
-    value?: Emoji;
-    onSelected: OnSelected;
-    onAddedCustomEmoji: (description: string, url: string) => Promise<void>;
-    customEmojis: { [name: string]: Emoji };
-    frequentlyUsed: Emoji[];
-  },
-) {
   const buttonRef = useRef<HTMLButtonElement>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isCustom, setIsCustom] = useState<boolean>(false);
@@ -36,16 +49,16 @@ export default function EmojiSelector(
 
   // For reverting to default state when list_items are deleted
   useEffect(function updateStateWithNewValue() {
-    try {
-      const passedEmoji = value;
-      if (!passedEmoji) return setSelectedEmoji(DEFAULT_EMOJI);
-      if (!areSameEmoji(passedEmoji, selectedEmoji)) {
-        setSelectedEmoji(passedEmoji);
+    emojiIdToEmoji();
+    async function emojiIdToEmoji() {
+      if (!emojiId) return setSelectedEmoji(DEFAULT_EMOJI);
+      const nextEmoji = await getEmoji(emojiId);
+      if (!nextEmoji) return setSelectedEmoji(DEFAULT_EMOJI);
+      if (!areEqualEmojis(nextEmoji, selectedEmoji)) {
+        setSelectedEmoji(nextEmoji);
       }
-    } catch {
-      setSelectedEmoji(DEFAULT_EMOJI);
     }
-  }, [value]);
+  }, [emojiId]);
 
   return (
     <Fragment>
@@ -70,8 +83,14 @@ export default function EmojiSelector(
         setIsOpen={setIsOpen}
         isCustom={isCustom}
         setIsCustom={setIsCustom}
-        customEmojis={customEmojis}
-        submitCustomEmoji={onAddedCustomEmoji}
+        customEmojis={customEmojis.cache || {}}
+        submitCustomEmoji={useCallback(async (description, url) => {
+          await saveToStorageBypassCache({
+            ...cache,
+            customEmojiIds: customEmojiIds.concat(description),
+          });
+          await saveEmoji(createEmoji(description, url));
+        }, [settings, customEmojiIds])}
         onSelected={useCallback((emoji: Emoji) => {
           if (!isOpen) return;
           onSelected(emoji);

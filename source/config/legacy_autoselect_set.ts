@@ -63,4 +63,4 @@ if (/^Win\d+$/.test(navigator.platform)) {
   LEGACY_EMOJI_SET.push('🐱‍💻');
 }
 
-export default LEGACY_EMOJI_SET;
+export default Object.freeze(LEGACY_EMOJI_SET);

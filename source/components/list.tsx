@@ -1,22 +1,22 @@
 /* @jsx h */
 
 import type { ListState } from '../hooks/use_list_state.ts';
+import type { Favicon } from '../models/favicon.ts';
 
 import { h } from 'preact';
 import { useRef } from 'preact/hooks';
 
-import { FaviconData } from '../utilities/favicon_data.ts';
 import ListInput from './list_input.tsx';
 
 export interface ListProps<Type> {
   type: 'FAVICON' | 'IGNORE';
-  state: ListState<FaviconData>;
+  state: ListState<Favicon>;
 }
 
 export default function List<Type,>({ type, state }: ListProps<Type>) {
   const listRef = useRef<HTMLInputElement>(null);
   const listInputs = state.contents.map(
-    (listItem: FaviconData, index: number) => {
+    (listItem: Favicon, index: number) => {
       return (
         <ListInput
           type={type}

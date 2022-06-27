@@ -1,81 +1,39 @@
 /* @jsx h */
-import type { Tab } from 'browser';
+import type { Settings } from './models/settings.ts';
+
 import { h, render } from 'preact';
-import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
+import { useCallback } from 'preact/hooks';
 import browserAPI from 'browser';
 
-import Autoselector from './utilities/autoselector.ts';
-import {
-  createFaviconDataFromEmoji,
-  getEmojiFromFavicon,
-} from './utilities/favicon_data.ts';
+import useActiveTab from './hooks/use_active_tab.ts';
 import useBrowserStorage from './hooks/use_browser_storage.ts';
+import useSelectedFavicon from './hooks/use_selected_favicon.ts';
 import useStatus from './hooks/use_status.ts';
-import {
-  DEFAULT_SETTINGS,
-  Settings,
-  STORAGE_KEYS,
-} from './utilities/settings.ts';
-import { createFaviconURLFromChar } from './utilities/create_favicon_url.ts';
-
-let autoselector: Autoselector | void;
-const queryOptions = { active: true };
+import { DEFAULT_SETTINGS, SETTINGS_KEY } from './models/settings.ts';
 
 const App = () => {
-  const storage = useBrowserStorage<Settings>(STORAGE_KEYS, DEFAULT_SETTINGS);
-  const { cache, error = '', loading, setCache } = storage;
-  const [currTab, setCurrTab] = useState<Tab | void>();
-  const { favIconUrl = '', url = '' } = currTab || {};
+  const settings = useBrowserStorage<Settings>(SETTINGS_KEY, DEFAULT_SETTINGS);
+  const { favIconUrl = '', url = '' } = useActiveTab() || {};
+  const { selectedFavicon, selectedFaviconURL } = useSelectedFavicon(
+    url,
+    settings.cache,
+  );
 
-  const autoselector = useMemo(() => {
-    if (!cache?.autoselectorVersion) return null;
-    const includeFlags = cache?.features?.enableAutoselectorIncludeCountryFlags;
-    return new Autoselector(cache?.autoselectorVersion, { includeFlags });
-  }, [cache?.autoselectorVersion]);
+  const { status, save } = useStatus(
+    settings.error || '',
+    useCallback(function updateSiteList(shouldAddToSiteList: boolean) {
+      if (!url) return;
+      const { origin } = new URL(url);
+      const siteList = (settings.cache?.siteList || [])
+        .filter(({ matcher }) => matcher !== origin);
 
-  const [autoselectedEmoji, autoselectedURL] = useMemo(() => {
-    if (!autoselector) return [];
-    const favicon = autoselector.selectFavicon(url);
-    const emoji = getEmojiFromFavicon(favicon);
-    const faviconURL = createFaviconURLFromChar(emoji?.emoji || '');
-    return [emoji, faviconURL];
-  }, [autoselector, url]);
+      if (shouldAddToSiteList && selectedFavicon) {
+        siteList.push({ ...selectedFavicon, matcher: origin });
+      }
 
-  useEffect(function updateCurrTab() {
-    async function setup() {
-      const [activeTab] = await browserAPI.tabs.query(queryOptions);
-      setCurrTab(activeTab);
-    }
-    browserAPI.storage.onChanged.addListener(setup);
-    browserAPI.tabs.onUpdated.addListener(setup);
-    setup().catch(console.error);
-    (() => {
-      browserAPI.storage.onChanged.removeListener(setup);
-      browserAPI.tabs.onUpdated.removeListener(setup);
-    });
-  }, [cache]);
-
-  const updateSiteList = useCallback((shouldOverride: boolean) => {
-    if (!url) return;
-    const { origin } = new URL(url);
-    const siteList = (cache?.siteList || [])
-      .filter(({ matcher }) => matcher !== origin); // Remove dupes
-
-    if (shouldOverride && autoselectedEmoji) {
-      siteList.push(createFaviconDataFromEmoji(origin, autoselectedEmoji));
-    }
-
-    setCache({ siteList }, true);
-  }, [url, cache, setCache]);
-
-  const { status, save } = useStatus(error || '', updateSiteList);
-  const addToOverrides = useCallback(() => save(true), [save]);
-  const removeFromOverrides = useCallback(() => save(false), [save]);
-  const goToOptions = useCallback(() => {
-    browserAPI.runtime.openOptionsPage();
-  }, []);
-
-  if (loading) return <div>loading...</div>;
+      settings.setCache({ siteList }, true);
+    }, [url, settings]),
+  );
 
   return (
     <div className='popup-wrapper'>
@@ -90,24 +48,32 @@ const App = () => {
           />
         </div>
         <div>
-          Autofill Favicon:
+          Favioli Favicon:
           <img
             className='favicon-icon'
-            src={autoselectedURL || ''}
+            src={selectedFaviconURL || ''}
             width={20}
             height={20}
           />
         </div>
       </div>
       <div style='padding-top: 10px; text-align: center;'>
-        Is Autofilled?{' '}
+        Is a Favioli Favicon?{' '}
         <span style='font-weight: bold;'>
-          {autoselectedURL === favIconUrl ? 'Yes!' : 'No!'}
+          {selectedFaviconURL === favIconUrl ? 'Yes!' : 'No!'}
         </span>
       </div>
-      <button onClick={addToOverrides}>Override Favicon</button>
-      <button onClick={removeFromOverrides}>Remove Override</button>
-      <button onClick={goToOptions}>Options</button>
+      <button onClick={useCallback(() => save(true), [save])}>
+        Override Favicon
+      </button>
+      <button onClick={useCallback(() => save(false), [save])}>
+        Remove Override
+      </button>
+      <button
+        onClick={useCallback(() => browserAPI.runtime.openOptionsPage(), [])}
+      >
+        Options
+      </button>
       <div id='status' style='text-align: center;'>{status}</div>
     </div>
   );
