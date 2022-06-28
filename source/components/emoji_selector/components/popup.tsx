@@ -40,9 +40,11 @@ export default function Popup(
 ) {
   const [groupFilter, setGroupFilter] = useState('');
   const [filter, setFilter] = useFilterState('');
-  useEffect(() => {
+
+  const allEmojis = useMemo(() => {
     emojiGroups['Custom Emojis'].emojis = Object.keys(customEmojis)
       .map((id) => customEmojis[id]);
+    return { ...emojiGroups };
   }, [customEmojis]);
 
   if (!isOpen) return null;
@@ -90,7 +92,7 @@ export default function Popup(
 
       <Groups
         setIsCustom={setIsCustom}
-        emojiGroups={emojiGroups}
+        emojiGroups={allEmojis}
         filter={filter}
         groupFilter={groupFilter}
         onSelected={onSelected}

@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "lib": [
-      "deno.unstable",
+      "deno.ns",
       "dom",
       "dom.iterable",
+      "dom.asynciterable",
       "esnext"
     ],
     "jsx": "react",

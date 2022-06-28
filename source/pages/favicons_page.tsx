@@ -8,7 +8,7 @@ import { useContext, useEffect } from 'preact/hooks';
 import List from '../components/list.tsx';
 import Only from '../components/only.tsx';
 import useListState from '../hooks/use_list_state.ts';
-import { DEFAULT_SETTINGS, SettingsContext } from '../models/settings.ts';
+import { SettingsContext } from '../models/settings.ts';
 import { t } from '../utilities/i18n.ts';
 
 export interface FaviconsPageProps {
@@ -19,7 +19,7 @@ export interface FaviconsPageProps {
 
 export default function FaviconsPage({ save }: FaviconsPageProps) {
   const storage = useContext<BrowserStorage<Settings>>(SettingsContext);
-  const { siteList, ignoreList, features } = storage?.cache || DEFAULT_SETTINGS;
+  const { siteList, ignoreList, features } = storage.cache;
   const { enableSiteIgnore } = features;
   const siteListState = useListState(siteList);
   const ignoreListState = useListState(ignoreList);
@@ -32,16 +32,13 @@ export default function FaviconsPage({ save }: FaviconsPageProps) {
       });
     }
   }, [siteListState.contents, ignoreListState.contents]);
-  if (!storage) return null;
-
-  const hasIgnores = ignoreListState.contents?.length;
 
   return (
     <form onSubmit={save}>
       <h1>{t('faviconListTitle')}</h1>
       <List type='FAVICON' state={siteListState} />
 
-      <Only if={Boolean(enableSiteIgnore || hasIgnores)}>
+      <Only if={Boolean(enableSiteIgnore || ignoreListState.contents?.length)}>
         <Fragment>
           <h1>
             {t('ignoreListTitle')}

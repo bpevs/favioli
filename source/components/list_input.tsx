@@ -1,14 +1,10 @@
 /* @jsx h */
-import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
 import type { Emoji } from '../models/emoji.ts';
 import type { Favicon } from '../models/favicon.ts';
-import type { Settings } from '../models/settings.ts';
 
 import { h } from 'preact';
-import { useCallback, useContext } from 'preact/hooks';
+import { useCallback } from 'preact/hooks';
 
-import { createEmoji, emoji, getEmoji, saveEmoji } from '../models/emoji.ts';
-import { SettingsContext } from '../models/settings.ts';
 import { isRegexString } from '../utilities/predicates.ts';
 import EmojiSelector from './emoji_selector/mod.tsx';
 import Only from './only.tsx';
@@ -45,9 +41,6 @@ export default function ListInput({
   value,
   index,
 }: ListInputProps) {
-  const settings = useContext<BrowserStorage<Settings>>(SettingsContext);
-  const { cache, saveToStorageBypassCache } = settings;
-
   const onChangeMatcher = useCallback((e: Event) => {
     const matcher = (e.target as HTMLInputElement).value;
     const next = { emojiId: value?.emojiId || '', matcher };

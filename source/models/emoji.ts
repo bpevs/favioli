@@ -37,8 +37,10 @@ export const emojiGroupsArray = freeze(
   keys(emojiGroups).map((name) => emojiGroups[name]),
 );
 
+const DEFAULT_CUSTOM_EMOJI_IDS: string[] = [];
 export const CustomEmojiContext = createContext<BrowserStorage<string[]>>({
   loading: true,
+  cache: DEFAULT_CUSTOM_EMOJI_IDS,
   setCache: () => {},
   saveCacheToStorage: async () => {},
   saveToStorageBypassCache: async () => {},
@@ -73,15 +75,20 @@ export async function getEmoji(desc: string): Promise<Emoji | undefined> {
   return resp[storageID] as Emoji;
 }
 
-export async function getEmojis(descs: string[]): Promise<Emoji[]> {
-  const localEmojis: Emoji[] = [];
+export async function getEmojis(descs: string[]): Promise<EmojiMap> {
+  const localEmojis: EmojiMap = {};
   const customDescIds: string[] = [];
   descs.forEach((desc: string) => {
-    if (byDescription[desc]) localEmojis.push(byDescription[desc]);
+    if (byDescription[desc]) localEmojis[desc] = byDescription[desc];
     else customDescIds.push(getEmojiStorageId(desc));
   });
-  const customDescs = await storage.sync.get(customDescIds) as Emoji[];
-  return localEmojis.concat(customDescs);
+  const customEmojis = await storage.sync.get(customDescIds) as EmojiMap;
+  const customEmojiWithProperName: EmojiMap = {};
+  Object.keys(customEmojis).forEach((storageId) => {
+    const emoji = customEmojis[storageId];
+    customEmojiWithProperName[emoji.description] = emoji;
+  });
+  return { ...localEmojis, ...customEmojiWithProperName };
 }
 
 export async function saveEmoji(emojiToSave: Emoji): Promise<void> {

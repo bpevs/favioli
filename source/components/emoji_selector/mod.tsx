@@ -21,6 +21,7 @@ import {
   DEFAULT_EMOJI,
   emoji,
   getEmoji,
+  getEmojis,
   getEmojiStorageId,
   saveEmoji,
 } from '../../models/emoji.ts';
@@ -29,18 +30,25 @@ import EmojiButton from './components/emoji_button.tsx';
 import Popup from './components/popup.tsx';
 import { OnSelected } from './types.ts';
 
+const defaultState = {};
 export default function EmojiSelector({ onSelected, emojiId }: {
   emojiId?: string;
   onSelected: OnSelected;
 }) {
   const settings = useContext<BrowserStorage<Settings>>(SettingsContext);
-  const { cache, saveToStorageBypassCache } = settings;
-  const customEmojiIds = cache?.customEmojiIds || [];
-  const storageIds = useMemo(
-    () => customEmojiIds.map(getEmojiStorageId),
-    [customEmojiIds],
-  );
-  const customEmojis = useBrowserStorage<EmojiMap>(storageIds, {});
+  const { cache, setCache, saveToStorageBypassCache } = settings;
+  const [customEmojis, setCustomEmojis] = useState({});
+  useEffect(() => {
+    const currIds = Object.keys(customEmojis).sort();
+    const matches = cache.customEmojiIds.sort()
+      .every((value, index) => currIds[index] === value);
+
+    if (!matches) {
+      (async function fetchEmojis() {
+        setCustomEmojis(await getEmojis(cache.customEmojiIds));
+      })();
+    }
+  }, [cache.customEmojiIds]);
 
   const buttonRef = useRef<HTMLButtonElement>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -83,14 +91,14 @@ export default function EmojiSelector({ onSelected, emojiId }: {
         setIsOpen={setIsOpen}
         isCustom={isCustom}
         setIsCustom={setIsCustom}
-        customEmojis={customEmojis.cache || {}}
+        customEmojis={customEmojis}
         submitCustomEmoji={useCallback(async (description, url) => {
-          await saveToStorageBypassCache({
-            ...cache,
-            customEmojiIds: customEmojiIds.concat(description),
-          });
           await saveEmoji(createEmoji(description, url));
-        }, [settings, customEmojiIds])}
+          const customEmojiIds = Array.from(
+            new Set(cache.customEmojiIds.concat(description)),
+          );
+          await saveToStorageBypassCache({ ...cache, customEmojiIds });
+        }, [settings, cache.customEmojiIds])}
         onSelected={useCallback((emoji: Emoji) => {
           if (!isOpen) return;
           onSelected(emoji);

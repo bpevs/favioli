@@ -27,7 +27,7 @@ browserAPI.tabs.onUpdated.addListener(
     if (!settings) await syncSettings();
 
     const [favicon, shouldOverride] = selectFavicon(url, settings, autoselect);
-    console.log(autoselect);
+
     if (!favicon?.emojiId) return;
 
     const emoji = await getEmoji(favicon.emojiId);

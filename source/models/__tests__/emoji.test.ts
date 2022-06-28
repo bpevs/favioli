@@ -78,9 +78,9 @@ it('getEmojis', async () => {
     ]);
   });
   const emojis = await getEmojis(['nother', 'poro', 'grinning squinting face']);
-  assertEquals(emojis[0].emoji, '😆');
-  assertEquals(emojis[1].imageURL, 'poro://poro-url');
-  assertEquals(emojis[2].imageURL, 'nother://nother-custom-emoji');
+  assertEquals(emojis['grinning squinting face'].emoji, '😆');
+  assertEquals(emojis['poro'].imageURL, 'poro://poro-url');
+  assertEquals(emojis['nother'].imageURL, 'nother://nother-custom-emoji');
 
   assertSpyCalls(storageStub, 1);
 

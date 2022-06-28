@@ -19,29 +19,22 @@ export interface SettingsProps {
 
 const SettingsPage = ({ save }: SettingsProps) => {
   const storage = useContext<BrowserStorage<Settings>>(SettingsContext);
-  const { cache = DEFAULT_SETTINGS, setCache } = storage || {};
-  const { autoselectorVersion } = cache;
+  const { cache, setCache } = storage;
+  const { autoselectorVersion, features } = cache;
   const {
     enableAutoselectorIncludeCountryFlags,
     enableFaviconAutofill,
     enableSiteIgnore,
     enableOverrideAll,
-  } = cache.features;
+  } = features;
 
-  const setFeature = useCallback((feature: Target) => {
-    if (storage) {
-      storage.setCache({
-        features: {
-          ...cache.features,
-          ...feature,
-        },
-      });
-    }
-  }, [cache.features]);
+  const setFeature = useCallback((nextFeature: Target) => {
+    if (storage) setCache({ features: { ...features, ...nextFeature } });
+  }, [features]);
 
   const setAutoselectorVersion = useCallback((e: Event) => {
     const autoselectorVersion = (e.target as HTMLInputElement).value;
-    if (storage) storage.setCache({ autoselectorVersion });
+    if (storage) setCache({ autoselectorVersion });
   }, [storage]);
 
   return (

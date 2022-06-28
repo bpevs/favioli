@@ -45,6 +45,7 @@ export const DEFAULT_SETTINGS: Settings = {
 
 export const SettingsContext = createContext<BrowserStorage<Settings>>({
   loading: true,
+  cache: DEFAULT_SETTINGS,
   setCache: () => {},
   saveCacheToStorage: async () => {},
   saveToStorageBypassCache: async () => {},

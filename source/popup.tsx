@@ -7,31 +7,29 @@ import browserAPI from 'browser';
 
 import useActiveTab from './hooks/use_active_tab.ts';
 import useBrowserStorage from './hooks/use_browser_storage.ts';
-import useSelectedFavicon from './hooks/use_selected_favicon.ts';
+import useFavioliIcon from './hooks/use_selected_favicon.ts';
 import useStatus from './hooks/use_status.ts';
 import { DEFAULT_SETTINGS, SETTINGS_KEY } from './models/settings.ts';
 
 const App = () => {
   const settings = useBrowserStorage<Settings>(SETTINGS_KEY, DEFAULT_SETTINGS);
+  const { setCache, cache, error } = settings;
   const { favIconUrl = '', url = '' } = useActiveTab() || {};
-  const { selectedFavicon, selectedFaviconURL } = useSelectedFavicon(
-    url,
-    settings.cache,
-  );
+  const { selectedFavicon, selectedFaviconURL } = useFavioliIcon(url, cache);
 
   const { status, save } = useStatus(
-    settings.error || '',
+    error || '',
     useCallback(function updateSiteList(shouldAddToSiteList: boolean) {
       if (!url) return;
       const { origin } = new URL(url);
-      const siteList = (settings.cache?.siteList || [])
+      const siteList = (cache.siteList || [])
         .filter(({ matcher }) => matcher !== origin);
 
       if (shouldAddToSiteList && selectedFavicon) {
         siteList.push({ ...selectedFavicon, matcher: origin });
       }
 
-      settings.setCache({ siteList }, true);
+      setCache({ siteList }, true);
     }, [url, settings]),
   );
 

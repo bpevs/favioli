@@ -9,14 +9,13 @@ import Only from '../components/only.tsx';
 import { SettingsContext } from '../models/settings.ts';
 
 export default function () {
-  const storage = useContext<BrowserStorage<Settings>>(SettingsContext);
-  const { cache = { version: 0 } } = storage || {};
+  const { cache } = useContext<BrowserStorage<Settings>>(SettingsContext);
 
   return (
     <Fragment>
       <h1>About Favioli</h1>
-      <Only if={Boolean(cache?.version)}>
-        <p>Version {cache?.version}</p>
+      <Only if={Boolean(cache.version)}>
+        <p>Version {cache.version}</p>
       </Only>
 
       <h2>What is Favioli?</h2>
