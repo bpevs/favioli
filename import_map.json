@@ -11,7 +11,6 @@
     "std/bdd": "https://deno.land/std@0.138.0/testing/bdd.ts",
     "std/mock": "https://deno.land/std@0.138.0/testing/mock.ts",
     "std/snapshot": "https://deno.land/std@0.138.0/testing/snapshot.ts",
-    "@testing-library/preact": "https://esm.sh/@testing-library/preact/pure?dev",
-    "@testing-library/preact-hooks": "https://esm.sh/@testing-library/preact-hooks/pure?dev"
+    "@testing-library/preact": "https://esm.sh/@testing-library/preact/pure?dev"
   }
 }

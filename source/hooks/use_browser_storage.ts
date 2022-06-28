@@ -33,18 +33,23 @@ export default function useBrowserStorage<Type extends Storage>(
   const [cache, setCache] = useState<Type>(defaultState);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const updateState = useCallback(async function (changes: void | { [key: string]: any }) {
-    const keyArray = Array.isArray(keys) ? keys : [keys];
-    const noChange = changes && !keyArray.some((key) => Boolean(changes[key]));
-    if (!keyArray.length || noChange) return;
+  const updateState = useCallback(
+    // deno-lint-ignore no-explicit-any
+    async function (changes: void | { [key: string]: any }) {
+      const keyArray = Array.isArray(keys) ? keys : [keys];
+      const noChange = changes &&
+        !keyArray.some((key) => Boolean(changes[key]));
+      if (!keyArray.length || noChange) return;
 
-    const nextState: Type = Array.isArray(keys)
-      ? await storage.sync.get(keyArray) as Type
-      : (await storage.sync.get(keyArray))[keys as string] as Type;
-    if (runtime?.lastError?.message) setError(runtime?.lastError?.message);
-    if (nextState) setCache(nextState);
-    setLoading(false);
-  }, [keys]);
+      const nextState: Type = Array.isArray(keys)
+        ? await storage.sync.get(keyArray) as Type
+        : (await storage.sync.get(keyArray))[keys as string] as Type;
+      if (runtime?.lastError?.message) setError(runtime?.lastError?.message);
+      if (nextState) setCache(nextState);
+      setLoading(false);
+    },
+    [keys],
+  );
 
   useEffect(function () {
     updateState();
