@@ -1,5 +1,4 @@
 /* @jsx h */
-
 import { h } from 'preact';
 
 export interface HeaderProps {

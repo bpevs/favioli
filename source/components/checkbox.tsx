@@ -1,5 +1,4 @@
 /* @jsx h */
-
 import { h } from 'preact';
 import { useCallback, useState } from 'preact/hooks';
 
@@ -20,9 +19,11 @@ export default function Checkbox({
   ...props
 }: CheckboxProps) {
   const onChange = useCallback((e: Event) => {
-    const { name, checked } = (e?.target as HTMLInputElement);
-    if (props.onChange && name && typeof checked === 'boolean') {
-      props.onChange({ [name]: checked });
+    if (e.target instanceof HTMLInputElement) {
+      const { name, checked } = e.target;
+      if (props.onChange && name && typeof checked === 'boolean') {
+        props.onChange({ [name]: checked });
+      }
     }
   }, [props.onChange]);
 

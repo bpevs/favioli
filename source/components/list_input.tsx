@@ -3,7 +3,7 @@ import type { Emoji } from '../models/emoji.ts';
 import type { Favicon } from '../models/favicon.ts';
 
 import { h } from 'preact';
-import { useCallback } from 'preact/hooks';
+import { useCallback, useMemo } from 'preact/hooks';
 
 import { isRegexString } from '../utilities/predicates.ts';
 import EmojiSelector from './emoji_selector/mod.tsx';
@@ -31,13 +31,19 @@ interface ListInputProps {
   updateItem?: (index: number, listItem: Favicon) => void;
 }
 
+const choices = [
+  'favioli.com',
+  'https://favioli.com',
+  '/fa.ioli$/',
+  '/favioli/',
+];
+
 export default function ListInput({
   autoFocus = false,
   addItem,
   deleteItem,
   updateItem = () => {},
   type,
-  placeholder = '',
   value,
   index,
 }: ListInputProps) {
@@ -60,6 +66,10 @@ export default function ListInput({
   }, [index, deleteItem]);
 
   const color = isRegexString(value?.matcher || '') ? 'green' : 'black';
+
+  const placeholder = useMemo(() => {
+    return choices[Math.floor(Math.random() * choices.length)];
+  }, []);
 
   return (
     <div className='list-item'>

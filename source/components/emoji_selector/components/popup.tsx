@@ -1,6 +1,7 @@
 /* @jsx h */
 import type { Emoji, EmojiGroup, EmojiMap } from '../../../models/emoji.ts';
 import type { OnSelected, SetSwitch } from '../types.ts';
+import type { Ref } from 'preact';
 
 import { Fragment, h } from 'preact';
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
@@ -27,7 +28,7 @@ export default function Popup(
     isCustom: boolean;
     onSelected: OnSelected;
     // deno-lint-ignore no-explicit-any
-    popupRef: any;
+    popupRef: Ref<any>;
     setIsCustom: SetSwitch;
     setIsOpen: SetSwitch;
     customEmojis: EmojiMap;

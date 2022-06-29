@@ -1,13 +1,15 @@
 /* @jsx h */
-
-import { h, VNode } from 'preact';
+import { Fragment, h, VNode } from 'preact';
 
 export interface OnlyProps {
   if: boolean;
-  // deno-lint-ignore no-explicit-any
-  children: VNode<any>;
+  children: VNode | string;
 }
 
 export default function Only({ if: predicate, children }: OnlyProps) {
-  return predicate ? children : null;
+  return (
+    <Fragment>
+      {predicate ? children : null}
+    </Fragment>
+  );
 }

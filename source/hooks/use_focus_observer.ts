@@ -1,21 +1,21 @@
+import type { RefObject } from 'preact';
+
 import { useEffect, useRef } from 'preact/hooks';
 
 export default function useFocusObserver(
+  callback: () => void,
   // deno-lint-ignore no-explicit-any
-  callback: (...args: any[]) => any | void,
-  // deno-lint-ignore no-explicit-any
-  ignoredRefs: any[],
+  ignoredRefs: RefObject<any>[] = [],
 ) {
-  // deno-lint-ignore no-explicit-any
-  const ref = useRef<any>();
+  const ref = useRef<HTMLElement>();
 
   useEffect(() => {
-    // deno-lint-ignore no-explicit-any
-    function handleClick(event: any) {
+    function handleClick(event: Event) {
       if (
-        ![ref, ...ignoredRefs].some(({ current }) => {
-          if (!current?.contains) return false;
-          return current.contains(event.target);
+        event.target instanceof HTMLElement &&
+        ![ref, ...ignoredRefs].some((ref) => {
+          if (!ref?.current?.contains) return false;
+          return ref?.current.contains(event.target);
         })
       ) {
         callback();

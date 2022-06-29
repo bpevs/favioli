@@ -3,10 +3,8 @@ import { Fragment, h, VNode } from 'preact';
 
 export interface SwitchProps {
   value?: string;
-  // deno-lint-ignore no-explicit-any
-  defaultCase: VNode<any> | null;
-  // deno-lint-ignore no-explicit-any
-  cases: { [name: string]: VNode<any> };
+  defaultCase: VNode | string | null;
+  cases: { [name: string]: VNode | string | null };
 }
 
 export default function Switch(
