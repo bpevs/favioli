@@ -6,10 +6,13 @@ import type { Favicon } from '../models/favicon.ts';
 import { h } from 'preact';
 import { useRef } from 'preact/hooks';
 
-import ListInput from './list_input.tsx';
+import ListInput, { LIST_TYPE, ListType } from './list_input.tsx';
+
+export type { ListType };
+export { LIST_TYPE };
 
 export interface ListProps<Type> {
-  type: 'FAVICON' | 'IGNORE';
+  type: ListType;
   state: ListState<Favicon>;
 }
 

@@ -12,13 +12,8 @@ import Only from './only.tsx';
 
 const IGNORE = 'IGNORE';
 const FAVICON = 'FAVICON';
-type ListType = typeof IGNORE | typeof FAVICON;
-
-type Target = {
-  matcher?: string;
-  index: number;
-  toDelete: boolean;
-};
+export type ListType = typeof IGNORE | typeof FAVICON;
+export const LIST_TYPE: { [name: string]: ListType } = { IGNORE, FAVICON };
 
 interface ListInputProps {
   autoFocus?: boolean;
@@ -89,10 +84,7 @@ export default function ListInput({
       />
 
       <Only if={type === FAVICON}>
-        <EmojiSelector
-          emojiId={value?.emojiId}
-          onSelected={onChangeEmoji}
-        />
+        <EmojiSelector emojiId={value?.emojiId} onSelected={onChangeEmoji} />
       </Only>
 
       <Only if={Boolean(deleteItem)}>

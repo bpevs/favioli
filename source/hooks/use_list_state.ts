@@ -1,8 +1,5 @@
 import { useCallback, useEffect, useState } from 'preact/hooks';
 
-// deno-lint-ignore no-explicit-any
-type ListItem = any;
-
 export interface ListState<Type> {
   contents: Type[];
   addItem: (item: Type) => void;
@@ -10,34 +7,33 @@ export interface ListState<Type> {
   deleteItem: (index: number) => void;
 }
 
-export default (initialValue: ListItem[]) => {
-  const [contents, setContents] = useState(initialValue);
+export default function useListState<Type>(
+  initialValue: Type[],
+): ListState<Type> {
+  const [contents, setContents] = useState<Type[]>(initialValue);
 
   useEffect(() => setContents(initialValue), [initialValue]);
 
   return {
     contents,
 
-    addItem: useCallback((listItem: ListItem) => {
+    addItem: useCallback((listItem: Type) => {
       setContents([...contents, listItem]);
     }, [contents]),
 
     updateItem: useCallback(
-      (indexToUpdate: number, updatedListItem: ListItem) => {
-        const updatedListItems: ListItem[] = contents.map(
-          (prevListItem, index) =>
-            index === indexToUpdate ? updatedListItem : prevListItem,
-        );
-        setContents(updatedListItems);
+      (indexToUpdate: number, newListItem: Type) => {
+        const newList: Type[] = contents
+          .map((oldListItem, index) =>
+            index === indexToUpdate ? newListItem : oldListItem
+          );
+        setContents(newList);
       },
       [contents],
     ),
 
-    deleteItem: useCallback((listItemIndex: number) => {
-      const nextlistItems = contents.filter(
-        (_, index) => index !== listItemIndex,
-      );
-      setContents(nextlistItems);
+    deleteItem: useCallback((itemIndex: number) => {
+      setContents(contents.filter((_, index) => index !== itemIndex));
     }, [contents]),
   };
-};
+}

@@ -3,10 +3,7 @@ import browserAPI from 'browser';
 
 const { storage, runtime } = browserAPI;
 
-// deno-lint-ignore no-explicit-any
-type Storage = Record<string, any>;
-
-export interface BrowserStorage<Type extends Storage> {
+export interface BrowserStorage<Type> {
   error?: string;
   cache: Type;
   loading: boolean;
@@ -25,17 +22,23 @@ export interface BrowserStorage<Type extends Storage> {
  *   - `saveCacheToStorage` saves that local data into browserStorage on a separate interaction
  */
 type Keys = string | readonly string[];
-export default function useBrowserStorage<Type extends Storage>(
+export interface Changes<Type> {
+  [key: string]: {
+    newValue?: Type;
+    oldValue?: Type;
+  };
+}
+
+export default function useBrowserStorage<Type>(
   keys: Keys,
   defaultState: Type,
-) {
+): BrowserStorage<Type> {
   const [error, setError] = useState<string>();
   const [cache, setCache] = useState<Type>(defaultState);
   const [loading, setLoading] = useState<boolean>(true);
 
   const updateState = useCallback(
-    // deno-lint-ignore no-explicit-any
-    async function (changes: void | { [key: string]: any }) {
+    async function (changes: void | Changes<Type>) {
       const keyArray = Array.isArray(keys) ? keys : [keys];
       const noChange = changes &&
         !keyArray.some((key) => Boolean(changes[key]));

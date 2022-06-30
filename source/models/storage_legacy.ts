@@ -38,9 +38,7 @@ export const LEGACY_STORAGE_KEYS = [
   'skips',
 ];
 
-export function isSettingsV1(
-  settings: unknown,
-): settings is SettingsV1 {
+export function isSettingsV1(settings: unknown): settings is SettingsV1 {
   if (typeof settings !== 'object' || settings == null) return false;
   return (
     'flagReplaced' in settings ||

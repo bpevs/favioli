@@ -2,22 +2,16 @@
 import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
 import type { Settings } from '../models/settings.ts';
 
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { useCallback, useContext } from 'preact/hooks';
 
 import Checkbox, { Target } from '../components/checkbox.tsx';
 import Only from '../components/only.tsx';
-import { DEFAULT_SETTINGS, SettingsContext } from '../models/settings.ts';
+import { SettingsContext } from '../models/settings.ts';
 import { AUTOSELECTOR_VERSION } from '../utilities/favicon_autoselector.ts';
 import { t } from '../utilities/i18n.ts';
 
-export interface SettingsProps {
-  default?: boolean;
-  path?: string;
-  save?: (e: Event) => void;
-}
-
-const SettingsPage = ({ save }: SettingsProps) => {
+export default function SettingsPage({ save }: { save?: (e: Event) => void }) {
   const storage = useContext<BrowserStorage<Settings>>(SettingsContext);
   const { cache, setCache } = storage;
   const { autoselectorVersion, features } = cache;
@@ -90,6 +84,4 @@ const SettingsPage = ({ save }: SettingsProps) => {
       <button type='submit' children={t('saveLabel')} className='save' />
     </form>
   );
-};
-
-export default SettingsPage;
+}

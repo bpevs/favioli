@@ -3,7 +3,7 @@ import type { Emoji, EmojiGroup, EmojiMap } from '../../../models/emoji.ts';
 import type { OnSelected, Route, SetRoute, SetSwitch } from '../types.ts';
 import type { Ref } from 'preact';
 
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
 
 import { emoji, emojiGroups, emojiGroupsArray } from '../../../models/emoji.ts';

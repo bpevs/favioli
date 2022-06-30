@@ -4,7 +4,7 @@ import type { EmojiMap } from '../../../models/emoji.ts';
 import type { Settings } from '../../../models/settings.ts';
 import type { SetRoute } from '../types.ts';
 
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { useCallback, useContext, useState } from 'preact/hooks';
 
 import { deleteEmoji, emoji } from '../../../models/emoji.ts';
@@ -27,18 +27,19 @@ export default function CustomDelete({
       <div className='emoji-group'>
         {Object.keys(customEmojis)
           .map((name) => {
-            const emoji = customEmojis[name];
             return (
               <EmojiButton
                 className='emoji-selector-button'
                 onClick={async () => {
                   try {
                     if (confirm(`Delete ${name}?`)) {
-                      await deleteEmoji(emoji);
+                      await deleteEmoji(customEmojis[name]);
                       await saveToStorageBypassCache({
                         ...cache,
                         customEmojiIds: cache.customEmojiIds
-                          .filter((desc: string) => desc !== emoji.description),
+                          .filter((desc: string) =>
+                            desc !== customEmojis[name].description
+                          ),
                       });
                       setRoute(ROUTE.DEFAULT);
                     }
@@ -46,7 +47,7 @@ export default function CustomDelete({
                     confirm(e);
                   }
                 }}
-                emoji={emoji}
+                emoji={customEmojis[name]}
               />
             );
           })}
