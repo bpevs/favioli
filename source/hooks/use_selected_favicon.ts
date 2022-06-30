@@ -15,13 +15,13 @@ import { createFaviconURLFromChar } from '../utilities/image_helpers.ts';
  */
 export default function useSelectedFavicon(
   url: string,
-  settings?: Settings,
+  settings: Settings,
 ): {
   selectedFavicon: Favicon | null;
   selectedEmoji: Emoji | null;
-  selectedFaviconURL: string;
+  selectedImageURL: string;
 } {
-  const { autoselectorVersion, features } = settings || {};
+  const { autoselectorVersion, features } = settings;
   const includeFlags = Boolean(features?.enableAutoselectorIncludeCountryFlags);
 
   const [selectedFavicon, setFavicon] = useState<Favicon | null>(null);
@@ -48,7 +48,7 @@ export default function useSelectedFavicon(
     })();
   }, [autoselector, settings, url]);
 
-  const selectedFaviconURL = useMemo((): string => {
+  const selectedImageURL = useMemo((): string => {
     if (!selectedEmoji) return '';
     const { imageURL, emoji } = selectedEmoji;
     return imageURL ||
@@ -59,9 +59,9 @@ export default function useSelectedFavicon(
     return {
       selectedFavicon: null,
       selectedEmoji: null,
-      selectedFaviconURL: '',
+      selectedImageURL: '',
     };
   }
 
-  return { selectedFavicon, selectedEmoji, selectedFaviconURL };
+  return { selectedFavicon, selectedEmoji, selectedImageURL };
 }

@@ -212,6 +212,14 @@ p {
   height: 100%;
 }
 
+.custom-emoji-group-title {
+  margin-top: 20px;
+  text-align: left;
+  font-size: 0.6em;
+  font-weight: bold;
+  width: 100%;
+}
+
 .custom-emoji-button {
   margin: 5px;
 }

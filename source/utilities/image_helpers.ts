@@ -29,7 +29,7 @@ if (ctx) {
  */
 export function createFaviconURLFromChar(
   char: string,
-  showIndicator: boolean = false,
+  showIndicator = false,
 ): string {
   if (!char || !ctx) return '';
 

@@ -68,7 +68,6 @@ export default function ListInput({
   }, [index, deleteItem]);
 
   const color = isRegexString(value?.matcher || '') ? 'green' : 'black';
-
   const placeholder = useMemo(() => {
     return choices[Math.floor(Math.random() * choices.length)];
   }, []);

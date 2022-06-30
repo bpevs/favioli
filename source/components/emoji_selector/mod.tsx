@@ -40,7 +40,7 @@ export default function EmojiSelector({ onSelected, emojiId }: {
   const settings = useContext<BrowserStorage<Settings>>(SettingsContext);
   const { cache, setCache, saveToStorageBypassCache } = settings;
 
-  const [customEmojis, setCustomEmojis] = useState({});
+  const [customEmojis, setCustomEmojis] = useState<EmojiMap>({});
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [route, setRoute] = useState<Route>(ROUTE.DEFAULT);
   const [selectedEmoji, setSelectedEmoji] = useState<Emoji>(DEFAULT_EMOJI);
@@ -48,8 +48,8 @@ export default function EmojiSelector({ onSelected, emojiId }: {
   useEffect(() => {
     const currIds = Object.keys(customEmojis).sort();
     if (currIds.length > cache.customEmojiIds.length) {
-      const nextEmojis = {};
-      cache.customEmojiIds.forEach((id) => {
+      const nextEmojis: EmojiMap = {};
+      cache.customEmojiIds.forEach((id: string) => {
         nextEmojis[id] = customEmojis[id];
       });
       setCustomEmojis(nextEmojis);
@@ -109,18 +109,6 @@ export default function EmojiSelector({ onSelected, emojiId }: {
         route={route}
         setIsOpen={setIsOpen}
         setRoute={setRoute}
-        submitCustomEmoji={useCallback(async (description, url) => {
-          try {
-            await saveEmoji(createEmoji(description, url));
-            const customEmojiIds = Array.from(
-              new Set(cache.customEmojiIds.concat(description)),
-            );
-            await saveToStorageBypassCache({ ...cache, customEmojiIds });
-            setRoute(ROUTE.DEFAULT);
-          } catch (e) {
-            confirm(e);
-          }
-        }, [settings, cache.customEmojiIds])}
       />
     </Fragment>
   );

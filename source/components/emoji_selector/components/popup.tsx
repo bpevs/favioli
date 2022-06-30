@@ -24,7 +24,6 @@ export default function Popup(
     route,
     setIsOpen,
     setRoute,
-    submitCustomEmoji,
   }: {
     customEmojis: EmojiMap;
     isOpen: boolean;
@@ -34,11 +33,6 @@ export default function Popup(
     route: Route;
     setIsOpen: SetSwitch;
     setRoute: SetRoute;
-    submitCustomEmoji: (
-      name: string,
-      image: string,
-      type: string,
-    ) => Promise<void>;
   },
 ) {
   const [groupFilter, setGroupFilter] = useState('');
@@ -55,10 +49,7 @@ export default function Popup(
   if (route === ROUTE.CREATE_CUSTOM) {
     return (
       <div className='emoji-selector-popup' ref={popupRef}>
-        <CustomUpload
-          setRoute={setRoute}
-          submitCustomEmoji={submitCustomEmoji}
-        />
+        <CustomUpload setRoute={setRoute} />
       </div>
     );
   }

@@ -26,11 +26,11 @@
   "tasks": {
     "test": "deno test -A source",
     "test:all": "deno fmt && deno task check:all && deno task test && deno lint",
+    "test:update": "deno test -A -- --update source",
     "check:all": "deno task check:background && deno task check:content_script && deno task check:options && deno task check:popup",
     "check:background": "deno check source/background.ts",
     "check:content_script": "deno check source/content_script.ts",
     "check:options": "deno check source/options.tsx",
-    "check:popup": "deno check source/popup.tsx",
-    "test:update": "deno test -A -- --update source"
+    "check:popup": "deno check source/popup.tsx"
   }
 }

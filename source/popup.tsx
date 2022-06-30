@@ -8,7 +8,7 @@ import browserAPI from 'browser';
 import Only from './components/only.tsx';
 import useActiveTab from './hooks/use_active_tab.ts';
 import useBrowserStorage from './hooks/use_browser_storage.ts';
-import useFavioliIcon from './hooks/use_selected_favicon.ts';
+import useSelectedFavicon from './hooks/use_selected_favicon.ts';
 import useStatus from './hooks/use_status.ts';
 import { DEFAULT_SETTINGS, SETTINGS_KEY } from './models/settings.ts';
 
@@ -16,7 +16,7 @@ const App = () => {
   const settings = useBrowserStorage<Settings>(SETTINGS_KEY, DEFAULT_SETTINGS);
   const { setCache, cache, error, loading } = settings;
   const { favIconUrl = '', url = '' } = useActiveTab() || {};
-  const { selectedFavicon, selectedFaviconURL } = useFavioliIcon(url, cache);
+  const { selectedFavicon, selectedImageURL } = useSelectedFavicon(url, cache);
   const origin = url ? (new URL(url)).origin : '';
 
   const hasQuickOverride = useMemo(() => {
@@ -40,8 +40,8 @@ const App = () => {
     }, [selectedFavicon, hasQuickOverride, origin, cache]),
   );
 
-  const overridable = !hasQuickOverride && selectedFaviconURL !== favIconUrl;
-  const overridden = !hasQuickOverride && selectedFaviconURL === favIconUrl;
+  const overridable = !hasQuickOverride && selectedImageURL !== favIconUrl;
+  const overridden = !hasQuickOverride && selectedImageURL === favIconUrl;
 
   return (
     <div className='popup-wrapper'>
@@ -59,7 +59,7 @@ const App = () => {
           Favioli Favicon:
           <img
             className='favicon-icon'
-            src={selectedFaviconURL || ''}
+            src={selectedImageURL || ''}
             width={20}
             height={20}
           />
@@ -68,12 +68,12 @@ const App = () => {
       <div style='padding-top: 10px; text-align: center;'>
         Is a Favioli Favicon?{' '}
         <span style='font-weight: bold;'>
-          {selectedFaviconURL === favIconUrl ? 'Yes!' : 'No!'}
+          {selectedImageURL === favIconUrl ? 'Yes!' : 'No!'}
         </span>
       </div>
       <button
         onClick={save}
-        disabled={!hasQuickOverride && selectedFaviconURL === favIconUrl}
+        disabled={!hasQuickOverride && selectedImageURL === favIconUrl}
       >
         <Only if={hasQuickOverride}>Remove Quick Override</Only>
         <Only if={overridable}>Quick Override Favicon</Only>

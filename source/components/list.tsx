@@ -15,38 +15,31 @@ export interface ListProps<Type> {
 
 export default function List<Type,>({ type, state }: ListProps<Type>) {
   const listRef = useRef<HTMLInputElement>(null);
-  const listInputs = state.contents.map(
-    (listItem: Favicon, index: number) => {
-      return (
+  const { addItem, deleteItem, updateItem, contents } = state;
+  return (
+    <div className='list' ref={listRef}>
+      {contents.map((listItem: Favicon, index: number) => (
         <ListInput
           type={type}
           key={index}
           index={index}
-          value={state.contents[index] || ''}
+          value={contents[index] || ''}
           autoFocus={index === 0}
-          updateItem={state.updateItem}
-          deleteItem={(index) => {
-            state.deleteItem(index);
+          updateItem={updateItem}
+          deleteItem={(index: number) => {
+            deleteItem(index);
             const firstInput = listRef?.current?.querySelector('input');
             if (firstInput) firstInput.focus();
           }}
         />
-      );
-    },
-  );
-
-  const newItemInput = (
-    <ListInput
-      type={type}
-      key={state.contents.length}
-      index={state.contents.length}
-      addItem={state.addItem}
-    />
-  );
-
-  return (
-    <div className='list' ref={listRef}>
-      {listInputs.concat(newItemInput)}
+      )).concat(
+        <ListInput
+          type={type}
+          key={contents.length}
+          index={contents.length}
+          addItem={addItem}
+        />,
+      )}
     </div>
   );
 }

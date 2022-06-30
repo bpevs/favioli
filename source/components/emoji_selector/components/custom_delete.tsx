@@ -1,14 +1,14 @@
 /* @jsx h */
+import type { BrowserStorage } from '../../../hooks/use_browser_storage.ts';
 import type { EmojiMap } from '../../../models/emoji.ts';
-import type { SetRoute } from '../types.ts';
 import type { Settings } from '../../../models/settings.ts';
+import type { SetRoute } from '../types.ts';
 
 import { Fragment, h } from 'preact';
 import { useCallback, useContext, useState } from 'preact/hooks';
 
-import { SettingsContext } from '../../../models/settings.ts';
 import { deleteEmoji, emoji } from '../../../models/emoji.ts';
-import { createFaviconURLFromImage } from '../../../utilities/image_helpers.ts';
+import { SettingsContext } from '../../../models/settings.ts';
 import Only from '../../only.tsx';
 import { ROUTE } from '../types.ts';
 import EmojiButton from './emoji_button.tsx';
@@ -24,7 +24,7 @@ export default function CustomDelete({
   const { cache, saveToStorageBypassCache } = settings;
   return (
     <div className='emoji-custom-upload'>
-      <div classname='emoji-group'>
+      <div className='emoji-group'>
         {Object.keys(customEmojis)
           .map((name) => {
             const emoji = customEmojis[name];
@@ -38,7 +38,7 @@ export default function CustomDelete({
                       await saveToStorageBypassCache({
                         ...cache,
                         customEmojiIds: cache.customEmojiIds
-                          .filter((desc) => desc !== emoji.description),
+                          .filter((desc: string) => desc !== emoji.description),
                       });
                       setRoute(ROUTE.DEFAULT);
                     }

@@ -1,6 +1,3 @@
-> This README is for Favioli 2.00, which is not currently released.
-> Use [`main`](https://github.com/ivebencrazy/favioli) to see the code of the currently deployed Favioli.
-
 # Favioli 🤯
 
 <p>
@@ -24,12 +21,13 @@ After, we want to install [bext](https://github.com/bpevs/bext) (a set of browse
 deno install --name=bext --allow-read --allow-write --allow-run --allow-env -f https://deno.land/x/bext/main.ts
 ```
 
-| Commands         | What they Do                        |
-| ---------------- | ----------------------------------- |
-| `bext`           | bundles extension and watch code    |
-| `bext chrome`    | bundles extension only for chrome   |
-| `bext firefox`   | bundles extension only for firefox  |
-| `deno task test` | run code formatter, then unit tests |
+| Commands                | What they Do                        |
+| ----------------------- | ----------------------------------- |
+| `bext`                  | bundles extension and watch code    |
+| `bext chrome`           | bundles extension only for chrome   |
+| `bext firefox`          | bundles extension only for firefox  |
+| `deno task test:all`    | run code formatter, then unit tests |
+| `deno task test:update` | run code formatter, then unit tests |
 
 If you have bundled using make commands, you should be able to load your
 unpacked extension using a browser.
