@@ -23,6 +23,7 @@ export interface Settings {
     enableFaviconAutofill: boolean;
     enableSiteIgnore: boolean;
     enableOverrideAll: boolean;
+    enableOverrideIndicator: boolean;
   };
 }
 
@@ -40,6 +41,7 @@ export const DEFAULT_SETTINGS: Settings = {
     enableFaviconAutofill: true,
     enableSiteIgnore: false,
     enableOverrideAll: false,
+    enableOverrideIndicator: false,
   },
 };
 

@@ -51,8 +51,9 @@ export default function useSelectedFavicon(
   const selectedFaviconURL = useMemo((): string => {
     if (!selectedEmoji) return '';
     const { imageURL, emoji } = selectedEmoji;
-    return imageURL || createFaviconURLFromChar(emoji || '');
-  }, [selectedEmoji]);
+    return imageURL ||
+      createFaviconURLFromChar(emoji || '', features.enableOverrideIndicator);
+  }, [selectedEmoji, features.enableOverrideIndicator]);
 
   if (!url || !settings) {
     return {

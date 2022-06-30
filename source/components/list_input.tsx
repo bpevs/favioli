@@ -34,8 +34,8 @@ interface ListInputProps {
 const choices = [
   'favioli.com',
   'https://favioli.com',
-  '/fa.ioli$/',
-  '/favioli/',
+  'favioli',
+  '/favioli.com$/i',
   '/http:\\/\\//',
 ];
 
@@ -49,9 +49,10 @@ export default function ListInput({
   index,
 }: ListInputProps) {
   const onChangeMatcher = useCallback((e: Event) => {
-    const matcher = (e.target as HTMLInputElement).value;
-    const next = { emojiId: value?.emojiId || '', matcher };
-    addItem ? addItem(next) : updateItem(index, next);
+    if (e.target instanceof HTMLInputElement) {
+      const next = { emojiId: value?.emojiId || '', matcher: e.target.value };
+      addItem ? addItem(next) : updateItem(index, next);
+    }
   }, [index, value, updateItem, addItem]);
 
   const onChangeEmoji = useCallback((selectedEmoji: Emoji) => {

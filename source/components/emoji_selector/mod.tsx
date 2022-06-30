@@ -2,6 +2,7 @@
 import type { Emoji, EmojiMap } from '../../models/emoji.ts';
 import type { Settings } from '../../models/settings.ts';
 import type { BrowserStorage } from '../../hooks/use_browser_storage.ts';
+import type { OnSelected, Route } from './types.ts';
 
 import { Fragment, h } from 'preact';
 import {
@@ -28,32 +29,42 @@ import {
 import { SettingsContext } from '../../models/settings.ts';
 import EmojiButton from './components/emoji_button.tsx';
 import Popup from './components/popup.tsx';
-import { OnSelected } from './types.ts';
+import { ROUTE } from './types.ts';
 
 const defaultState = {};
 export default function EmojiSelector({ onSelected, emojiId }: {
   emojiId?: string;
   onSelected: OnSelected;
 }) {
+  const buttonRef = useRef<HTMLButtonElement>();
   const settings = useContext<BrowserStorage<Settings>>(SettingsContext);
   const { cache, setCache, saveToStorageBypassCache } = settings;
+
   const [customEmojis, setCustomEmojis] = useState({});
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [route, setRoute] = useState<Route>(ROUTE.DEFAULT);
+  const [selectedEmoji, setSelectedEmoji] = useState<Emoji>(DEFAULT_EMOJI);
+
   useEffect(() => {
     const currIds = Object.keys(customEmojis).sort();
+    if (currIds.length > cache.customEmojiIds.length) {
+      const nextEmojis = {};
+      cache.customEmojiIds.forEach((id) => {
+        nextEmojis[id] = customEmojis[id];
+      });
+      setCustomEmojis(nextEmojis);
+      return;
+    }
+
     const matches = cache.customEmojiIds.sort()
       .every((value, index) => currIds[index] === value);
 
-    if (!matches) {
-      (async function fetchEmojis() {
-        setCustomEmojis(await getEmojis(cache.customEmojiIds));
-      })();
-    }
-  }, [cache.customEmojiIds]);
+    if (matches) return;
 
-  const buttonRef = useRef<HTMLButtonElement>();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isCustom, setIsCustom] = useState<boolean>(false);
-  const [selectedEmoji, setSelectedEmoji] = useState<Emoji>(DEFAULT_EMOJI);
+    (async function fetchEmojis() {
+      setCustomEmojis(await getEmojis(cache.customEmojiIds));
+    })();
+  }, [cache.customEmojiIds]);
 
   // For reverting to default state when list_items are deleted
   useEffect(function updateStateWithNewValue() {
@@ -71,40 +82,45 @@ export default function EmojiSelector({ onSelected, emojiId }: {
   return (
     <Fragment>
       <EmojiButton
-        emoji={selectedEmoji}
         className='emoji-selector-button'
-        ref={buttonRef}
+        emoji={selectedEmoji}
         onClick={useCallback(() => {
           setIsOpen(!isOpen);
-          setIsCustom(false);
+          setRoute(ROUTE.DEFAULT);
         }, [isOpen])}
+        ref={buttonRef}
       />
       <Popup
+        customEmojis={customEmojis}
+        isOpen={isOpen}
         popupRef={useFocusObserver(
           useCallback(() => {
             setIsOpen(false);
-            setIsCustom(false);
+            setRoute(ROUTE.DEFAULT);
           }, [setIsOpen]),
           [buttonRef],
         )}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        isCustom={isCustom}
-        setIsCustom={setIsCustom}
-        customEmojis={customEmojis}
-        submitCustomEmoji={useCallback(async (description, url) => {
-          await saveEmoji(createEmoji(description, url));
-          const customEmojiIds = Array.from(
-            new Set(cache.customEmojiIds.concat(description)),
-          );
-          await saveToStorageBypassCache({ ...cache, customEmojiIds });
-        }, [settings, cache.customEmojiIds])}
         onSelected={useCallback((emoji: Emoji) => {
           if (!isOpen) return;
           onSelected(emoji);
           setSelectedEmoji(emoji);
           setIsOpen(false);
         }, [isOpen, setIsOpen])}
+        route={route}
+        setIsOpen={setIsOpen}
+        setRoute={setRoute}
+        submitCustomEmoji={useCallback(async (description, url) => {
+          try {
+            await saveEmoji(createEmoji(description, url));
+            const customEmojiIds = Array.from(
+              new Set(cache.customEmojiIds.concat(description)),
+            );
+            await saveToStorageBypassCache({ ...cache, customEmojiIds });
+            setRoute(ROUTE.DEFAULT);
+          } catch (e) {
+            confirm(e);
+          }
+        }, [settings, cache.customEmojiIds])}
       />
     </Fragment>
   );

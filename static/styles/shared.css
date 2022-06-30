@@ -212,6 +212,10 @@ p {
   height: 100%;
 }
 
+.custom-emoji-button {
+  margin: 5px;
+}
+
 .emoji-custom-upload button {
   margin: 5px;
 }

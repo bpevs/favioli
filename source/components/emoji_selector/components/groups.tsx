@@ -1,19 +1,21 @@
 /* @jsx h */
-import type { OnSelected, SetSwitch } from '../types.ts';
+import type { OnSelected, SetRoute } from '../types.ts';
 import type { Emoji, EmojiGroup, EmojiGroups } from '../../../models/emoji.ts';
 
 import { Fragment, h } from 'preact';
 import { useCallback, useMemo } from 'preact/hooks';
 
+import Only from '../../only.tsx';
 import EmojiButton from './emoji_button.tsx';
+import { ROUTE } from '../types.ts';
 
 export default function Groups(
-  { groupFilter, filter, onSelected, emojiGroups, setIsCustom }: {
+  { groupFilter, filter, onSelected, emojiGroups, setRoute }: {
     groupFilter: string;
     filter: string;
     onSelected: OnSelected;
     emojiGroups: EmojiGroups;
-    setIsCustom: SetSwitch;
+    setRoute: SetRoute;
   },
 ) {
   const emojiFilter = useCallback((emoji: Emoji) => {
@@ -59,13 +61,22 @@ export default function Groups(
     <Fragment>
       {shouldNotShowGroups ? '' : emojiGroupComponents}
       {!emojiGroupComponents.length ? 'No Matches' : ''}
-      {groupFilter === '' || groupFilter === 'Custom Emojis'
-        ? (
-          <button type='button' onClick={() => setIsCustom(true)}>
-            Add Custom Emoji
-          </button>
-        )
-        : ''}
+      <Only if={groupFilter === '' || groupFilter === 'Custom Emojis'}>
+        <button
+          className='custom-emoji-button'
+          type='button'
+          onClick={() => setRoute(ROUTE.CREATE_CUSTOM)}
+        >
+          Add Custom Emoji
+        </button>
+        <button
+          className='custom-emoji-button'
+          type='button'
+          onClick={() => setRoute(ROUTE.DELETE_CUSTOM)}
+        >
+          Remove Custom Emoji
+        </button>
+      </Only>
     </Fragment>
   );
 }

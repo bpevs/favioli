@@ -26,6 +26,7 @@ const SettingsPage = ({ save }: SettingsProps) => {
     enableFaviconAutofill,
     enableSiteIgnore,
     enableOverrideAll,
+    enableOverrideIndicator,
   } = features;
 
   const setFeature = useCallback((nextFeature: Target) => {
@@ -80,6 +81,12 @@ const SettingsPage = ({ save }: SettingsProps) => {
           </div>
         </div>
       </Only>
+      <Checkbox
+        name='enableOverrideIndicator'
+        label={t('enableOverrideIndicatorLabel')}
+        checked={enableOverrideIndicator}
+        onChange={setFeature}
+      />
       <button type='submit' children={t('saveLabel')} className='save' />
     </form>
   );

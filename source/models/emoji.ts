@@ -63,6 +63,11 @@ export function createEmoji(
   };
 }
 
+export async function deleteEmoji(emojiToDelete: Emoji): Promise<void> {
+  const desc: string = emojiToDelete.description;
+  await storage.sync.remove(getEmojiStorageId(desc));
+}
+
 export const getEmojiStorageId = (id: string) => `Custom Emoji: ${id}`;
 const byDescription: EmojiMap = fromEntries(
   emojis.map((emoji) => [emoji.description, emoji]),

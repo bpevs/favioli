@@ -1,6 +1,6 @@
 /* @jsx h */
 import type { Emoji, EmojiGroup, EmojiMap } from '../../../models/emoji.ts';
-import type { OnSelected, SetSwitch } from '../types.ts';
+import type { OnSelected, Route, SetRoute, SetSwitch } from '../types.ts';
 import type { Ref } from 'preact';
 
 import { Fragment, h } from 'preact';
@@ -9,29 +9,31 @@ import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
 import { emoji, emojiGroups, emojiGroupsArray } from '../../../models/emoji.ts';
 import Groups from './groups.tsx';
 import CustomUpload from './custom_upload.tsx';
+import CustomDelete from './custom_delete.tsx';
+import { ROUTE } from '../types.ts';
 
 const POPUP_WIDTH = 350;
 const BUTTON_HEIGHT = 32;
 
 export default function Popup(
   {
-    isCustom,
+    customEmojis,
     isOpen,
     onSelected,
     popupRef,
-    setIsCustom,
+    route,
     setIsOpen,
+    setRoute,
     submitCustomEmoji,
-    customEmojis,
   }: {
+    customEmojis: EmojiMap;
     isOpen: boolean;
-    isCustom: boolean;
     onSelected: OnSelected;
     // deno-lint-ignore no-explicit-any
     popupRef: Ref<any>;
-    setIsCustom: SetSwitch;
+    route: Route;
     setIsOpen: SetSwitch;
-    customEmojis: EmojiMap;
+    setRoute: SetRoute;
     submitCustomEmoji: (
       name: string,
       image: string,
@@ -50,12 +52,23 @@ export default function Popup(
 
   if (!isOpen) return null;
 
-  if (isCustom) {
+  if (route === ROUTE.CREATE_CUSTOM) {
     return (
       <div className='emoji-selector-popup' ref={popupRef}>
         <CustomUpload
-          setIsCustom={setIsCustom}
+          setRoute={setRoute}
           submitCustomEmoji={submitCustomEmoji}
+        />
+      </div>
+    );
+  }
+
+  if (route === ROUTE.DELETE_CUSTOM) {
+    return (
+      <div className='emoji-selector-popup' ref={popupRef}>
+        <CustomDelete
+          setRoute={setRoute}
+          customEmojis={customEmojis}
         />
       </div>
     );
@@ -90,9 +103,8 @@ export default function Popup(
           onInput={setFilter}
         />
       </div>
-
       <Groups
-        setIsCustom={setIsCustom}
+        setRoute={setRoute}
         emojiGroups={allEmojis}
         filter={filter}
         groupFilter={groupFilter}
@@ -106,9 +118,10 @@ function useFilterState(initialValue: string): [string, (e: Event) => void] {
   const [filter, setFilter] = useState(initialValue);
 
   const updateFilter = useCallback((e: Event) => {
-    const filter = (e?.target as HTMLInputElement)?.value || '';
-    setFilter(filter);
-  }, []);
+    if (e.target instanceof HTMLInputElement) {
+      setFilter(e.target?.value || '');
+    }
+  }, [setFilter]);
 
   return [filter, updateFilter];
 }

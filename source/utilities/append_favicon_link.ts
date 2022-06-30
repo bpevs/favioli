@@ -11,6 +11,7 @@ let hasFavicon = false;
 
 interface Options {
   shouldOverride?: boolean;
+  enableOverrideIndicator?: boolean;
 }
 
 // Given an emoji string, append it to the document head
@@ -18,10 +19,11 @@ export default async function appendFaviconLink(
   emoji: Emoji,
   options?: Options | void,
 ) {
-  const { shouldOverride = false } = options || {};
+  const { shouldOverride = false, enableOverrideIndicator = false } = options ||
+    {};
   const faviconURL = emoji.imageURL
     ? emoji.imageURL
-    : createFaviconURLFromChar(emoji.emoji || '');
+    : createFaviconURLFromChar(emoji.emoji || '', enableOverrideIndicator);
 
   if (!faviconURL) return;
   if (shouldOverride) removeAllFaviconLinks();

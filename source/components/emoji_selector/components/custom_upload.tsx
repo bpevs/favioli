@@ -1,42 +1,32 @@
 /* @jsx h */
+import type { SetRoute } from '../types.ts';
 
 import { Fragment, h } from 'preact';
 import { useCallback, useState } from 'preact/hooks';
-import * as emoji from 'emoji';
 
-import Only from '../../only.tsx';
+import { emoji } from '../../../models/emoji.ts';
 import { createFaviconURLFromImage } from '../../../utilities/image_helpers.ts';
-import type { SetSwitch } from '../types.ts';
+import Only from '../../only.tsx';
+import { ROUTE } from '../types.ts';
 
 export default function CustomUpload(
-  { setIsCustom, submitCustomEmoji }: {
-    setIsCustom: SetSwitch;
-    submitCustomEmoji: (
-      name: string,
-      image: string,
-      type: string,
-    ) => Promise<void>;
+  { setRoute, submitCustomEmoji }: {
+    setRoute: SetRoute;
+    submitCustomEmoji: (name: string, image: string) => Promise<void>;
   },
 ) {
   const [image, setSelectedEmoji] = useState('');
   const [name, setName] = useState<string>('');
-  const exitIsCustomPage = useCallback(() => setIsCustom(false), [setIsCustom]);
-  const submitCustomEmojiCb = useCallback(async () => {
-    await submitCustomEmoji(name, image, 'image');
-    setIsCustom(false);
-  }, [image, name, setIsCustom]);
-
-  const updateName = useCallback((event: Event) => {
-    setName((event?.target as HTMLInputElement)?.value || '');
-  }, [setName]);
 
   const updateImage = useCallback(async (event: Event) => {
-    const file = (event?.target as HTMLInputElement)?.files?.[0];
-    if (file?.name && !name) setName(file.name.match(/(.*)\..*$/)?.[1] || '');
-    const url = await createFaviconURLFromImage(
-      URL.createObjectURL(file as Blob),
-    );
-    setSelectedEmoji(url);
+    if (event.target instanceof HTMLInputElement) {
+      const file = event.target?.files?.[0];
+      if (file?.name && !name) setName(file.name.match(/(.*)\..*$/)?.[1] || '');
+      const url = await createFaviconURLFromImage(
+        URL.createObjectURL(file as Blob),
+      );
+      setSelectedEmoji(url);
+    }
   }, [setSelectedEmoji, setName, name]);
 
   return (
@@ -58,11 +48,28 @@ export default function CustomUpload(
           name='Name'
           placeholder='Name'
           value={name}
-          onChange={updateName}
+          onChange={useCallback(({ target }: Event) => {
+            if (target instanceof HTMLInputElement) {
+              setName(target.value || '');
+            }
+          }, [setName])}
         />
       </div>
-      <button type='button' onClick={submitCustomEmojiCb}>submit</button>
-      <button type='button' onClick={exitIsCustomPage}>cancel</button>
+      <button
+        type='button'
+        onClick={useCallback(() => submitCustomEmoji(name, image), [
+          name,
+          image,
+        ])}
+      >
+        submit
+      </button>
+      <button
+        type='button'
+        onClick={useCallback(() => setRoute(ROUTE.DEFAULT), [setRoute])}
+      >
+        cancel
+      </button>
     </div>
   );
 }

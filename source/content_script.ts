@@ -11,12 +11,17 @@ import browserAPI from 'browser';
 import appendFaviconLink from './utilities/append_favicon_link.ts';
 import { parseRegExp } from './utilities/regex_utils.ts';
 
-browserAPI.runtime.onMessage.addListener(({ emoji, shouldOverride }: {
-  emoji: Emoji;
-  shouldOverride: boolean;
-}) => {
-  if (emoji) appendFaviconLink(emoji, { shouldOverride });
-});
+browserAPI.runtime.onMessage.addListener(
+  ({ emoji, shouldOverride, enableOverrideIndicator }: {
+    emoji: Emoji;
+    shouldOverride: boolean;
+    enableOverrideIndicator: boolean;
+  }) => {
+    if (emoji) {
+      appendFaviconLink(emoji, { shouldOverride, enableOverrideIndicator });
+    }
+  },
+);
 
 /**
  * Reload the webpage if new Favioli settings may have updated the favicon

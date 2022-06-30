@@ -57,6 +57,7 @@ export function migrateStorageFromV1(legacySettings: SettingsV1): Settings {
     enableAutoselectorIncludeCountryFlags: false,
     enableFaviconAutofill: true,
     enableOverrideAll: legacySettings.overrideAll,
+    enableOverrideIndicator: legacySettings.flagReplaced,
     enableSiteIgnore: Boolean(legacySettings?.skips?.length),
   };
 

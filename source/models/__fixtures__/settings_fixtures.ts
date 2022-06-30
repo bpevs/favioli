@@ -94,6 +94,7 @@ export const v2: Settings = {
     enableFaviconAutofill: true,
     enableOverrideAll: false,
     enableSiteIgnore: true,
+    enableOverrideIndicator: true,
   },
   ignoreList: [
     createFavicon('hahahahh'),

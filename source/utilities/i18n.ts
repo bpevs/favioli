@@ -10,6 +10,7 @@ Favioli does NOT collect or store any of this data, and does NOT use these permi
 
 const en: { [name: string]: string } = {
   enableOverrideAllLabel: 'Override All Favicons',
+  enableOverrideIndicatorLabel: 'Indicate Overridden Favicons',
   enableFaviconAutofillDesc:
     'If a website doesn\'t have a favicon, Favioli will automatically create one for it using an emoji.',
   enableFaviconAutofillLabel: 'Enable Autofill',

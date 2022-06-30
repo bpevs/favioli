@@ -34,7 +34,11 @@ browserAPI.tabs.onUpdated.addListener(
     if (!emoji) return;
 
     try {
-      await browserAPI.tabs.sendMessage(tabId, { emoji, shouldOverride });
+      await browserAPI.tabs.sendMessage(tabId, {
+        emoji,
+        shouldOverride,
+        enableOverrideIndicator: settings.features.enableOverrideIndicator,
+      });
     } catch (e) {
       console.log(e);
     }
@@ -51,10 +55,10 @@ async function syncSettings() {
 
   if (isSettingsV1(storage)) {
     console.info('Version < 2 versions found', storage);
-    console.info('Migrating to', settings);
     settings = migrateStorageFromV1(storage);
+    console.info('Migrating to', settings);
     await browserAPI.storage.sync.remove(LEGACY_STORAGE_KEYS);
-    await browserAPI.storage.sync.set(settings);
+    await browserAPI.storage.sync.set({ settings });
   } else if (
     !storage?.settings ||
     Object.keys(storage.settings).length !==

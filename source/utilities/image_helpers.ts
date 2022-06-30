@@ -27,7 +27,10 @@ if (ctx) {
  * Heavily inspired by emoji-favicon-toolkit
  * @source https://github.com/eligrey/emoji-favicon-toolkit/blob/master/src/emoji-favicon-toolkit.ts
  */
-export function createFaviconURLFromChar(char: string): string {
+export function createFaviconURLFromChar(
+  char: string,
+  showIndicator: boolean = false,
+): string {
   if (!char || !ctx) return '';
 
   // Calculate sizing
@@ -42,6 +45,20 @@ export function createFaviconURLFromChar(char: string): string {
   ctx.save();
   ctx.scale(scale, scale);
   ctx.fillText(char, centerScaled, centerScaled + VERTICAL_OFFSET);
+
+  if (showIndicator) {
+    const FLAG_SIZE = 30;
+    ctx.beginPath();
+    ctx.arc(
+      ICON_SIZE - FLAG_SIZE,
+      ICON_SIZE - FLAG_SIZE,
+      FLAG_SIZE,
+      0,
+      2 * Math.PI,
+    );
+    ctx.fillStyle = 'red';
+    ctx.fill();
+  }
 
   ctx.restore();
   return canvas.toDataURL('image/png');
