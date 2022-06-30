@@ -5,7 +5,7 @@ import type { Favicon } from '../models/favicon.ts';
 import { h } from 'preact';
 import { useCallback, useMemo } from 'preact/hooks';
 
-import { isRegexString } from '../utilities/predicates.ts';
+import { isRegexString } from '../utilities/regex_utils.ts';
 import EmojiSelector from './emoji_selector/mod.tsx';
 import Only from './only.tsx';
 
@@ -36,6 +36,7 @@ const choices = [
   'https://favioli.com',
   '/fa.ioli$/',
   '/favioli/',
+  '/http:\\/\\//',
 ];
 
 export default function ListInput({

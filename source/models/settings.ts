@@ -37,7 +37,7 @@ export const DEFAULT_SETTINGS: Settings = {
 
   features: {
     enableAutoselectorIncludeCountryFlags: false,
-    enableFaviconAutofill: false,
+    enableFaviconAutofill: true,
     enableSiteIgnore: false,
     enableOverrideAll: false,
   },

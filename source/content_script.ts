@@ -9,6 +9,14 @@ import type { Favicon } from './models/favicon.ts';
  */
 import browserAPI from 'browser';
 import appendFaviconLink from './utilities/append_favicon_link.ts';
+import { parseRegExp } from './utilities/regex_utils.ts';
+
+browserAPI.runtime.onMessage.addListener(({ emoji, shouldOverride }: {
+  emoji: Emoji;
+  shouldOverride: boolean;
+}) => {
+  if (emoji) appendFaviconLink(emoji, { shouldOverride });
+});
 
 /**
  * Reload the webpage if new Favioli settings may have updated the favicon
@@ -69,14 +77,7 @@ function shallowCompare(obj1: unknown, obj2: unknown) {
 }
 
 function includesCurrUrl({ matcher }: Favicon) {
-  return (new RegExp(matcher)).test(location.href);
+  const regex = parseRegExp(matcher);
+  if (regex) return regex.test(location.href);
+  return location.href.indexOf(matcher) != -1;
 }
-
-browserAPI.runtime.onMessage.addListener(({ emoji, shouldOverride }: {
-  emoji: Emoji;
-  shouldOverride: boolean;
-}) => {
-  if (emoji) {
-    appendFaviconLink(emoji, { shouldOverride });
-  }
-});

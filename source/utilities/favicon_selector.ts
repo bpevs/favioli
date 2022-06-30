@@ -1,6 +1,7 @@
 import type { Favicon } from '../models/favicon.ts';
 import type { Settings } from '../models/settings.ts';
 import type Autoselector from './favicon_autoselector.ts';
+import { parseRegExp } from './regex_utils.ts';
 
 /**
  * Override Priority
@@ -29,6 +30,14 @@ export default function selectFavicon(
 }
 
 function listItemMatchesURL(url: string): (favicon: Favicon) => boolean {
-  return (favicon: Favicon): boolean =>
-    favicon?.matcher ? new RegExp(favicon.matcher || '^$').test(url) : false;
+  return (favicon: Favicon): boolean => {
+    if (!url || !favicon?.matcher) return false;
+
+    const regex = parseRegExp(favicon.matcher);
+    if (regex) {
+      return regex.test(url);
+    }
+
+    return url.indexOf(favicon.matcher) != -1;
+  };
 }

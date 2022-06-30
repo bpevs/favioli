@@ -31,7 +31,6 @@ const App = () => {
 
       const siteList = (cache.siteList || [])
         .filter(({ matcher }) => matcher !== origin);
-      console.log(cache.siteList);
 
       if (selectedFavicon && !hasQuickOverride) {
         siteList.push({ ...selectedFavicon, matcher: origin });

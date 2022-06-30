@@ -9,7 +9,8 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["content_script.js"]
+      "js": ["content_script.js"],
+      "run_at": "document_idle"
     }
   ],
   "options_page": "options.html",

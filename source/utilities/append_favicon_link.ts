@@ -1,10 +1,13 @@
 import type { Emoji } from '../models/emoji.ts';
+import { isFirefox } from './predicates.ts';
 
 import { createFaviconURLFromChar, ICON_SIZE } from './image_helpers.ts';
-import { isIconLink } from './predicates.ts';
 
 const head = document.getElementsByTagName('head')[0];
 let appendedFavicon: HTMLElement | null = null;
+
+// Cache `true`, to give site every opportunity
+let hasFavicon = false;
 
 interface Options {
   shouldOverride?: boolean;
@@ -21,13 +24,11 @@ export default async function appendFaviconLink(
     : createFaviconURLFromChar(emoji.emoji || '');
 
   if (!faviconURL) return;
-
   if (shouldOverride) removeAllFaviconLinks();
 
   // Already appended favicon; just update
-  if (appendedFavicon) {
-    appendedFavicon.setAttribute('href', faviconURL);
-  } else if (shouldOverride || await doesSiteHaveFavicon() === false) {
+  if (appendedFavicon) return appendedFavicon.setAttribute('href', faviconURL);
+  if (shouldOverride || !(await doesSiteHaveFavicon())) {
     appendedFavicon = head.appendChild(
       createLink(faviconURL, ICON_SIZE, 'image/png'),
     );
@@ -38,21 +39,35 @@ export default async function appendFaviconLink(
 function getAllIconLinks(): HTMLLinkElement[] {
   return Array.prototype.slice
     .call(document.getElementsByTagName('link'))
-    .filter(isIconLink);
+    .filter((link: HTMLLinkElement) => {
+      return new RegExp(/icon/i).test(link.rel);
+    });
 }
 
-async function doesSiteHaveFavicon() {
-  const iconLinkFound = getAllIconLinks()
-    .concat(createLink('/favicon.ico')) // Browsers fallback to favicon.ico
-    .map(async ({ href }: HTMLLinkElement) => {
-      if ((await fetch(href)).status < 400) return true;
-      throw new Error('not found');
+async function doesSiteHaveFavicon(): Promise<boolean> {
+  if (hasFavicon) return hasFavicon;
+  const iconLinks = getAllIconLinks();
+
+  // Browsers fallback to favicon.ico
+  if (!isFirefox()) iconLinks.push(createLink('/favicon.ico'));
+
+  const iconLinkURLs = iconLinks.map(({ href }: HTMLLinkElement) => href);
+  const iconLinkFound = Array.from(new Set(iconLinkURLs))
+    .map(async (href: string): Promise<boolean> => {
+      // For Firefox, don't test urls. They all fail for me
+      // (Although it might be a setting on my browser. Maybe double-check)
+      if (isFirefox()) return true;
+      const result = await fetch(href);
+      if (!result || result.status >= 400) throw new Error('not found');
+      return true;
     });
+
   try {
-    return await Promise.any(iconLinkFound);
+    hasFavicon = hasFavicon || Boolean(await Promise.any(iconLinkFound));
   } catch {
-    return false;
+    /* Do Nothing*/
   }
+  return hasFavicon;
 }
 
 // Removes all icon link tags
