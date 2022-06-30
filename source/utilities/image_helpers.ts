@@ -1,4 +1,4 @@
-import { isFirefox } from './predicates.ts';
+import { isFirefox } from 'browser';
 
 export const ICON_SIZE = 256; // Larger will causes problems in Google Chrome
 export const STORED_IMAGE_SIZE = 40; // Larger exceeds QUOTA_BYTES_PER_ITEM

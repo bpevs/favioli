@@ -5,6 +5,7 @@ import type { Favicon } from '../models/favicon.ts';
 import { h } from 'preact';
 import { useCallback, useMemo } from 'preact/hooks';
 
+import { DEFAULT_EMOJI } from '../models/emoji.ts';
 import { isRegexString } from '../utilities/regex_utils.ts';
 import EmojiSelector from './emoji_selector/mod.tsx';
 import Only from './only.tsx';
@@ -50,7 +51,10 @@ export default function ListInput({
 }: ListInputProps) {
   const onChangeMatcher = useCallback((e: Event) => {
     if (e.target instanceof HTMLInputElement) {
-      const next = { emojiId: value?.emojiId || '', matcher: e.target.value };
+      const next = {
+        emojiId: value?.emojiId || DEFAULT_EMOJI.description,
+        matcher: e.target.value,
+      };
       addItem ? addItem(next) : updateItem(index, next);
     }
   }, [index, value, updateItem, addItem]);

@@ -76,8 +76,12 @@ const byDescription: EmojiMap = fromEntries(
 export async function getEmoji(desc: string): Promise<Emoji | undefined> {
   if (byDescription[desc]) return byDescription[desc];
   const storageID = getEmojiStorageId(desc);
-  const resp = await storage.sync.get([storageID]);
-  return resp[storageID] as Emoji;
+  try {
+    const resp = await storage.sync.get([storageID]);
+    return resp[storageID] as Emoji;
+  } catch {
+    return;
+  }
 }
 
 export async function getEmojis(descs: string[]): Promise<EmojiMap> {

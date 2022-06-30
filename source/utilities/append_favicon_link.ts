@@ -1,6 +1,5 @@
 import type { Emoji } from '../models/emoji.ts';
-import { isFirefox } from './predicates.ts';
-
+import { isFirefox } from 'browser';
 import { createFaviconURLFromChar, ICON_SIZE } from './image_helpers.ts';
 
 const head = document.getElementsByTagName('head')[0];
