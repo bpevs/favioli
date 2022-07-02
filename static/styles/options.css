@@ -1,0 +1,221 @@
+/** RESET **/
+html, body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  font-size: 24px;
+  font-weight: 400;
+  font-family: BlinkMacSystemFont, Avenir, "Avenir Next", "Roboto", "Ubuntu", "Helvetica Neue", sans-serif;
+  color: var(--text-color);
+  background: var(--background-color);
+}
+
+html {
+  font-size: 24px;
+  min-width: 600px;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#mount {
+  width: 100%;
+}
+
+h1 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+h2, p {
+  font-weight: 300;
+}
+
+.emoji-label {
+  margin: 0.2em;
+}
+
+.page {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding-top: 2em;
+}
+
+.page-content {
+  max-width: 600px;
+  width: 100%;
+}
+
+#status {
+  bottom: 10px;
+  left: 50%;
+  padding-top: 20px;
+  position: fixed;
+  transform: translateX(-50%);
+}
+
+/** Nav **/
+nav {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -moz-user-select: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+nav ul {
+  position: absolute;
+  top: 0;
+  left: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--text-color);
+}
+
+nav li {
+  display: inline-block;
+  padding: 0;
+}
+
+nav li.logo {
+  margin: 0 15px 0 15px;
+}
+
+nav a {
+  color: black;
+  font-weight: 300;
+  opacity: 0.5;
+  text-decoration: none;
+  padding: 10px 15px 10px 15px;
+  margin:  0;
+  height: 100%;
+}
+
+nav li.active a {
+  background-color: rgba(0, 0, 0, 0.1);
+  opacity: 0.7;
+}
+
+nav li a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  opacity: 1;
+}
+
+/** Save Button **/
+.save {
+  display: inline-block;
+  position: relative;
+  font-size: 0.8em;
+  font-weight: 200;
+  color: white;
+  cursor: pointer;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 2px;
+  margin-top: 2em;
+  padding: 10px 30px 10px 30px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.save:active {
+  opacity: 0.7;
+}
+
+.save:hover,
+.save:focus {
+  opacity: 0.9;
+}
+
+.save[disabled] {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.save.outline {
+  background: none;
+  color: #2196F3;
+}
+
+.save.outline:hover,
+.save.outline:focus {
+  background: #2196F3;
+  color: white;
+}
+
+/** List **/
+.list-item {
+  position: relative;
+}
+
+.list-item .filter {
+  background-color: #eee;
+  border: none;
+  border-radius: 2px;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: text;
+  display: inline-block;
+  font-weight: 300;
+  font-size: 1em;
+  height: 1.3em;
+  line-height: 1;
+  padding-left: 0.2em;
+  position: relative;
+  transition: ease background 0.2s;
+  vertical-align: middle;
+  width: 75%;
+  z-index: 1;
+}
+
+.list-item .filter:hover,
+.list-item .filter:focus {
+    background: #ddd;
+}
+
+.list-item .remove {
+  background-color: transparent;
+  border: none;
+  color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  font-size: 0.5em;
+  transition: ease color 0.2s;
+  user-select: none;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.list-item .remove:hover {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.version-selector {
+  color: rgba(0, 0, 0, 0.8);
+  display: block;
+  font-size: 24px;
+  font-weight: 200;
+  padding-left: 1.5em;
+  position: relative;
+  margin-bottom: 12px;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.version-selector select {
+  font-size: 16px;
+  font-weight: 200;
+  margin-left: 0.5em;
+  vertical-align: middle;
+}

@@ -1,62 +1,48 @@
-Favioli 🤯
-=======
+# Favioli 🤯
 
-<p align="center">
-Making the world a better place or something. Favioli adds emoji FavIcons for websites that lack one. This README is for Favioli contribution information. Read the <a href="https://bpev.me/favioli">Favioli introduction blog post</a> for more information about why Favioli exists, or click the badges for your Chrome and Firefox downloads.
-</p>
-
-<p align="center">
-  <a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
-    <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg?style=for-the-badge" />
-  </a>
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
-    <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg?style=for-the-badge" />
-  </a>
-</p>
-
-<img align="center" alt="comparison" src="./resources/screenshots/comparison.png" />
-
-
-Development
-===========
 <p>
-  <a href="https://david-dm.org/ivebencrazy/favioli">
-    <img alt="dependencies status" src="https://david-dm.org/ivebencrazy/favioli/status.svg?style=flat-square" />
-  </a>
-  <a href="https://david-dm.org/ivebencrazy/favioli?type=dev">
-    <img alt="devDependencies status" src="https://david-dm.org/ivebencrazy/favioli/dev-status.svg?style=flat-square" />
-  </a>
-  <a href="https://travis-ci.org/ivebencrazy/favioli">
-    <img alt="build status" src="https://img.shields.io/travis/ivebencrazy/favioli/master.svg?style=flat-square" />
-  </a>
+<a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
+  <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg" />
+</a>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
+  <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg" />
+</a>
 </p>
 
-Favioli should work with any recent [Node.js](https://nodejs.org/en/) version; I'm currently using `v10.5.0` on Mac OS High Sierra for development. We run tests in Favioli with [Jest](https://jestjs.io/).  Run Jest tests with our test script.
+Favioli is a tool for overriding Favicons for websites.
+
+## Development
+
+You need to download [Deno](https://deno.land/) in order to build this app.
+
+After, we want to install [bext](https://github.com/bpevs/bext) (a set of browser extension build tools, types, and utilities for deno):
 
 ```sh
-# Install dependencies
-npm install
-
-# Run tests
-npm test
-
-# Alternatively, run just a piece of testing
-npm run test:lint
-npm run test:unit
-
-# Start building for development
-npm start
+deno install --name=bext --allow-read --allow-write --allow-run --allow-env -f https://deno.land/x/bext/main.ts
 ```
 
-This will build our distribution code into `/dist`, each browser with its own directory. To load Favioli, point to each browser's respective directory. [Google](https://developer.chrome.com/extensions) and [Mozilla](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons) each have resources about developing for their respective platforms.
+| Commands                | What they Do                        |
+| ----------------------- | ----------------------------------- |
+| `bext`                  | bundles extension and watch code    |
+| `bext chrome`           | bundles extension only for chrome   |
+| `bext firefox`          | bundles extension only for firefox  |
+| `deno task test:all`    | run code formatter, then unit tests |
+| `deno task test:update` | run code formatter, then unit tests |
 
-![Load in Chrome](./resources/screenshots/load-chrome-favioli.png)
-![Load in Firefox](./resources/screenshots/load-ff-favioli.png)
+If you have bundled using make commands, you should be able to load your
+unpacked extension using a browser.
 
+This will build our distribution code into `/dist`, each browser with its own
+directory. To load Favioli, point to each browser's respective directory.
+[Google](https://developer.chrome.com/extensions) and
+[Mozilla](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons) each have
+resources about developing for their respective platforms.
 
+## Inspiration
 
-Inspiration
-==========
-- [Emoji-Favicon-Toolkit](https://github.com/eligrey/emoji-favicon-toolkit) by [OFTN Inc.](https://oftn.org) and [Eli Grey](https://eligrey.com)
-- [eft-input-modified-indicator.js](https://gist.github.com/eligrey/4df9453c3bc20acd38728ccba7bb7160) by [Eli Grey](https://eligrey.com)
-- [Emoji-Selector](https://github.com/Kiricon/emoji-selector) by [Dominic Valenicana](https://dominic.codes/)
+- [Emoji-Favicon-Toolkit](https://github.com/eligrey/emoji-favicon-toolkit) by
+  [OFTN Inc.](https://oftn.org) and [Eli Grey](https://eligrey.com)
+- [eft-input-modified-indicator.js](https://gist.github.com/eligrey/4df9453c3bc20acd38728ccba7bb7160)
+  by [Eli Grey](https://eligrey.com)
+- [Emoji-Selector](https://github.com/Kiricon/emoji-selector) by
+  [Dominic Valenicana](https://dominic.codes/)

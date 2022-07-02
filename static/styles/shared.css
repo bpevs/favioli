@@ -1,0 +1,241 @@
+/** CHECKBOX **/
+.checkbox {
+  color: rgba(0, 0, 0, 0.8);
+  display: block;
+  font-size: 24px;
+  font-weight: 200;
+  padding-left: 1.5em;
+  position: relative;
+  margin-bottom: 12px;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.checkbox input {
+  cursor: pointer;
+  font-size: 24px;
+  height: 1.4em;
+  left: -0.3em;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 1.4em;
+}
+
+.checkbox .checkmark {
+  background-color: #eee;
+  border-radius: 2px;
+  cursor: pointer;
+  height: 1.3em;
+  left: 0;
+  position: absolute;
+  top: 0.2em;
+  width: 1.3em;
+  transition: background ease 0.2s;
+  z-index: -1;
+}
+
+.checkbox:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.checkbox input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox .checkmark:after {
+  left: 0.48em;
+  top: 0.2em;
+  width: 0.3em;
+  height: 0.6em;
+  border: solid white;
+  border-width: 0 0.1em 0.1em 0;
+  transform: rotate(45deg);
+}
+
+/** Emoji Selector Button **/
+button.emoji-selector-button {
+  background: #eee;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 1rem;
+  height: 32px;
+  line-height: 1;
+  margin-top: 0;
+  margin-left: 10px;
+  padding: 4px 0;
+  transition: background ease 0.2s;
+  user-select: none;
+  vertical-align: middle;
+  width: 1.3rem;
+}
+
+button.emoji-selector-button:hover,
+button.emoji-selector-button:focus {
+  background: #ddd;
+}
+
+button.emoji-selector-button img {
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  margin: 0;
+}
+
+/** Emoji Selector **/
+.emoji-selector-popup {
+  position: absolute;
+  right:  17%;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  height: 400px;
+  border: 2px solid black;
+  border-radius:  5px;
+  background-color: white;
+  z-index: 1000;
+  overflow: scroll;
+  line-height: 1em;
+  padding: 0 10px 10px 10px;
+}
+
+p {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.emoji-filter-input {
+  width: 100%;
+  font-size:  0.8em;
+  margin:  10px auto 10px auto;
+  box-sizing: border-box;
+}
+
+.emoji-group {
+  display: flex;
+  flex-wrap:  wrap;
+  justify-content: space-between;
+}
+
+.emoji-group::after {
+  content: "";
+  flex: auto;
+}
+
+.emoji-group-title {
+  text-align: left;
+  font-size: 0.6em;
+  font-weight: bold;
+  width: 100%;
+}
+
+.emoji-group-button {
+  cursor: pointer;
+  border: 0;
+  font-size: 1em;
+  margin: 0;
+  width: 1.5em;
+  height: 1.5em;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.emoji-group-button:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.emoji-group-button img {
+  width: 1em;
+  height: 1em;
+}
+
+.emoji-header {
+  position: sticky;
+  background-color: white;
+
+  top: 0;
+  height: 3em;
+  margin: 0 auto 0 auto;
+  width: 100%;
+  text-align: center;
+}
+
+.emoji-footer {
+  position: absolute;
+  bottom: 0;
+  height: 15px;
+}
+
+.emoji-group-selector {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-content: flex-end;
+  text-align: center;
+}
+
+.emoji-group-selector-button {
+  cursor: pointer;
+  border: 0;
+  font-size: 0.8em;
+  margin: 0;
+  width: 1.3em;
+  height: 1.3em;
+  background-color: white;
+  padding: 5px;
+}
+
+.emoji-group-selector-button.selected,
+.emoji-group-selector-button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.emoji-group-selector-button.selected {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.6);
+}
+
+.emoji-custom-upload {
+  display: flex;
+  flex-direction:column;
+  padding: 20px;
+  height: 100%;
+}
+
+.custom-emoji-group-title {
+  margin-top: 20px;
+  text-align: left;
+  font-size: 0.6em;
+  font-weight: bold;
+  width: 100%;
+}
+
+.custom-emoji-button {
+  margin: 5px;
+}
+
+.emoji-custom-upload button {
+  margin: 5px;
+}
+
+.emoji-custom-upload .preview {
+  display: block;
+  margin: auto;
+}
+
+.emoji-custom-upload-form {
+  flex-grow: 1;
+  display:flex;
+  flex-direction: column;
+  padding-top: 1em;
+}

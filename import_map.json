@@ -1,0 +1,16 @@
+{
+  "imports": {
+    "browser": "https://deno.land/x/bext@v0.1.2/mod.ts",
+    "emoji": "https://deno.land/x/emoji@0.2.0/mod.ts",
+    "preact": "https://esm.sh/preact?dev",
+    "preact/hooks": "https://esm.sh/preact/hooks?dev",
+
+    "deno-dom": "https://deno.land/x/deno_dom@v0.1.32-alpha/deno-dom-wasm.ts",
+    "react-test-renderer": "https://esm.sh/react-test-renderer",
+    "std/asserts": "https://deno.land/std@0.138.0/testing/asserts.ts",
+    "std/bdd": "https://deno.land/std@0.138.0/testing/bdd.ts",
+    "std/mock": "https://deno.land/std@0.138.0/testing/mock.ts",
+    "std/snapshot": "https://deno.land/std@0.138.0/testing/snapshot.ts",
+    "@testing-library/preact": "https://esm.sh/@testing-library/preact/pure?dev"
+  }
+}
