@@ -38,6 +38,6 @@ function listItemMatchesURL(url: string): (favicon: Favicon) => boolean {
       return regex.test(url);
     }
 
-    return url.indexOf(favicon.matcher) != -1;
+    return url.toLocaleLowerCase().includes(favicon.matcher.toLocaleLowerCase());
   };
 }
