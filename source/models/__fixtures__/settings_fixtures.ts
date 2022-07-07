@@ -104,5 +104,5 @@ export const v2: Settings = {
     createFavicon('goodbye', emoji.infoByCode('😃')),
     createFavicon('sweet lahd', emoji.infoByCode('🤩')),
   ],
-  version: '2.0.0',
+  version: '2.0.1',
 };
