@@ -14,12 +14,14 @@ Favioli is a tool for overriding Favicons for websites.
 ## Quick Setup (For Building Release)
 
 Release 2.0.1 was build with:
+
 - macOS 12.3.1
 - [Deno](https://deno.land/) 1.23.2
 - Bext v0.1.2
 
 Directions for Shell on OSX
 (PowerShell on Windows is same, except for Deno installation step)
+
 ```sh
 # install Deno @ v1.23.2
 curl -fsSL https://deno.land/install.sh | sh -s v1.23.2
