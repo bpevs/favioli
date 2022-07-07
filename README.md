@@ -11,19 +11,36 @@
 
 Favioli is a tool for overriding Favicons for websites.
 
-## Development
+## Quick Setup (For Building Release)
 
-### Quick Setup
+Release 2.0.1 was build with:
+- macOS 12.3.1
+- [Deno](https://deno.land/) 1.23.2
+- Bext v0.1.2
 
-- Download [Deno](https://deno.land/)
-
+Directions for Shell on OSX
+(PowerShell on Windows is same, except for Deno installation step)
 ```sh
-deno install --bext -A https://deno.land/x/bext/main.ts # install bext packager
-cd favioli # change directory to this repo
+# install Deno @ v1.23.2
+curl -fsSL https://deno.land/install.sh | sh -s v1.23.2
+
+# Install bext packager @ v0.1.2
+deno install --name=bext -A https://deno.land/x/bext@v0.1.2/main.ts
+
+# Change directory to this repo
+cd favioli
+
 bext # run bext packager
+
 # Unpacked extension output should be available in `dist/{browser}`
+open dist/firefox
+
 # You should be able to load your unpacked extension using a browser.
 ```
+
+## Development Setup
+
+[Deno](https://deno.land/) is a javascript/typescript runtime (think spiritual successor to node.js)
 
 [bext](https://github.com/bpevs/bext) is a set of browser extension build tools, types, and utilities for deno. It was created for Favioli.
 
@@ -32,7 +49,7 @@ To load Favioli into a browser, point to each browser's respective dist director
 [Mozilla](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons) each have
 resources about developing for their respective platforms.
 
-If you want to install bext with more limited permissions:
+If you want to install latest bext with more limited permissions:
 
 ```sh
 deno install --name=bext --allow-read --allow-write --allow-run --allow-env -f https://deno.land/x/bext/main.ts
