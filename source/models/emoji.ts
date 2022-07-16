@@ -1,14 +1,15 @@
-import type { Emoji as BaseEmoji } from 'https://deno.land/x/emoji@0.2.0/types.ts';
+import type { Emoji as BaseEmoji } from 'emoji';
 import type { BrowserStorage } from '../hooks/use_browser_storage.ts';
 
 import browserAPI from 'browser';
 import * as emoji from 'emoji';
+import { isEmojiSupported } from 'is_emoji_supported';
 import { createContext } from 'preact';
 
 const { freeze, fromEntries, keys } = Object;
 const { storage } = browserAPI || {};
 
-export interface Emoji extends BaseEmoji {
+export interface Emoji extends emoji.Emoji {
   imageURL?: string; // Support Custom Emojis
 }
 
@@ -70,7 +71,9 @@ export async function deleteEmoji(emojiToDelete: Emoji): Promise<void> {
 
 export const getEmojiStorageId = (id: string) => `Custom Emoji: ${id}`;
 const byDescription: EmojiMap = fromEntries(
-  emojis.map((emoji) => [emoji.description, emoji]),
+  emojis
+    .filter(emoji => isEmojiSupported(emoji.emoji))
+    .map((emoji) => [emoji.description, emoji]),
 );
 
 export async function getEmoji(desc: string): Promise<Emoji | undefined> {

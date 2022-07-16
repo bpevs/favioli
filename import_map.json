@@ -1,7 +1,8 @@
 {
   "imports": {
     "browser": "https://deno.land/x/bext@v0.1.2/mod.ts",
-    "emoji": "https://deno.land/x/emoji@0.2.0/mod.ts",
+    "emoji": "https://raw.githubusercontent.com/bpevs/emoji/main/mod.ts",
+    "is_emoji_supported": "https://esm.sh/is-emoji-supported@0.0.5?dev",
     "preact": "https://esm.sh/preact@10.9.0?dev",
     "preact/hooks": "https://esm.sh/preact@10.9.0/hooks?dev",
 
