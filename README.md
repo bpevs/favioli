@@ -26,13 +26,11 @@ Directions for Shell on OSX
 # install Deno @ v1.23.2
 curl -fsSL https://deno.land/install.sh | sh -s v1.23.2
 
-# Install bext packager @ v0.1.2
-deno install --name=bext -A https://deno.land/x/bext@v0.1.2/main.ts
-
 # Change directory to this repo
 cd favioli
 
-bext # run bext packager
+# Run bext packager @ v0.1.2
+deno run -A https://deno.land/x/bext@v0.1.2/main.ts
 
 # Unpacked extension output should be available in `dist/{browser}`
 open dist/firefox
