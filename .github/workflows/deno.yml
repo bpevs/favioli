@@ -10,9 +10,9 @@ name: Deno
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "staging"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "staging"]
 
 permissions:
   contents: read
@@ -34,20 +34,5 @@ jobs:
       - name: Verify formatting
         run: deno fmt --check
 
-      - name: Run linter
-        run: deno lint
-
       - name: Run tests
-        run: deno test -A
-
-      - name: Typecheck background
-        run: deno check source/background.ts
-
-      - name: Typecheck content_script
-        run: deno check source/content_script.ts
-
-      - name: Typecheck options
-        run: deno check source/options.tsx
-        
-      - name: Typecheck popup
-        run: deno check source/popup.tsx
+        run: deno task test:all
