@@ -1,4 +1,4 @@
-import type { Tab, TabChangeInfo } from 'browser';
+import type Chrome from 'browser/types/chrome.ts';
 import type { Settings } from './models/settings.ts';
 import type { SettingsV1 } from './models/storage_legacy.ts';
 
@@ -22,7 +22,7 @@ browserAPI.storage.onChanged.addListener(syncSettings);
 
 // Send tab a favicon
 browserAPI.tabs.onUpdated.addListener(
-  async (tabId: number, _: TabChangeInfo, { url }: Tab) => {
+  async (tabId: number, _: Chrome.TabChangeInfo, { url }: Chrome.Tab) => {
     if (!tabId || !url) return;
     if (!settings) await syncSettings();
 

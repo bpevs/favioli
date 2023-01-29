@@ -13,27 +13,31 @@ Favioli is a tool for overriding Favicons for websites.
 
 ## Quick Setup (For Building Release)
 
-Release 2.0.1 was build with:
+Release 2.0.2 was build with:
 
-- macOS 12.3.1
-- [Deno](https://deno.land/) 1.23.2
-- Bext v0.1.2
+- macOS Monterey 12.6.3
+- [Deno](https://deno.land/) 1.30.0
+- Bext v1.0.0
 
 Directions for Shell on OSX
 (PowerShell on Windows is same, except for Deno installation step)
 
 ```sh
-# install Deno @ v1.23.2
-curl -fsSL https://deno.land/install.sh | sh -s v1.23.2
+# install Deno @ v1.30.0
+curl -fsSL https://deno.land/install.sh | sh -s v1.30.0
+
+# Install bext packager @ v1.0.0
+deno run -A https://deno.land/x/bext@v1.0.0/main.ts
 
 # Change directory to this repo
 cd favioli
 
-# Run bext packager @ v0.1.2
-deno run -A https://deno.land/x/bext@v0.1.2/main.ts
+# Run bext packager @ v1.0.0
+deno run -A https://deno.land/x/bext@v1.0.0/main.ts
 
 # Unpacked extension output should be available in `dist/{browser}`
 open dist/firefox
+open dist/chrome
 
 # You should be able to load your unpacked extension using a browser.
 ```

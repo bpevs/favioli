@@ -1,6 +1,9 @@
 /// <reference lib="dom" />
+import type Chrome from 'browser/types/chrome.ts';
 import type { Emoji } from './models/emoji.ts';
 import type { Favicon } from './models/favicon.ts';
+
+type StorageAreaChangedEvent = Chrome.StorageAreaChangedEvent;
 
 /**
  * Check siteList and ignoreList from chrome storage
@@ -30,35 +33,37 @@ browserAPI.runtime.onMessage.addListener(
  *   3. Did we start/stop using ignoreList?
  *   4. Did the emoji set change?
  */
-browserAPI.storage.onChanged.addListener((changes): void => {
-  if (!changes?.settings) return;
-  const { newValue, oldValue } = changes.settings;
+browserAPI.storage.onChanged.addListener(
+  (changes: StorageAreaChangedEvent): void => {
+    if (!changes?.settings) return;
+    const { newValue, oldValue } = changes.settings;
 
-  if (newValue.autoselectorVersion !== oldValue.autoselectorVersion) {
-    location.reload();
-    return;
-  }
+    if (newValue.autoselectorVersion !== oldValue.autoselectorVersion) {
+      location.reload();
+      return;
+    }
 
-  if (!shallowCompare(newValue.features, oldValue.features)) {
-    location.reload();
-    return;
-  }
+    if (!shallowCompare(newValue.features, oldValue.features)) {
+      location.reload();
+      return;
+    }
 
-  const newSiteList = newValue.siteList.filter(includesCurrUrl);
-  const oldSiteList = oldValue.siteList.filter(includesCurrUrl);
+    const newSiteList = newValue.siteList.filter(includesCurrUrl);
+    const oldSiteList = oldValue.siteList.filter(includesCurrUrl);
 
-  if (!shallowCompare(newSiteList, oldSiteList)) {
-    location.reload();
-    return;
-  }
+    if (!shallowCompare(newSiteList, oldSiteList)) {
+      location.reload();
+      return;
+    }
 
-  const newIgnoreList = newValue.ignoreList.filter(includesCurrUrl);
-  const oldIgnoreList = oldValue.ignoreList.filter(includesCurrUrl);
-  if (!shallowCompare(newIgnoreList, oldIgnoreList)) {
-    location.reload();
-    return;
-  }
-});
+    const newIgnoreList = newValue.ignoreList.filter(includesCurrUrl);
+    const oldIgnoreList = oldValue.ignoreList.filter(includesCurrUrl);
+    if (!shallowCompare(newIgnoreList, oldIgnoreList)) {
+      location.reload();
+      return;
+    }
+  },
+);
 
 // Return true if objects are equivalent.
 function shallowCompare(obj1: unknown, obj2: unknown) {

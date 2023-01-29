@@ -1,7 +1,7 @@
 import type { Settings } from '../../models/settings.ts';
 
-import { assertStrictEquals } from 'std/asserts';
-import { describe, it } from 'std/bdd';
+import { assertStrictEquals } from 'test/asserts';
+import { describe, it } from 'test/bdd';
 
 import { DEFAULT_SETTINGS } from '../../models/settings.ts';
 import Autoselector, { AUTOSELECTOR_VERSION } from '../favicon_autoselector.ts';

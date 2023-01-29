@@ -1,4 +1,4 @@
-import type { Tab } from 'browser';
+import Chrome from 'browser/types/chrome.ts';
 
 import { useEffect, useState } from 'preact/hooks';
 import browserAPI from 'browser';
@@ -6,8 +6,8 @@ import browserAPI from 'browser';
 const queryOptions = { active: true };
 const { storage, tabs } = browserAPI;
 
-export default function useActiveTab(): Tab | void {
-  const [activeTab, setActiveTab] = useState<Tab | void>();
+export default function useActiveTab(): Chrome.Tab | void {
+  const [activeTab, setActiveTab] = useState<Chrome.Tab | void>();
 
   useEffect(function updateactiveTab() {
     async function queryAndSetActiveTab() {

@@ -24,6 +24,8 @@
     }
   },
   "tasks": {
+    "dev": "bext --watch",
+    "build": "bext",
     "test": "deno test -A source",
     "test:all": "deno fmt && deno task check:all && deno task test && deno lint",
     "test:update": "deno test -A -- --update source",

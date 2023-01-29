@@ -1,5 +1,5 @@
-import { assertEquals, assertStrictEquals } from 'std/asserts';
-import { describe, it } from 'std/bdd';
+import { assertEquals, assertStrictEquals } from 'test/asserts';
+import { describe, it } from 'test/bdd';
 
 import { isRegexString, parseRegExp } from '../regex_utils.ts';
 

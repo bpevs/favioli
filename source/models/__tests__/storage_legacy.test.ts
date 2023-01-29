@@ -1,5 +1,5 @@
-import { assertEquals } from 'std/asserts';
-import { describe, it } from 'std/bdd';
+import { assertEquals } from 'test/asserts';
+import { describe, it } from 'test/bdd';
 
 import { v0, v1, v2 } from '../__fixtures__/settings_fixtures.ts';
 import { isSettingsV1, migrateStorageFromV1 } from '../storage_legacy.ts';

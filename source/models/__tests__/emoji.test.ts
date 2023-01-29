@@ -1,7 +1,7 @@
-import { assert, assertEquals, assertRejects } from 'std/asserts';
-import { describe, it } from 'std/bdd';
-import { assertSpyCall, assertSpyCalls, stub } from 'std/mock';
-import { assertSnapshot } from 'std/snapshot';
+import { assert, assertEquals, assertRejects } from 'test/asserts';
+import { describe, it } from 'test/bdd';
+import { assertSpyCall, assertSpyCalls, stub } from 'test/mock';
+import { assertSnapshot } from 'test/snapshot';
 
 import browserAPI from 'browser';
 

@@ -1,5 +1,5 @@
-import { assertEquals, assertStrictEquals } from 'std/asserts';
-import { it } from 'std/bdd';
+import { assertEquals, assertStrictEquals } from 'test/asserts';
+import { it } from 'test/bdd';
 
 import Autoselector, { AUTOSELECTOR_VERSION } from '../favicon_autoselector.ts';
 
