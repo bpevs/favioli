@@ -4,7 +4,7 @@
 <a href="https://chrome.google.com/webstore/detail/favioli/pnoookpoipfmadlpkijnboajfklplgbe">
   <img alt="Download for Chrome" src="https://img.shields.io/badge/download_for-chrome-blue.svg" />
 </a>
-<a href="https://addons.mozilla.org/en-US/firefox/addon/favioli/">
+<a href="https://addons.mozilla.org/firefox/addon/favioli/">
   <img alt="Download for Firefox" src="https://img.shields.io/badge/download_for-firefox-orange.svg" />
 </a>
 </p>
@@ -50,7 +50,7 @@ open dist/chrome
 
 To load Favioli into a browser, point to each browser's respective dist directory.
 [Google](https://developer.chrome.com/extensions) and
-[Mozilla](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons) each have
+[Mozilla](https://developer.mozilla.org/docs/Mozilla/Add-ons) each have
 resources about developing for their respective platforms.
 
 If you want to install latest bext with more limited permissions:
